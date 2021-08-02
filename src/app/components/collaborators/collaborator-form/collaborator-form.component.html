@@ -1,0 +1,106 @@
+<app-main-navbar></app-main-navbar>
+
+<div class="d-flex justify-content-center" id="loadinginit" *ngIf="loadinginit">
+    <div class="col-3 text-center ">
+        <img class="img-fluid" src="./assets/gifs/loading.gif" alt="">
+        <p class="loaderText">Cargando información...</p>
+    </div>
+</div>
+
+<div class="container" id="maincon" *ngIf="showregister">
+    <div class="row" id="row">
+        <div class="col-md-12 text-center">
+            <h1>Formulario nuevo colaborador</h1>
+        </div>
+        <div class="col-md-6 ">
+            <form name="login">
+                <div class="mb-3">
+                    <label for="name" class="form-label">Nombre del colaborador</label>
+                    <input name="name" class="form-control" [(ngModel)]="newCollaborator.collaborator_name" aria-describedby="ColName" placeholder="Ingrese el nombre del colaborador">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Apellidos del colaborador</label>
+                    <input name="lastname" class="form-control" [(ngModel)]="newCollaborator.collaborator_lastname" aria-describedby="ColLastname" placeholder="Ingrese los apellidos del colaborador">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Identificación</label>
+                    <input name="identification" class="form-control" [(ngModel)]="newCollaborator.identification" aria-describedby="ColId" placeholder="Ingrese la identificación del colaborador">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Número de teléfono</label>
+                    <input name="number_phone" class="form-control" [(ngModel)]="newCollaborator.number_phone" aria-describedby="ColNumber" placeholder="Ingrese el número de teléfono">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Email</label>
+                    <input name="email" class="form-control" [(ngModel)]="newCollaborator.email" aria-describedby="ColEmail" placeholder="Ingrese el email del colaborador">
+                </div>
+                <div class="mb-3" *ngIf="updatecol">
+                    <label class="form-label">Contraseña</label>
+                    <input name="collaborator_password" class="form-control" [(ngModel)]="newCollaborator.collaborator_password" aria-describedby="ColPass" placeholder="Ingrese la contraseña del colaborador">
+                </div>
+                <div class="mb-3" *ngIf="updatecol">
+                    <label class="form-label">IMPORTANTE. La contraseña debe ser proporcionada al colaborador por el administrador del sistema
+                        y una vez que se realice el registro no se tendra acceso a la misma.</label>
+                </div>
+
+            </form>
+        </div>
+        <div class="col-md-6 ">
+            <form name="login">
+                <div class="mb-3">
+                    <label *ngIf="updatecol" class="form-label" class="form-label">Rol</label>
+                    <label *ngIf="rolactual" class="form-label">Rol actual: {{newCollaborator.rol_name}}</label>
+                    <select class="form-control" [(ngModel)]="rol" (ngModelChange)="changeRol($event)" name="rol" aria-label="Default select example">
+                        <option [ngValue]="undefined" selected>Despliegue el menu para escoger un rol</option>
+                        <option *ngFor="let rol of showRoles;"  [ngValue]="rol">{{rol.rol_name}}</option>
+                      </select>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Permisos</label>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th scope="col">Agregar</th>
+                                <th scope="col">Permiso</th>
+                                <th scope="col">Descripción</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let per of showPermissions ">
+                                <td>
+                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" [checked]="per.mark" (click)="AddPer(per.id_permission)">
+                                </td>
+                                <td>{{per.permission_name}}</td>
+                                <td>{{per.permission_description}}</td>
+                            </tr>
+                        </tbody>
+
+                    </table>
+                </div>
+
+
+            </form>
+        </div>
+        <div class="w-100"></div>
+        <div class="col-md-12 text-center m-3" *ngIf="showerror">
+            <div class="col-md-12">
+                <div class="alert alert-dismissable alert-warning">
+                    <h4>
+                        Error!
+                    </h4> <strong>Atención! {{messageerror}}</strong>
+                </div>
+            </div>
+        </div>
+        <div class="w-100"></div>
+        <div class="col-md-12 text-center">
+            <div class="d-grid gap-2 col-4 mx-auto m-3" *ngIf="register">
+                <button type="button" id="button" class="btn btn-block  btn-danger" (click)=" RegisterNewCollaborator()">Registrar</button>
+            </div>
+            <div class="d-grid gap-2 col-4 mx-auto m-3" *ngIf="update">
+                <button type="button" id="button" class="btn btn-block  btn-danger" (click)="updateCollaborator()">Actualizar</button>
+            </div>
+        </div>
+
+    </div>
+
+</div>

@@ -1,0 +1,182 @@
+<div *ngIf="manager">
+    <app-manager-navbar></app-manager-navbar>
+</div>
+<div *ngIf="coll">
+    <app-collaborator-navbar></app-collaborator-navbar>
+</div>
+
+
+<div class="d-flex justify-content-center" id="loadinginit" *ngIf="divloading">
+    <div class="col-3 text-center ">
+        <img class="img-fluid" src="./assets/gifs/loading.gif" alt="">
+        <p class="loaderText">Procesando solicitud...</p>
+    </div>
+</div>
+
+<div class="container p-3" *ngIf="divreg">
+    <div class="row border">
+        <div class="row">
+            <div class="col m-3">
+                <div class="row">
+                    <div class="col-md-3">
+                        <h3 class="text-start" id="title">Estado de resultados integrales</h3>
+                    </div>
+                    <div class="col-md-3 p-2">
+                        <select class="form-select" id="company" [(ngModel)]="selectcompany" (ngModelChange)="changeCompany($event)" name="company" aria-label="Default select example">
+                            <option [ngValue]="undefined" selected>Compañías</option>
+                            <option *ngFor="let c of companies;"  [ngValue]="c">{{c.company_name}}</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <button class="btn btn-primary float-end m-2 " type="button" id="button" data-bs-toggle="modal" data-bs-target="#filtermodal">Seleccionar filtro</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row p-3">
+        <div class="p-3" *ngIf="divnodata">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="d-flex justify-content-center">
+                            <img src="../assets/fondo/fondo.png" class="img-fluid" alt="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="record" class="table-responsive">
+            <div>
+                <h3>{{selecttitle}}</h3>
+            </div>
+            <table class="table">
+                <thead>
+                    <tr class="text-center">
+                        <th scope="col">Agregar</th>
+                        <th scope="col">Cuenta</th>
+                        <th scope="col">Balance</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="text-center" *ngFor="let a of accounts |paginate :{id:'coll',itemsPerPage:8,currentPage:p};">
+                        <td>
+                            <input class="form-check-input" (click)="addAccount(a)" type="checkbox" value="" id="flexCheckDefault" [checked]="markedAccounts.includes(a)">
+                        </td>
+                        <td>{{a.account_name}}</td>
+                        <td>{{a.balance}}</td>
+                    </tr>
+                </tbody>
+                <pagination-controls id='coll' (pageChange)="p = $event" previousLabel="Anterior" nextLabel="Siguiente" [autoHide]="true"></pagination-controls>
+            </table>
+            <div class="col-md-12">
+                <button class="btn btn-primary float-end m-2 " type="button" id="button" (click)="nextAccount()">Siguiente</button>
+            </div>
+        </div>
+        <div class="p-3" *ngIf="taxtInt">
+            <div class="col-md-5 mx-auto ">
+                <div id="first">
+                    <div class="myform form ">
+                        <form name="login">
+                            <div class="mb-3">
+                                <label for="taxinput" class="form-label">Ingrese el porcentaje de impuesto que desea aplicar:</label>
+                                <input type="number" min="1" max="100" step="1" name="taxtinput" id="taxtinput" class="form-control" [(ngModel)]="tax" aria-describedby="emailHelp" placeholder="Porcentaje de impuesto">
+                            </div>
+                            <div class="col-md-12 text-center">
+                                <button type="button" id="button" class="btn btn-block  btn-danger" (click)="downloadA()" *ngIf="showtaxbutton">Solicitar PDF</button>
+                                <button class="btn btn-primary  float-end m-2 " type="button" id="button" *ngIf="showdownload" (click)="onClickDownloadPdf()">Descargar</button>
+                            </div>
+                        </form>
+                        <div class="row p-2" *ngIf="showtaxerror">
+                            <div class="col-md-12">
+                                <div class="alert alert-dismissable alert-warning">
+                                    <h4>
+                                        Error!
+                                    </h4> <strong>Atención! {{errortax}}</strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal GP -->
+<div class="modal fade" id="filtermodal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Seleccione el filtro que desea:</h5>
+            </div>
+            <div class="modal-body">
+                <div class="row" *ngIf="filter1">
+                    <div class="col-md-12">
+                        <div class="d-flex justify-content-center">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1" (click)="changeFilter('month')" [disabled]="chmonth">
+                                <label class="form-check-label" for="inlineCheckbox1">Mes</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2" (click)="changeFilter('year')" [disabled]="chyear">
+                                <label class="form-check-label" for="inlineCheckbox2">Año</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" *ngIf="filter2">
+                    <div class="col-md-12">
+                        <div class="d-flex justify-content-center">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1" (click)="changeFilter('month')" [disabled]="chmonth">
+                                <label class="form-check-label" for="inlineCheckbox1">Mes</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2" (click)="changeFilter('year')" [disabled]="chyear">
+                                <label class="form-check-label" for="inlineCheckbox2">Año</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <form class="p-3" *ngIf="monthfilter">
+                    <div class="d-flex justify-content-center">
+                        <div class="mb-3" *ngIf="divm1">
+                            <label class="form-label">Seleccione el mes que desea:</label>
+                            <form>
+                                <dp-month-calendar [(ngModel)]="dateObj1" theme="dp-material" (onSelect)="changeValue(dateObj1)" [config]="config" [ngModelOptions]="{standalone: true}"></dp-month-calendar>
+                            </form>
+                        </div>
+                    </div>
+
+                </form>
+                <form class="p-3" *ngIf="yearfilter">
+                    <div class="d-flex justify-content-center">
+                        <div class="mb-3">
+                            <label for="year" class="form-label">Seleccione un año:</label>
+                            <input id="year" type="number" min="1990" max="2099" step="1" name="year" class="form-control" [(ngModel)]="year" aria-describedby="emailHelp">
+                        </div>
+                    </div>
+                    <div class="d-grid gap-2 col-6 mx-auto">
+                        <button class="btn btn-primary" type="button" id="button" (click)="addYear()">Agregar</button>
+                    </div>
+                </form>
+                <div class="row p-2" *ngIf="showerror">
+                    <div class="col-md-12">
+                        <div class="alert alert-dismissable alert-warning">
+                            <h4>
+                                Error!
+                            </h4> <strong>Atención! {{errormessage}}</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="cleanValues()" *ngIf="buttoncan" id="button">Cancelar</button>
+
+                <button type="button" class="btn btn-primary" *ngIf="buttonreg" id="button" data-bs-dismiss="modal" (click)="getERI()">Solicitar</button>
+            </div>
+        </div>
+    </div>
+</div>

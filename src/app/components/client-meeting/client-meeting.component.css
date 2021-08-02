@@ -1,0 +1,37 @@
+.form-label {
+    font-weight: bold;
+}
+
+#selectdate,
+#timeselect {
+    margin: 2%;
+    border: 1px solid rgba(0, 0, 0, .2);
+    border-radius: 1.1rem;
+    outline: 0;
+    background-color: #e2f0fb;
+}
+
+#bill {
+    margin-left: 8%;
+}
+
+.time {
+    margin-left: 15%;
+}
+
+#button {
+    border-radius: 50px;
+    background-color: #0096d2;
+    border-color: #0096d2;
+    margin-top: 1%;
+}
+
+.loaderText,
+#norecord {
+    font-weight: bold;
+    color: #0096d2;
+}
+
+#loadinginit {
+    padding-top: 13%;
+}

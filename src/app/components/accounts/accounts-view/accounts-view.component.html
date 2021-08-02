@@ -1,0 +1,264 @@
+<app-main-navbar></app-main-navbar>
+
+
+<div class="d-flex justify-content-center" id="loadinginit" *ngIf="loadinginit">
+    <div class="col-3 text-center ">
+        <img class="img-fluid" src="./assets/gifs/loading.gif" alt="">
+        <p class="loaderText">Cargando información...</p>
+    </div>
+</div>
+
+<div class="container-fluid p-5" *ngIf="showregister">
+    <div class="row border">
+        <div class="col-md-6 ">
+            <div class="row ">
+                <div class="col-md-6">
+                    <h2 class="float-start p-4">Catálogo de cuentas</h2>
+                </div>
+                <div class="col-md-6 p-4">
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <button id="newbutton" class="btn btn-primary" type="button" (click)="registerAccounts()"> 
+                            <i class="fas fa-save"></i> Registrar
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <tree-root #tree [focused]="true" [nodes]="treeaccounts" (activate)="showModal($event)" [options]="options"></tree-root>
+
+        </div>
+        <div class="col-md-6 border-start">
+            <h2 class="text-center p-4">Formulario nueva cuenta</h2>
+            <form>
+                <div class="mb-3" *ngIf="showselectaccounts">
+                    <label for="" class="form-label">Subcuenta de:</label>
+                    <select id="reload" class="form-select" aria-label="Default select example" [(ngModel)]="accountModel" (ngModelChange)="changeFatherAccount($event)" name="accountModel">
+                        <option [ngValue]="undefined" selected>Despliegue el menu para escoger una cuenta</option>
+                        <option *ngFor="let fat of selectaccounts;"  [ngValue]="fat">{{fat.account_name}}</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="account_code" class="form-label">Código de la cuenta (Debe ser único)</label>
+                    <input id="account_code" name="account_code" class="form-control" [(ngModel)]="newAccount.account_code" aria-describedby="emailHelp" placeholder="Ingrese el código de la cuenta">
+                </div>
+                <div class="mb-3">
+                    <label for="name" class="form-label">Nombre de la cuenta</label>
+                    <input id="name" name="name" class="form-control" [(ngModel)]="newAccount.account_name" aria-describedby="emailHelp" placeholder="Ingrese el nombre de la cuenta">
+                </div>
+                <div class="mb-3" *ngIf="divprima">
+                    <div>
+                        <label for="form-check form-check-inline" class="form-label">Tipo de cuenta:</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1" (click)="changeAccountType('activo')" [disabled]="chact">
+                        <label class="form-check-label" for="inlineCheckbox1">Activo</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2" (click)="changeAccountType('pasivo')" [disabled]="chpass">
+                        <label class="form-check-label" for="inlineCheckbox2">Pasivo</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3" (click)="changeAccountType('patrimonio_neto')" [disabled]="chpm">
+                        <label class="form-check-label" for="inlineCheckbox3">Patrimonio neto</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="inlineCheckbox4" value="option4" (click)="changeAccountType('ingreso')" [disabled]="ching">
+                        <label class="form-check-label" for="inlineCheckbox4">Ingresos</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="inlineCheckbox5" value="option5" (click)="changeAccountType('gastos')" [disabled]="chgast">
+                        <label class="form-check-label" for="inlineCheckbox5">Gastos</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="inlineCheckbox6" value="option6" (click)="changeAccountType('costos')" [disabled]="chcost">
+                        <label class="form-check-label" for="inlineCheckbox6">Costos</label>
+                    </div>
+                </div>
+                <div class="mb-3" *ngIf="divprima2">
+                    <div>
+                        <label for="form-check form-check-inline" class="form-label">Tipo de cuenta:</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1" (click)="changeAccountType('activo')" [disabled]="chact">
+                        <label class="form-check-label" for="inlineCheckbox1">Activo</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2" (click)="changeAccountType('pasivo')" [disabled]="chpass">
+                        <label class="form-check-label" for="inlineCheckbox2">Pasivo</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3" (click)="changeAccountType('patrimonio_neto')" [disabled]="chpm">
+                        <label class="form-check-label" for="inlineCheckbox3">Patrimonio neto</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="inlineCheckbox4" value="option4" (click)="changeAccountType('ingreso')" [disabled]="ching">
+                        <label class="form-check-label" for="inlineCheckbox4">Ingresos</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="inlineCheckbox5" value="option5" (click)="changeAccountType('gastos')" [disabled]="chgast">
+                        <label class="form-check-label" for="inlineCheckbox5">Gastos</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="inlineCheckbox6" value="option6" (click)="changeAccountType('costos')" [disabled]="chcost">
+                        <label class="form-check-label" for="inlineCheckbox6">Costos</label>
+                    </div>
+                </div>
+                <div class="mb-3" *ngIf="divsecondact">
+                    <div>
+                        <label for="form-check form-check-inline" class="form-label">Tipo de cuenta:</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1" (click)="changeAccountType('activo_corriente')" [disabled]="chactc">
+                        <label class="form-check-label" for="inlineCheckbox1">Activo corriente</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2" (click)="changeAccountType('activo_no_corriente')" [disabled]="chactnc">
+                        <label class="form-check-label" for="inlineCheckbox2">Activo no corriente</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3" (click)="changeAccountType('otros_activo')" [disabled]="choact">
+                        <label class="form-check-label" for="inlineCheckbox3">Otros activos</label>
+                    </div>
+                </div>
+                <div class="mb-3" *ngIf="divsecondact2">
+                    <div>
+                        <label for="form-check form-check-inline" class="form-label">Tipo de cuenta:</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1" (click)="changeAccountType('activo_corriente')" [disabled]="chactc">
+                        <label class="form-check-label" for="inlineCheckbox1">Activo corriente</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2" (click)="changeAccountType('activo_no_corriente')" [disabled]="chactnc">
+                        <label class="form-check-label" for="inlineCheckbox2">Activo no corriente</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3" (click)="changeAccountType('otros_activo')" [disabled]="choact">
+                        <label class="form-check-label" for="inlineCheckbox3">Otros activos</label>
+                    </div>
+                </div>
+                <div class="mb-3" *ngIf="divsecondpass">
+                    <div>
+                        <label for="form-check form-check-inline" class="form-label">Tipo de cuenta:</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1" (click)="changeAccountType('pasivo_corriente')" [disabled]="chpassc">
+                        <label class="form-check-label" for="inlineCheckbox1">Pasivo corriente</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2" (click)="changeAccountType('pasivo_no_corriente')" [disabled]="chpassnc">
+                        <label class="form-check-label" for="inlineCheckbox2">Pasivo no corriente</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3" (click)="changeAccountType('otros_pasivo')" [disabled]="chopass">
+                        <label class="form-check-label" for="inlineCheckbox3">Otros pasivos</label>
+                    </div>
+                </div>
+                <div class="mb-3" *ngIf="divsecondpass2">
+                    <div>
+                        <label for="form-check form-check-inline" class="form-label">Tipo de cuenta:</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1" (click)="changeAccountType('pasivo_corriente')" [disabled]="chpassc">
+                        <label class="form-check-label" for="inlineCheckbox1">Pasivo corriente</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2" (click)="changeAccountType('pasivo_no_corriente')" [disabled]="chpassnc">
+                        <label class="form-check-label" for="inlineCheckbox2">Pasivo no corriente</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3" (click)="changeAccountType('otros_pasivo')" [disabled]="chopass">
+                        <label class="form-check-label" for="inlineCheckbox3">Otros pasivos</label>
+                    </div>
+                </div>
+                <div class="mb-3" *ngIf="divsecondpm">
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1" (click)="changeAccountType('capital_contable')" [disabled]="chcp">
+                        <label class="form-check-label" for="inlineCheckbox1">Capital contable</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2" (click)="changeAccountType('otros_patrimonio')" [disabled]="chop">
+                        <label class="form-check-label" for="inlineCheckbox2">Otros patrimonios</label>
+                    </div>
+                </div>
+                <div class="mb-3" *ngIf="divsecondpm2">
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1" (click)="changeAccountType('capital_contable')" [disabled]="chcp">
+                        <label class="form-check-label" for="inlineCheckbox1">Capital contable</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2" (click)="changeAccountType('otros_patrimonio')" [disabled]="chop">
+                        <label class="form-check-label" for="inlineCheckbox2">Otros patrimonios</label>
+                    </div>
+                </div>
+                <div class="mb-3" *ngIf="divthird">
+                    <div>
+                        <label for="form-check form-check-inline" class="form-label">Tipo de cuenta: {{acctype}}</label>
+                    </div>
+
+                </div>
+                <div class="mb-3">
+                    <label for="type" class="form-label">Titulación de la cuenta:</label>
+                    <select id="type" name="type" class="form-select" aria-label="Default select example" [(ngModel)]="optionSelected" (change)="addTitu()">
+                        <option value="0">Despliegue el menu para escoger una titulación</option>
+                        <option value="titulacion">Titulación</option>
+                        <option value="subtitulo">Subtitulo</option>
+                        <option value="acumulable">Acumulable</option>
+                        <option value="afectable">Afectable</option>
+                      </select>
+                </div>
+                <div class="mb-3">
+                    <label for="" class="form-label">Seleccione un cliente</label>
+                    <br>
+                    <label *ngIf="!showclients"> Actualmente no se cuenta con ningún cliente registrado en este empresa.</label>
+                    <select class="form-select" aria-label="Default select example" (ngModelChange)="changeCli($event)" [(ngModel)]="client" *ngIf="showclients" name="client"> 
+                        <option [ngValue]="undefined" selected>Despliegue el menu para escoger un cliente</option>
+                        <option *ngFor="let cli of clients" [ngValue]="cli">{{cli.clients_name}}</option>
+
+                      </select>
+                </div>
+                <div class="mb-3">
+                    <label for="form-select" class="form-label">Seleccione un proveedor</label>
+                    <br>
+                    <label *ngIf="!showproviders">Actualmente no se cuenta con ningún proveedor registrado en este empresa.</label>
+                    <select class="form-select" aria-label="Default select example" (ngModelChange)="changePro($event)" [(ngModel)]="provider" *ngIf="showproviders" name="provider">
+                        <option [ngValue]="undefined" selected>Despliegue el menu para escoger un proveedor</option>
+                        <option *ngFor="let pro of providers" [ngValue]="pro">{{pro.provider_name}}</option>
+                      </select>
+                </div>
+                <div class="mb-3" *ngIf="pickdate">
+                    <label for="" class="form-label">Seleccione la fecha de emisión de la factura:</label>
+                    <form>
+                        <label class="m-2" for="bill">Fecha factura:</label>
+                        <input type="date" id="bill" name="bill" (change)="dateObj = $event.target">
+                    </form>
+                </div>
+                <div class="mb-3">
+                    <div class="col-md-12 text-center p-2" *ngIf="showerror">
+                        <div class="col-md-12">
+                            <div class="alert alert-dismissable alert-warning">
+                                <h4>
+                                    Error!
+                                </h4> <strong>Atención! {{messageerror}}</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-12 text-center">
+                    <div class="d-grid gap-2 col-4 mx-auto m-3">
+                        <button type="button" id="button" class="btn btn-block  btn-danger" (click)="addAccount()">Agregar</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div class="d-flex justify-content-center " id="secondcon" *ngIf="loading">
+    <div class="col-3 text-center ">
+        <img class="img-fluid" src="./assets/gifs/loading.gif" alt="">
+        <p class="loaderText">Procesando transacción...</p>
+    </div>
+</div>

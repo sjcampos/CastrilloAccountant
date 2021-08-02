@@ -1,0 +1,40 @@
+.loaderText {
+    color: #0096d2;
+    font-weight: bold;
+}
+
+#loadinginit {
+    padding-top: 13%;
+}
+
+#button {
+    border-radius: 50px;
+    background-color: #0096d2;
+    border-color: #0096d2;
+    margin-top: 1%;
+}
+
+#mainrow {
+    box-shadow: 2px 2px 10px #666;
+    border: 1px solid rgba(0, 0, 0, .2);
+    border-radius: 1.1rem;
+    outline: 0;
+    padding-left: 2%;
+    padding-top: 2%;
+    padding-bottom: 2%;
+}
+
+#card {
+    box-shadow: 2px 2px 10px #666;
+    border: 1px solid rgba(0, 0, 0, .2);
+    border-radius: 1.1rem;
+    outline: 0;
+    padding: 2%;
+    margin: 2%;
+}
+
+#h1,
+#h5 {
+    font-weight: bold;
+    color: #0096d2;
+}

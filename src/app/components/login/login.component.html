@@ -1,0 +1,124 @@
+<nav id="navbar" class="navbar navbar-expand-lg navbar-light ">
+    <div class="container-fluid">
+        <a class="navbar-brand text-center" id="logo">
+            <img src="./assets/logos/logo.png" alt="" class="img-fluid"></a>
+    </div>
+</nav>
+
+<div class="d-flex justify-content-center" id="loadinginit" *ngIf="loading">
+    <div class="col-3 text-center ">
+        <img class="img-fluid" src="./assets/gifs/loading.gif" alt="">
+        <p class="loaderText">{{loadingmessage}}</p>
+    </div>
+</div>
+
+<div id="main" class="container p-10" *ngIf="loginform">
+    <div class="row">
+        <div class="col-md-5 mx-auto ">
+            <div id="first">
+                <div class="myform form ">
+                    <div class="logo mb-3">
+                        <div class="col-md-12 text-center">
+                            <h1 class="logo"><b>Accede a la plataforma</b></h1>
+                        </div>
+                    </div>
+                    <form name="login">
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" name="email" class="form-control" id="email" [(ngModel)]="email" aria-describedby="emailHelp" placeholder="Ingrese su email">
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Contraseña</label>
+                            <input type="password" name="password" id="password" class="form-control" [(ngModel)]="password" aria-describedby="emailHelp" placeholder="Ingrese su contraseña">
+                        </div>
+                        <div class="col-md-12 text-center">
+                            <button type="button" id="button" class="btn btn-block  btn-danger" (click)="login()">Acceder</button>
+                        </div>
+                        <div class="col-md-12 ">
+                            <div class="login-or">
+                                <hr class="hr-or">
+                                <span class="span-or"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <p class="text-center" id="pe">¿Olvidó su contraseña? <a href="/reset/user">Recuperar contraseña</a></p>
+                        </div>
+
+                    </form>
+                    <div class="row p-2" *ngIf="showerror">
+                        <div class="col-md-12">
+                            <div class="alert alert-dismissable alert-warning">
+                                <h4>
+                                    Error!
+                                </h4> <strong>Atención! {{messageerror}}</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="main" class="container p-10" *ngIf="codeform">
+    <div class="row">
+        <div class="col-md-5 mx-auto ">
+            <div id="first">
+                <div class="myform form ">
+                    <div class="logo mb-3">
+                        <div class="col-md-12 text-center">
+                            <h1 class="logo"><b>Accede a la plataforma</b></h1>
+                        </div>
+                    </div>
+                    <form name="login">
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Ingrese su código de verificación:</label>
+                            <input type="password" name="password" id="password" class="form-control" [(ngModel)]="code" aria-describedby="emailHelp" placeholder="Código de verificación">
+                        </div>
+                        <div class="col-md-12 text-center">
+                            <button type="button" id="button" class="btn btn-block  btn-danger" (click)="checkCode()">Aceptar</button>
+                        </div>
+                    </form>
+                    <div class="row p-2" *ngIf="showerror">
+                        <div class="col-md-12">
+                            <div class="alert alert-dismissable alert-warning">
+                                <h4>
+                                    Error!
+                                </h4> <strong>Atención! {{messageerror}}</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="main" class="container p-10" *ngIf="loginerror">
+    <div class="row">
+        <div class="col-md-5 mx-auto ">
+            <div id="first">
+                <div class="myform form ">
+                    <div class="logo mb-3">
+                        <div class="col-md-12 text-center">
+                            <h1 class="logo"><b>Accede a la plataforma</b></h1>
+                        </div>
+                    </div>
+                    <form name="login">
+                        <div class="mb-3">
+                            <div class="alert alert-dismissable alert-warning">
+                                <h4>
+                                    Error!
+                                </h4> <strong>Atención! Inicio de sesión incompleto, intente de nuevo por favor.</strong>
+                            </div>
+                        </div>
+                        <div class="col-md-12 text-center">
+                            <button type="button" id="button" class="btn btn-block  btn-danger" (click)="reload()">Aceptar</button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

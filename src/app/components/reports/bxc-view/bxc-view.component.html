@@ -1,0 +1,136 @@
+<div *ngIf="manager">
+    <app-manager-navbar></app-manager-navbar>
+</div>
+<div *ngIf="coll">
+    <app-collaborator-navbar></app-collaborator-navbar>
+</div>
+
+<div class="d-flex justify-content-center" id="loadinginit" *ngIf="divloading">
+    <div class="col-3 text-center ">
+        <img class="img-fluid" src="./assets/gifs/loading.gif" alt="">
+        <p class="loaderText">Procesando solicitud...</p>
+    </div>
+</div>
+
+<div class="container p-3" *ngIf="divreg">
+    <div class="row border">
+        <div class="row">
+            <div class="col m-3">
+                <div class="row">
+                    <div class="col-md-4">
+                        <h3 class="text-start" id="title">Balance por cuenta</h3>
+                    </div>
+                    <div class="col-md-4 p-2">
+
+                        <select class="form-select" id="company" [(ngModel)]="selectcompany" (ngModelChange)="changeCompany($event)" name="company" aria-label="Default select example">
+                            <option [ngValue]="undefined" selected>Seleccione una compañía</option>
+                            <option *ngFor="let c of companies;"  [ngValue]="c">{{c.company_name}}</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <button class="btn btn-primary float-end m-2 " type="button" id="button" (click)=" getAccounts()" *ngIf="buttonaccounts">Traer cuentas</button>
+                        <button class="btn btn-primary float-end m-2 " type="button" id="button" (click)="onClickDownloadPdf()" *ngIf="buttonback">Descargar PDF</button>
+                        <button class="btn btn-primary float-end m-2 " type="button" id="button" (click)="backToAccounts()" *ngIf="buttonback">Volver a cuentas</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row p-3">
+        <div class="p-3" *ngIf="divnodata">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="d-flex justify-content-center">
+                            <img src="../assets/fondo/fondo.png" class="img-fluid" alt="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="record" class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr class="text-center">
+                        <th scope="col">Cuenta</th>
+                        <th scope="col">Balance</th>
+                        <th scope="col">Movimientos</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="text-center" *ngFor="let a of existingaccounts |paginate :{id:'coll',itemsPerPage:8,currentPage:p};">
+                        <td>{{a.account_name}}</td>
+                        <td>{{a.balance}}</td>
+                        <td>
+                            <a type="button" class="edit" data-bs-toggle="modal" data-bs-target="#filtermodal" (click)="selectedAccount(a)"><i class="fas fa-edit"></i> Filtrar movimientos</a>
+                        </td>
+                    </tr>
+                </tbody>
+                <pagination-controls id='coll' (pageChange)="p = $event" previousLabel="Anterior" nextLabel="Siguiente" [autoHide]="true"></pagination-controls>
+            </table>
+        </div>
+        <div class="p-3" *ngIf="taxtInt">
+            <h4>Movimientos de la cuenta: {{accountname}} desde el inicio hasta la fecha límite: {{limitdateshow}}</h4>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr class="text-center">
+                            <th scope="col">Fecha registro</th>
+                            <th scope="col">Monto</th>
+                            <th scope="col">Detalle</th>
+                            <th scope="col">Colaborador</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="text-center" *ngFor="let a of entries |paginate :{id:'coll',itemsPerPage:8,currentPage:p2};">
+                            <td>{{a.account_date}}</td>
+                            <td>{{a.amount}}</td>
+                            <td>{{a.details}}</td>
+                            <td>{{a.collaborator_name}}</td>
+                        </tr>
+                    </tbody>
+                    <pagination-controls id='coll' (pageChange)="p2 = $event" previousLabel="Anterior" nextLabel="Siguiente" [autoHide]="true"></pagination-controls>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<!-- Modal GP -->
+<div class="modal fade" id="filtermodal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Seleccione la fecha límite de movimientos:</h5>
+            </div>
+            <div class="modal-body">
+                <form class="p-3">
+                    <div class="d-flex justify-content-center">
+                        <div class="mb-3">
+                            <label class="form-label">Seleccione la fecha límite:</label>
+                            <form class="justify-content-center">
+                                <input type="date" id="limit" name="limit" (change)="limitdate = $event.target">
+                            </form>
+                        </div>
+                    </div>
+                </form>
+                <div class="row p-2" *ngIf="showerror">
+                    <div class="col-md-12">
+                        <div class="alert alert-dismissable alert-warning">
+                            <h4>
+                                Error!
+                            </h4> <strong>Atención! {{errormessage}}</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="cleanValues()" *ngIf="buttoncan" id="button">Cancelar</button>
+
+                <button type="button" class="btn btn-primary" *ngIf="buttonreg" id="button" data-bs-dismiss="modal" (click)="getBXC()">Solicitar</button>
+            </div>
+        </div>
+    </div>
+</div>

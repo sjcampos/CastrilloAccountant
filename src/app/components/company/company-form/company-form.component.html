@@ -1,0 +1,96 @@
+<app-main-navbar></app-main-navbar>
+
+<div class="d-flex justify-content-center" id="loadinginit" *ngIf="loadinginit">
+    <div class="col-3 text-center ">
+        <img class="img-fluid" src="./assets/gifs/loading.gif" alt="">
+        <p class="loaderText">Cargando información...</p>
+    </div>
+</div>
+
+
+<div class="container" id="maincon" *ngIf="register">
+    <div class="row">
+        <div id="rounded" class="col-md-6 offset-md-3 ">
+            <div class="col-md-12 text-center">
+                <h1>Formulario nueva empresa</h1>
+            </div>
+            <div class="col">
+                <form>
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Nombre empresa</label>
+                        <input id="name" name="name" class="form-control" [(ngModel)]="company.company_name" aria-describedby="emailHelp" placeholder="Ingrese el nombre de la empresa">
+                    </div>
+                    <div class="mb-3">
+                        <label for="agent" class="form-label">Contacto</label>
+                        <input id="agent" name="agent" class="form-control" [(ngModel)]="company.agent" aria-describedby="emailHelp" placeholder="Ingrese el nombre de un agente de contacto">
+                    </div>
+                    <div class="mb-3">
+                        <label for="number_phone" class="form-label">Número de teléfono</label>
+                        <input id="number_phone" name="number_phone" class="form-control" [(ngModel)]="company.number_phone" aria-describedby="emailHelp" placeholder="Ingrese el número de teléfono">
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input id="email" name="email" class="form-control" [(ngModel)]="company.main_email" aria-describedby="emailHelp" placeholder="Ingrese un email">
+                    </div>
+                    <div class="mb-3" *ngIf="isregister">
+                        <label for="company_password" class="form-label">Contraseña (Esta contraseña debe ser proporcionada al cliente por el administrador)</label>
+                        <input id="company_password" name="company_password" class="form-control" [(ngModel)]="company.company_password" aria-describedby="emailHelp" placeholder="Ingrese una contraseña">
+                    </div>
+                    <div class="mb-3 table-responsive" *ngIf="isregister">
+                        <label class="form-label">Asignación de colaboradores</label>
+                        <table class="table table-striped ">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Agregar</th>
+                                    <th scope="col">Identificación</th>
+                                    <th scope="col">Nombre</th>
+                                    <th scope="col">Apellido</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let col of newcollaborators |paginate :{id:'coll',itemsPerPage:5,currentPage:p};">
+                                    <td>
+                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" (click)="AddCol(col.id_collaborators)">
+                                    </td>
+                                    <td>{{col.identification}}</td>
+                                    <td>{{col.collaborator_name}}</td>
+                                    <td>{{col.collaborator_lastname}}</td>
+                                </tr>
+                            </tbody>
+                            <pagination-controls id='coll' (pageChange)="p = $event" previousLabel="Anterior" nextLabel="Siguiente" [autoHide]="true"></pagination-controls>
+                        </table>
+                    </div>
+                </form>
+            </div>
+            <div class="w-100"></div>
+            <div class="col-md-12 text-center">
+                <div class="d-grid gap-2 col-4 mx-auto m-3" *ngIf="registerbutton">
+                    <button type="button" id="button" class="btn btn-block  btn-danger" (click)=" RegisterCompany()">Registrar</button>
+                </div>
+                <div class="d-grid gap-2 col-4 mx-auto m-3" *ngIf="updatebutton">
+                    <button type="button" id="button" class="btn btn-block  btn-danger" (click)="updateCompany()">Actualizar</button>
+                </div>
+            </div>
+            <div class="w-100"></div>
+            <div class="col-md-12 text-center " *ngIf="formerror">
+                <div class="col-md-12">
+                    <div class="alert alert-dismissable alert-warning">
+                        <h4>
+                            Error!
+                        </h4> <strong>Atención! {{formerrormessage}}</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+<div class="d-flex justify-content-center " id="secondcon" *ngIf="loading">
+    <div class="col-3 text-center ">
+        <img class="img-fluid" src="./assets/gifs/loading.gif" alt="">
+        <p class="loaderText">Procesando transacción...</p>
+    </div>
+</div>

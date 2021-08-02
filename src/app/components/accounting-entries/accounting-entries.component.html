@@ -1,0 +1,195 @@
+<app-manager-navbar></app-manager-navbar>
+
+<div class="container-fluid" *ngIf="showform">
+    <div class="row" id="row">
+        <div class="col">
+            <div class="row">
+                <div class="col-md-6">
+                    <h2 class="float-start p-4">Asientos contables</h2>
+                </div>
+                <div class="col-md-6 p-4">
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <button id="newbutton" class="btn btn-primary" type="button" (click)="registerEntries()"> 
+                            <i class="fas fa-save"></i> Registrar movimientos
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr class="text-center">
+                                <th scope="col">Cuenta afectada</th>
+                                <th scope="col">Asignación</th>
+                                <th scope="col">Fecha registro</th>
+                                <th scope="col">Detalle</th>
+                                <th scope="col">Monto</th>
+                                <th scope="col">Opciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="text-center" *ngFor="let e of seals |paginate :{id:'coll',itemsPerPage:5,currentPage:p};">
+                                <th scope="row">{{e.account_name}}</th>
+                                <td *ngIf="e.pk == 40">Debe</td>
+                                <td *ngIf="e.pk == 50">Haber</td>
+                                <td>{{e.account_date}}</td>
+                                <td>{{e.details}}</td>
+                                <td>{{e.amount}}</td>
+                                <td>
+                                    <a class="delete" type="button" (click)="deleteEntry(e)"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i> </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <pagination-controls id='coll' (pageChange)="p = $event" previousLabel="Anterior" nextLabel="Siguiente" [autoHide]="true"></pagination-controls>
+                    </table>
+                </div>
+
+            </div>
+            <div class="row border-top d-flex justify-content-end align-items-stretch" id="total">
+                <div class="col-md-3 border mt-5 mb-5">
+                    <label class="form-label">Total Debe: {{totaldebe}}</label>
+                </div>
+                <div class="col-md-3 border mt-5 mb-5">
+                    <label class="form-label">Total Haber: {{totalhaber}}</label>
+                </div>
+            </div>
+
+        </div>
+        <div class="col border-start">
+            <div class="row">
+                <div class="col">
+                    <h2 class="text-center p-2">Datos asiento</h2>
+                    <form>
+                        <div class="mb-3" *ngIf="divchange1">
+                            <div>
+                                <label for="form-check form-check-inline" class="form-label">Tipo de cambio:</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1" (click)="changeCurrency(1)" [disabled]="chcol">
+                                <label class="form-check-label" for="inlineCheckbox1">Colones</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2" (click)="changeCurrency(2)" [disabled]="chdol">
+                                <label class="form-check-label" for="inlineCheckbox2">Dólares</label>
+                            </div>
+                        </div>
+                        <div class="mb-3" *ngIf="divchange2">
+                            <div>
+                                <label for="form-check form-check-inline" class="form-label">Tipo de cambio:</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1" (click)="changeCurrency(1)" [disabled]="chcol">
+                                <label class="form-check-label" for="inlineCheckbox1">Colones</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2" (click)="changeCurrency(2)" [disabled]="chdol">
+                                <label class="form-check-label" for="inlineCheckbox2">Dólares</label>
+                            </div>
+                        </div>
+
+                        <div class="mb-3" *ngIf="currencytype">
+                            <label for="currency" class="form-label">Cambio:</label>
+                            <input id="currency" name="currency" class="form-control" [(ngModel)]="entry.money_chance" aria-describedby="emailHelp" placeholder="Ingrese el monto de cambio" [disabled]="typechange">
+                        </div>
+                        <div class="mb-3">
+                            <label for="" class="form-label">Seleccione la fecha de registro de movimiento</label>
+                            <form>
+                                <label class="m-2" for="bill">Fecha movimiento:</label>
+                                <input type="date" id="bill" name="bill" (change)="dateObj = $event.target" [disabled]="dateinput">
+                            </form>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="descrip" class="form-label">Detalle del movimiento:</label>
+                            <input class="form-control" id="descrip" name="descrip" [(ngModel)]="entry.details" rows="3" placeholder="Ingrese un detalle para el movimiento" [disabled]="detailinput">
+                        </div>
+                        <div class="mb-3" *ngIf="showerrorconfirm">
+                            <div class="col-md-12 text-center p-2">
+                                <div class="col-md-12">
+                                    <div class="alert alert-dismissable alert-warning">
+                                        <h4>
+                                            Error!
+                                        </h4> <strong>Atención! {{messageerrorconfirm}}</strong>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 text-center p-3">
+                            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                <button type="button" id="button" class="btn btn-block  btn-danger" (click)="confirm()">Confirmar</button>
+                                <button type="button" id="button" class="btn btn-block  btn-danger" (click)="edit()">Editar</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="row border-top">
+                <h2 class="text-center p-2">Datos movimiento</h2>
+                <form>
+                    <div class="mb-3">
+                        <label for="" class="form-label">Cuenta:</label>
+                        <select id="reload" class="form-select" aria-label="Default select example" [(ngModel)]="accountModel" (ngModelChange)="selectAccount($event)" name="accountModel">
+                        <option [ngValue]="undefined" selected>Despliegue el menu para escoger una cuenta</option>
+                        <option *ngFor="let fat of existingaccounts;"  [ngValue]="fat">{{fat.account_name}}</option>
+                    </select>
+                    </div>
+                    <div class="mb-3" *ngIf="divasi1">
+                        <div>
+                            <label for="form-check form-check-inline" class="form-label">Asignación:</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1" (click)="changeEntryPK(40)" [disabled]="chdb">
+                            <label class="form-check-label" for="inlineCheckbox1">Debe</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2" (click)="changeEntryPK(50)" [disabled]="chhb">
+                            <label class="form-check-label" for="inlineCheckbox2">Haber</label>
+                        </div>
+                    </div>
+                    <div class="mb-3" *ngIf="divasi2">
+                        <div>
+                            <label for="form-check form-check-inline" class="form-label">Asignación:</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1" (click)="changeEntryPK(40)" [disabled]="chdb">
+                            <label class="form-check-label" for="inlineCheckbox1">Debe</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2" (click)="changeEntryPK(50)" [disabled]="chhb">
+                            <label class="form-check-label" for="inlineCheckbox2">Haber</label>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="amount" class="form-label">Monto</label>
+                        <input id="amount" name="amount" class="form-control" aria-describedby="emailHelp" [(ngModel)]="entry.amount" placeholder="Ingrese el monto del movimiento">
+                    </div>
+                    <div class="mb-3" *ngIf="showerror">
+                        <div class="col-md-12 text-center p-2">
+                            <div class="col-md-12">
+                                <div class="alert alert-dismissable alert-warning">
+                                    <h4>
+                                        Error!
+                                    </h4> <strong>Atención! {{messageerror}}</strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 text-center">
+                        <div class="d-grid gap-2 col-4 mx-auto m-3">
+                            <button type="button" id="button" class="btn btn-block  btn-danger" (click)="addEntry()">Agregar</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="d-flex justify-content-center" id="loadinginit" *ngIf="loadinginit">
+    <div class="col-3 text-center ">
+        <img class="img-fluid" src="./assets/gifs/loading.gif" alt="">
+        <p class="loaderText">Procesando transacción...</p>
+    </div>
+</div>

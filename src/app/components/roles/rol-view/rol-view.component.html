@@ -1,0 +1,75 @@
+<app-main-navbar></app-main-navbar>
+
+<div class="d-flex justify-content-center" id="loadinginit" *ngIf="loadinginit">
+    <div class="col-3 text-center ">
+        <img class="img-fluid" src="./assets/gifs/loading.gif" alt="">
+        <p class="loaderText">Cargando información...</p>
+    </div>
+</div>
+
+
+
+<div class="container" id="maincon" *ngIf="showtable">
+    <div class="row border" id="mainborder">
+        <div class="col-md-6 p-2">
+            <h2 class="text-center">Roles</h2>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr class="text-center">
+                            <th scope="col">Rol</th>
+                            <th scope="col">Descripción</th>
+                            <th scope="col">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="text-center" *ngFor="let r of roles">
+                            <td>{{r.rol_name}}</td>
+                            <td>{{r.rol_description}}</td>
+                            <td *ngIf="r.id_rol != 1 && r.id_rol != 2 && r.id_rol != 3">
+                                <a (click)="updateAvailable(r)" class="edit"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                                <a (click)="deleteRol(r.id_rol)" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                            </td>
+                            <td *ngIf="r.id_rol == 1 || r.id_rol == 2 || r.id_rol == 3">
+                                <label>N.A</label>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-md-6 border-start p-2">
+            <h2 class="text-center">Formulario Rol</h2>
+            <form>
+                <div class="mb-3">
+                    <label for="name" class="form-label">Nombre del Rol</label>
+                    <input id="name" name="name" [(ngModel)]="rol.rol_name" class="form-control" aria-describedby="emailHelp" placeholder="Ingrese el nombre del nuevo rol">
+                </div>
+                <div class="mb-3">
+                    <label for="descrip" class="form-label">Descripción del Rol</label>
+                    <textarea class="form-control" id="descrip" name="descrip" [(ngModel)]="rol.rol_description" rows="3" placeholder="Ingrese una descripción del nuevo rol"></textarea>
+                </div>
+            </form>
+            <div class="col-md-12 text-center " *ngIf="formerror">
+                <div class="col-md-12">
+                    <div class="alert alert-dismissable alert-warning">
+                        <h4>
+                            Error!
+                        </h4> <strong>Atención! {{errormessage}}</strong>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 text-center" *ngIf="registerbutton">
+                <div class="d-grid gap-2 col-4 mx-auto m-3">
+                    <button type="button" id="button" class="btn btn-block  btn-danger" (click)="registerRol()">Registrar</button>
+                </div>
+            </div>
+            <div class="col-md-12 text-center" *ngIf="updatebutton">
+                <div class="d-grid gap-2 col-4 mx-auto m-3">
+                    <button type="button" id="button" class="btn btn-block  btn-danger" (click)="updateRol()">Actualizar</button>
+                    <button type="button" id="button" class="btn btn-block  btn-danger" (click)="cancelUpdate()">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,54 @@
+<div *ngIf="manager">
+    <app-manager-navbar></app-manager-navbar>
+</div>
+<div *ngIf="coll">
+    <app-collaborator-navbar></app-collaborator-navbar>
+</div>
+
+
+<div class="d-flex justify-content-center" id="loadinginit" *ngIf="loadinginit">
+    <div class="col-3 text-center ">
+        <img class="img-fluid" src="./assets/gifs/loading.gif" alt="">
+        <p class="loaderText">Cargando información...</p>
+    </div>
+</div>
+
+<div class="container-xl" *ngIf="showtable">
+    <div class="table-title">
+        <div class="row">
+            <div class="col-sm-6">
+                <h2><b>Empresas</b></h2>
+            </div>
+        </div>
+    </div>
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr class="text-center">
+                    <th scope="col">Empresa</th>
+                    <th scope="col">Encargado</th>
+                    <th scope="col">Teléfono</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Opciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="text-center" *ngFor="let company of  companies">
+                    <th scope="row">{{company.company_name}}</th>
+                    <td>{{company.agent}}</td>
+                    <td>{{company.number_phone}}</td>
+                    <td>{{company.main_email}}</td>
+                    <td>
+                        <a [routerLink]="['/accountingentries/', company.slug]" class="edit"><i class="fas fa-edit"></i> Registrar movimiento</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="d-flex justify-content-center" id="loadinginit" *ngIf="nocompany">
+    <div class="col-3 text-center ">
+        <p class="loaderText">Actualmente este colaborador no tiene compañias asignadas para labores</p>
+    </div>
+</div>

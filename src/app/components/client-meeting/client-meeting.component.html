@@ -1,0 +1,77 @@
+<app-client-navbar></app-client-navbar>
+
+<div class="container p-5" *ngIf="showreg">
+    <div class="row border">
+        <div class="col-md-6">
+            <h2 class="text-center p-4">Historial de reuniones</h2>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr class="text-center">
+                            <th scope="col">Descripción</th>
+                            <th scope="col">Fecha</th>
+                            <th scope="col">Hora</th>
+                            <th scope="col">Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody *ngIf="record">
+                        <tr class="text-center" *ngFor="let r of meetings|paginate :{id:'coll',itemsPerPage:5,currentPage:p};">
+                            <th scope="row">{{r.description}}</th>
+                            <td>{{showdate(r.date_application)}}</td>
+                            <td>{{r.hour_application}}</td>
+                            <td>{{r.status_application}}</td>
+                        </tr>
+                    </tbody>
+                    <pagination-controls id='coll' (pageChange)="p = $event" previousLabel="Anterior" nextLabel="Siguiente" [autoHide]="true"></pagination-controls>
+                </table>
+                <div class="d-flex justify-content-center" id="norecord" *ngIf="norecord">
+                    Actualmente no se cuenta con reuniones registradas.
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 border-start d-flex justify-content-center">
+            <div class="row">
+                <h2 class="text-center p-4 ">Solicitud de reunión</h2>
+                <div class="col d-flex justify-content-evenly border " id="selectdate">
+                    <div class="mb-3">
+                        <label class="form-label m-2">Seleccione la fecha:</label>
+                        <form>
+                            <input type="date" id="bill" name="bill" (change)="selectedDate = $event.target">
+                        </form>
+                    </div>
+                </div>
+                <div class="col d-flex justify-content-evenly border" id="timeselect">
+                    <div class="mb-3 ">
+                        <label class="form-label m-2">Seleccione la hora:</label>
+                        <form>
+                            <dp-time-select class="time" [(ngModel)]="selectedTime" theme="dp-material" [ngModelOptions]="{standalone: true}"></dp-time-select>
+                        </form>
+                    </div>
+                </div>
+                <div class="w-100"></div>
+                <div class="col">
+                    <div class="d-grid gap-2 col-6 mx-auto p-3">
+                        <button class="btn btn-primary" id="button" type="button" (click)="registerMeeting()">Solicitar reunión</button>
+                    </div>
+                </div>
+                <div class="row p-2" *ngIf="showerror">
+                    <div class="col-md-12">
+                        <div class="alert alert-dismissable alert-warning">
+                            <h4>
+                                Error!
+                            </h4> <strong>Atención! {{messageerror}}</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="d-flex justify-content-center" id="loadinginit" *ngIf="loading">
+    <div class="col-3 text-center ">
+        <img class="img-fluid" src="./assets/gifs/loading.gif" alt="">
+        <p class="loaderText">{{text}} </p>
+    </div>
+</div>

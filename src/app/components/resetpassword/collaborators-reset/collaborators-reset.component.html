@@ -1,0 +1,66 @@
+<app-main-navbar></app-main-navbar>
+
+<div class="d-flex justify-content-center" id="loadinginit" *ngIf="loading">
+    <div class="col-3 text-center ">
+        <img class="img-fluid" src="./assets/gifs/loading.gif" alt="">
+        <p class="loaderText">Cargando información...</p>
+    </div>
+</div>
+
+<div class="container-xl" id="maincon" *ngIf="showtable">
+    <div class="table-title">
+        <div class="row">
+            <div class="col-sm-6">
+                <h2><b>Colaboradores</b></h2>
+            </div>
+            <div class="col-md-6 ">
+                <input class="form-control " type="text" name="identification" [(ngModel)]="identification" (ngModelChange)="searchCollab()" placeholder="Ingrese el número de identificación a buscar">
+            </div>
+        </div>
+    </div>
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Identificación</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Apellido</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Número de teléfono</th>
+                    <th scope="col">Rol</th>
+                    <th scope="col">Cambiar contraseña</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let col of collaborators |paginate :{id:'coll',itemsPerPage:5,currentPage:p};">
+                    <td>{{col.identification}}</td>
+                    <td>{{col.collaborator_name}}</td>
+                    <td>{{col.collaborator_lastname}}</td>
+                    <td>{{col.email}}</td>
+                    <td>{{col.number_phone}}</td>
+                    <td>{{col.rol_name}}</td>
+                    <td>
+                        <a (click)="resetPassword(col.id_collaborators)" class="edit">Cambiar <i class="fas fa-arrow-circle-right"></i></a>
+                    </td>
+                </tr>
+            </tbody>
+            <pagination-controls id='coll' (pageChange)="p = $event" previousLabel="Anterior" nextLabel="Siguiente" [autoHide]="true"></pagination-controls>
+        </table>
+    </div>
+
+</div>
+
+
+<div class="d-flex justify-content-center" id="loadinginit" *ngIf="loadinginit">
+    <div class="col-3 text-center ">
+        <img class="img-fluid" src="./assets/gifs/loading.gif" alt="">
+        <p class="loaderText">Realizando cambio de contraseña...</p>
+    </div>
+</div>
+
+<div class="d-flex justify-content-center" id="loadinginit" *ngIf="showmessage">
+    <div class="col-3 text-center" id="okmessage">
+        <p class="loaderText m-5">{{message}}</p>
+        <button type="button" id="button" class="btn btn-primary m-3" (click)="resetview()">Aceptar</button>
+    </div>
+</div>

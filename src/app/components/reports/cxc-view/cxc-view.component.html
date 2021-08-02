@@ -1,0 +1,159 @@
+<div *ngIf="manager">
+    <app-manager-navbar></app-manager-navbar>
+</div>
+<div *ngIf="coll">
+    <app-collaborator-navbar></app-collaborator-navbar>
+</div>
+
+
+<div class="d-flex justify-content-center" id="loadinginit" *ngIf="divloading">
+    <div class="col-3 text-center ">
+        <img class="img-fluid" src="./assets/gifs/loading.gif" alt="">
+        <p class="loaderText">{{loadingMessage}}</p>
+    </div>
+</div>
+
+<div class="container p-3" *ngIf="divreg">
+    <div class="row border">
+        <div class="row">
+            <div class="col m-3">
+                <div class="row">
+                    <div class="col-md-4">
+                        <h3 class="text-start" id="title">Cuentas por cobrar</h3>
+                    </div>
+                    <div class="col-md-4 p-2">
+
+                        <select class="form-select" id="company" [(ngModel)]="selectcompany" (ngModelChange)="changeCompany($event)" name="company" aria-label="Default select example">
+                            <option [ngValue]="undefined" selected>Seleccione una compañía</option>
+                            <option *ngFor="let c of companies;"  [ngValue]="c">{{c.company_name}}</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <button class="btn btn-primary float-end m-2 " type="button" id="button" *ngIf="buttonFilter" data-bs-toggle="modal" data-bs-target="#filtermodal">Filtrar</button>
+                        <button class="btn btn-primary float-end m-2 " type="button" id="button" *ngIf="buttonDownload" (click)="onClickDownloadPdf()">Descargar PDF</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row p-3">
+        <div *ngIf="divdata" class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr class="text-center">
+                        <th scope="col">Fecha vencimiento</th>
+                        <th scope="col">Cuenta</th>
+                        <th scope="col">Contacto</th>
+                        <th scope="col">Teléfono</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="text-center" *ngFor="let a of existingaccounts |paginate :{id:'coll',itemsPerPage:8,currentPage:p};">
+                        <td>{{a.DATE}}</td>
+                        <td>{{a.account_name}}</td>
+                        <td>{{a.contact}}</td>
+                        <td>{{a.number_phone}}</td>
+                    </tr>
+                </tbody>
+                <pagination-controls id='coll' (pageChange)="p = $event" previousLabel="Anterior" nextLabel="Siguiente" [autoHide]="true"></pagination-controls>
+            </table>
+        </div>
+        <div class="p-3" *ngIf="divnodata">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="d-flex justify-content-center">
+                            <img src="../assets/fondo/fondo.png" class="img-fluid" alt="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Modal GP -->
+<div class="modal fade" id="filtermodal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Seleccione el tipo de filtro que desea:</h5>
+            </div>
+            <div class="modal-body">
+                <div class="row" *ngIf="divfilter1">
+                    <div class="col-md-12">
+                        <div class="d-flex justify-content-center">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1" (click)="changeFilter(1)" [disabled]="chspecDate">
+                                <label class="form-check-label" for="inlineCheckbox1">Fecha específica</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2" (click)="changeFilter(2)" [disabled]="choverdue">
+                                <label class="form-check-label" for="inlineCheckbox2">Vencidas</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3" (click)="changeFilter(3)" [disabled]="chrange">
+                                <label class="form-check-label" for="inlineCheckbox3">Por vencer rango de días</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" *ngIf="divfilter2">
+                    <div class="col-md-12">
+                        <div class="d-flex justify-content-center">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1" (click)="changeFilter(1)" [disabled]="chspecDate">
+                                <label class="form-check-label" for="inlineCheckbox1">Fecha específica</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2" (click)="changeFilter(2)" [disabled]="choverdue">
+                                <label class="form-check-label" for="inlineCheckbox2">Vencidas</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3" (click)="changeFilter(3)" [disabled]="chrange">
+                                <label class="form-check-label" for="inlineCheckbox3">Por vencer rango de días</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <form class="p-3" *ngIf="divspecdate">
+                    <div class="d-flex justify-content-center">
+                        <div class="mb-3">
+                            <label class="form-label">Seleccione la fecha que desea comprobar:</label>
+                            <form class="justify-content-center">
+                                <input type="date" id="limit" name="limit" (change)="specificdate = $event.target">
+                            </form>
+                        </div>
+                    </div>
+                </form>
+                <form class="p-3" *ngIf="divrange">
+                    <div class="d-flex justify-content-center">
+                        <div class="mb-3">
+                            <label for="customRange1" class="form-label">Ingrese la cantidad de días:</label>
+                            <form class="justify-content-center">
+                                <input type="number" id="name" name="name" class="form-control" min="1" max="100" required [(ngModel)]="range">
+                            </form>
+
+                        </div>
+                    </div>
+                </form>
+                <div class="row p-2" *ngIf="showerror">
+                    <div class="col-md-12">
+                        <div class="alert alert-dismissable alert-warning">
+                            <h4>
+                                Error!
+                            </h4> <strong>Atención! {{messageerror}}</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="button" (click)="cleanFilter()">Cancelar</button>
+
+                <button type="button" class="btn btn-primary" id="button" (click)="getFilterAccounts()" data-bs-dismiss="modal">Solicitar</button>
+            </div>
+        </div>
+    </div>
+</div>

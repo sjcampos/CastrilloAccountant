@@ -1,0 +1,426 @@
+<app-client-navbar></app-client-navbar>
+
+
+<div class="d-flex justify-content-center" id="loading" *ngIf="loading">
+    <div class="col-3 text-center ">
+        <img class="img-fluid" src="./assets/gifs/loading.gif" alt="">
+        <p class="loaderText">Cargando información...</p>
+    </div>
+</div>
+
+<div class="container-fluid p-5" *ngIf="showreg">
+    <div class="row border">
+        <div class="col-md-4">
+            <h2 class="text-center p-4">Historial de reportes</h2>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr class="text-center">
+                            <th scope="col">Descripción</th>
+                            <th scope="col">Estado</th>
+
+                        </tr>
+                    </thead>
+                    <tbody *ngIf="record">
+                        <tr class="text-center" *ngFor="let r of reports|paginate :{id:'coll',itemsPerPage:10,currentPage:p};">
+                            <th scope="row">{{r.description}}</th>
+                            <td>{{r.status_application}}</td>
+                        </tr>
+                    </tbody>
+                    <pagination-controls id='coll' (pageChange)="p = $event" previousLabel="Anterior" nextLabel="Siguiente" [autoHide]="true"></pagination-controls>
+                </table>
+                <div class="d-flex justify-content-center" id="norecord" *ngIf="norecord">
+                    Actualmente no se cuenta con reportes registrados
+                </div>
+            </div>
+
+        </div>
+        <div class="col-md-8 border-start">
+            <h2 class="text-center p-4">Reportes disponibles</h2>
+            <div class="accordion p-2" id="accordionExample">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingOne">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                      <strong>Balance general</strong>
+                    </button>
+                    </h2>
+                    <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                        <div class="accordion-body">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col">
+                                        <strong>¿Qué es un balance general?</strong>
+                                        <label>
+                                            El balance general es una herramienta muy importante que nos ofrece información básica de la empresa en un solo vistazo. 
+                                            Refleja en un momento determinado la información económica y financiera de una empresa, separadas en tres masas patrimoniales: activo, pasivo y patrimonio neto.
+                                            Por ejemplo cuánto efectivo tiene la empresa, la cantidad de deuda contraída o los bienes que dispone. 
+                                            Al disponer de tan amplia información es de vital importancia mantenerla en orden, por lo que en Castrillo Accountant nos encargamos 
+                                            de que el acceso sea rapido y sencillo.<br>
+                                        </label>
+                                    </div>
+                                    <div class="w-100"></div>
+                                    <div class="col">
+                                        <div class="d-grid gap-2 d-md-block">
+                                            <button class="btn btn-primary" id="button" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">Solicitar reporte</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingTwo">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                      <strong>Ganancias y pérdidas</strong>
+                    </button>
+                    </h2>
+                    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                        <div class="accordion-body">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col">
+                                        <strong>¿Qué son las ganancias y pérdidas?</strong>
+                                        <label>
+                                            Un estado de ganancias y pérdidas mide la actividad de una empresa a lo largo de un período de tiempo.
+                                            El estado de ganancias y pérdidas básicamente le indica los ingresos, los gastos, las ganancias y las pérdidas.
+                                        </label>
+                                    </div>
+                                    <div class="w-100"></div>
+                                    <div class="col">
+                                        <div class="d-grid gap-2 d-md-block">
+                                            <button class="btn btn-primary" id="button" type="button" data-bs-toggle="modal" data-bs-target="#ModalGP">Solicitar reporte</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingThree">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                      <strong>Estado flujo de efectivo por cuenta</strong>
+                    </button>
+                    </h2>
+                    <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+                        <div class="accordion-body">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col">
+                                        <strong>¿Qué es un estado de flujo de efectivo por cuenta?</strong>
+                                        <label>
+                                            El flujo de efectivo se define como la variación de las entradas y 
+                                            salidas de dinero en un período determinado, y su información mide la salud financiera de una empresa.
+                                            <br>Al ser un flujo por cuenta, este proporciona las entradas y salidas de una o varias cuentas especificas, en este
+                                            caso se hace uso de las principales cuentas seleccionadas por su contador para su visualización.
+                                        </label>
+                                    </div>
+                                    <div class="w-100"></div>
+                                    <div class="col">
+                                        <div class="d-grid gap-2 d-md-block">
+                                            <button class="btn btn-primary" id="button" type="button" data-bs-toggle="modal" data-bs-target="#ModalFE">Solicitar reporte</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingFour">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                      <strong>Estado financiero</strong>
+                    </button>
+                    </h2>
+                    <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#accordionExample">
+                        <div class="accordion-body">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col">
+                                        <strong>¿Qué es un estado de financiero?</strong>
+                                        <label>
+                                            Estos estados nos sirven para ver de una forma completa y detallada, dependiendo del estado financiero que se elija estudiar, 
+                                            la situación financiera de la empresa, la evolución del patrimonio o el flujo de operaciones. Es la unión de un balance general,
+                                            ganancias y pérdidas y un estado de flujo de efectivo del último mes completo.
+                                        </label>
+                                    </div>
+                                    <div class="w-100"></div>
+                                    <div class="col">
+                                        <div class="d-grid gap-2 d-md-block">
+                                            <button class="btn btn-primary" id="button" type="button" (click)="registerEF()">Solicitar reporte</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingFive">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                      <strong>Reporte personalizado</strong>
+                    </button>
+                    </h2>
+                    <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#accordionExample">
+                        <div class="accordion-body">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col">
+                                        <strong>¿Qué es un reporte personalizado</strong>
+                                        <label>
+                                            Si usted desea solicitar un reporte o informe que no se encuentre en las opciones anteriores, puede realizar la solicitud en este apartado.
+                                            <br> Solamente llene el formulario con los espacios solicitados y listo.
+                                        </label>
+                                    </div>
+                                    <div class="w-100"></div>
+                                    <div class="col">
+                                        <div class="d-grid gap-2 d-md-block">
+                                            <button class="btn btn-primary" id="button" type="button" data-bs-toggle="modal" data-bs-target="#ModalRP">Solicitar reporte</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal BG -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">{{title}}</h5>
+
+            </div>
+            <div class="modal-body">
+                <form *ngIf="divreg">
+                    <div class="mb-3" *ngIf="type1">
+                        <div>
+                            <label for="form-check form-check-inline" class="form-label">Tipo de filtro:</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1" (click)="changeType(1)" [disabled]="chmes">
+                            <label class="form-check-label" for="inlineCheckbox1">Mes actual</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2" (click)="changeType(2)" [disabled]="chmesEs">
+                            <label class="form-check-label" for="inlineCheckbox2">Mes específico</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3" (click)="changeType(3)" [disabled]="chyear">
+                            <label class="form-check-label" for="inlineCheckbox3">Año específico</label>
+                        </div>
+                    </div>
+                    <div class="mb-3" *ngIf="type2">
+                        <div>
+                            <label for="form-check form-check-inline" class="form-label">Tipo de filtro:</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1" (click)="changeType(1)" [disabled]="chmes">
+                            <label class="form-check-label" for="inlineCheckbox1">Mes actual</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2" (click)="changeType(2)" [disabled]="chmesEs">
+                            <label class="form-check-label" for="inlineCheckbox2">Mes específico</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3" (click)="changeType(3)" [disabled]="chyear">
+                            <label class="form-check-label" for="inlineCheckbox3">Año específico</label>
+                        </div>
+                    </div>
+                    <div class="mb-3" *ngIf=" divEsm">
+                        <label for="" class="form-label">Seleccione el mes que desea:</label>
+                        <form>
+                            <dp-month-calendar [(ngModel)]="dateObj1" theme="dp-material" (onSelect)="changeValue(dateObj1)" [config]="config" [ngModelOptions]="{standalone: true}"></dp-month-calendar>
+                        </form>
+                    </div>
+                    <div class="mb-3" *ngIf="divEsY">
+                        <label for="account_code" class="form-label">Digite el año del que desea el reporte, ejemplo "2020":</label>
+                        <input id="account_code" type="number" name="account_code" class="form-control" [(ngModel)]="year" aria-describedby="emailHelp" placeholder="Ingrese un año">
+                    </div>
+                </form>
+                <div class="d-flex justify-content-center" id="loadinginit" *ngIf="divloading">
+                    <div class="col-3 text-center ">
+                        <img class="img-fluid" src="./assets/gifs/loading.gif" alt="">
+                        <p class="loaderText">Procesando solicitud... </p>
+                    </div>
+                </div>
+                <div class="row p-2" *ngIf="showerror">
+                    <div class="col-md-12">
+                        <div class="alert alert-dismissable alert-warning">
+                            <h4>
+                                Error!
+                            </h4> <strong>Atención! {{errormessage}}</strong>
+                        </div>
+                    </div>
+                </div>
+                <div class="row p-2" *ngIf="showsuccess">
+                    <div class="col-md-12">
+                        <div class="alert alert-dismissable alert-success">
+                            <strong>La solicitud de reporte ha sido realizada de manera exitosa.</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="cleanValues()" *ngIf="buttoncan">Cancelar</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="cleanValues()" *ngIf="buttonclose">Cerrar</button>
+                <button type="button" class="btn btn-primary" (click)="registerGB()" *ngIf="buttonreg">Solicitar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal GP -->
+<div class="modal fade" id="ModalGP" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">{{title}}</h5>
+
+            </div>
+            <div class="modal-body">
+                <form *ngIf="divreg">
+                    <div class="mb-3">
+                        <label class="form-label">Seleccione el mes que desea:</label>
+                        <form>
+                            <dp-month-calendar [(ngModel)]="dateObj2" theme="dp-material" (onSelect)="changeValue(dateObj2)" [config]="config" [ngModelOptions]="{standalone: true}"></dp-month-calendar>
+                        </form>
+                    </div>
+                </form>
+                <div class="d-flex justify-content-center" id="loadinginit" *ngIf="divloading">
+                    <div class="col-3 text-center ">
+                        <img class="img-fluid" src="./assets/gifs/loading.gif" alt="">
+                        <p class="loaderText">Procesando solicitud... </p>
+                    </div>
+                </div>
+                <div class="row p-2" *ngIf="showerror">
+                    <div class="col-md-12">
+                        <div class="alert alert-dismissable alert-warning">
+                            <h4>
+                                Error!
+                            </h4> <strong>Atención! {{errormessage}}</strong>
+                        </div>
+                    </div>
+                </div>
+                <div class="row p-2" *ngIf="showsuccess">
+                    <div class="col-md-12">
+                        <div class="alert alert-dismissable alert-success">
+                            <strong>La solicitud de reporte ha sido realizada de manera exitosa.</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="cleanValues()" *ngIf="buttoncan">Cancelar</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="cleanValues()" *ngIf="buttonclose">Cerrar</button>
+                <button type="button" class="btn btn-primary" (click)="registerGPFE('Ganancias y perdidas por mes')" *ngIf="buttonreg">Solicitar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal FE -->
+<div class="modal fade" id="ModalFE" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">{{title}}</h5>
+
+            </div>
+            <div class="modal-body">
+                <form *ngIf="divreg">
+                    <div class="mb-3">
+                        <label class="form-label">Seleccione el mes que desea:</label>
+                        <form>
+                            <dp-month-calendar [(ngModel)]="dateObj3" theme="dp-material" (onSelect)="changeValue(dateObj3)" [config]="config" [ngModelOptions]="{standalone: true}"></dp-month-calendar>
+                        </form>
+                    </div>
+                </form>
+                <div class="d-flex justify-content-center" id="loadinginit" *ngIf="divloading">
+                    <div class="col-3 text-center ">
+                        <img class="img-fluid" src="./assets/gifs/loading.gif" alt="">
+                        <p class="loaderText">Procesando solicitud... </p>
+                    </div>
+                </div>
+                <div class="row p-2" *ngIf="showerror">
+                    <div class="col-md-12">
+                        <div class="alert alert-dismissable alert-warning">
+                            <h4>
+                                Error!
+                            </h4> <strong>Atención! {{errormessage}}</strong>
+                        </div>
+                    </div>
+                </div>
+                <div class="row p-2" *ngIf="showsuccess">
+                    <div class="col-md-12">
+                        <div class="alert alert-dismissable alert-success">
+                            <strong>La solicitud de reporte ha sido realizada de manera exitosa.</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="cleanValues()" *ngIf="buttoncan">Cancelar</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="cleanValues()" *ngIf="buttonclose">Cerrar</button>
+                <button type="button" class="btn btn-primary" (click)="registerGPFE('Flujo de efectivo por cuenta')" *ngIf="buttonreg">Solicitar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal RP-->
+<div class="modal fade" id="ModalRP" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">{{title}}</h5>
+
+            </div>
+            <div class="modal-body">
+                <form *ngIf="divreg">
+                    <div class="mb-3">
+                        <label class="form-label">Reporte personalizado</label>
+                        <form>
+                            <label for="exampleFormControlTextarea1" class="form-label">Por favor explique detalladamente el reporte que desea solicitar</label>
+                            <textarea class="form-control" [(ngModel)]="descrip" [ngModelOptions]="{standalone: true}" id="exampleFormControlTextarea1" rows="3"></textarea>
+                        </form>
+                    </div>
+                </form>
+                <div class="d-flex justify-content-center" id="loadinginit" *ngIf="divloading">
+                    <div class="col-3 text-center ">
+                        <img class="img-fluid" src="./assets/gifs/loading.gif" alt="">
+                        <p class="loaderText">Procesando solicitud... </p>
+                    </div>
+                </div>
+                <div class="row p-2" *ngIf="showerror">
+                    <div class="col-md-12">
+                        <div class="alert alert-dismissable alert-warning">
+                            <h4>
+                                Error!
+                            </h4> <strong>Atención! {{errormessage}}</strong>
+                        </div>
+                    </div>
+                </div>
+                <div class="row p-2" *ngIf="showsuccess">
+                    <div class="col-md-12">
+                        <div class="alert alert-dismissable alert-success">
+                            <strong>La solicitud de reporte ha sido realizada de manera exitosa.</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="cleanValues()" *ngIf="buttoncan">Cancelar</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="cleanValues()" *ngIf="buttonclose">Cerrar</button>
+                <button type="button" class="btn btn-primary" (click)="registerRP()" *ngIf="buttonreg">Solicitar</button>
+            </div>
+        </div>
+    </div>
+</div>

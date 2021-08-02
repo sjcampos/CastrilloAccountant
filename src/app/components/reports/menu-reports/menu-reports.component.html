@@ -1,0 +1,110 @@
+<div *ngIf="manager">
+    <app-manager-navbar></app-manager-navbar>
+</div>
+<div *ngIf="coll">
+    <app-collaborator-navbar></app-collaborator-navbar>
+</div>
+
+<div class="container p-4 ">
+    <div class="row border" id="mainrow">
+        <h2 class="text-center" id="h1">Menú de reportes</h2>
+        <div class="row ">
+            <div class="col-sm-4">
+                <div class="card" id="card">
+                    <div class="card-body">
+                        <h5 id="h5" class="card-title text-center">Balance general comparativo</h5>
+                        <p class="card-text">Comparación entre 2 meses/años máximo 3</p>
+                        <a [routerLink]="['/reportbgc']" id="button" class="btn btn-primary">Solicitar reporte</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4" *ngIf="allow">
+                <div class="card" id="card">
+                    <div class="card-body">
+                        <h5 id="h5" class="card-title  text-center">Estado de resultados integrales</h5>
+                        <p class="card-text">Pérdidas y ganancias cuentas seleccionadas</p>
+                        <a [routerLink]="['/reporteri']" id="button" class="btn btn-primary">Solicitar reporte</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4 ">
+                <div class="card" id="card">
+                    <div class="card-body">
+                        <h5 id="h5" class="card-title  text-center">Balance por cuentas</h5>
+                        <p class="card-text">Balances por cuentas/información detallada</p>
+                        <a [routerLink]="['/reportbxc']" id="button" class="btn btn-primary">Solicitar reporte</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row ">
+            <div class="col-sm-4 ">
+                <div class="card" id="card">
+                    <div class="card-body">
+                        <h5 id="h5" class="card-title  text-center">Cuentas por cobrar</h5>
+                        <p class="card-text">Cuentas por cobrar a vencer/vencidas/fecha</p>
+                        <a [routerLink]="['/reportcxc']" id="button" class="btn btn-primary">Solicitar reporte</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="card" id="card">
+                    <div class="card-body">
+                        <h5 id="h5" class="card-title  text-center">Cuentas por pagar</h5>
+                        <p class="card-text">Cuentas por pagar a vencer/vencidas/fecha </p>
+                        <a [routerLink]="['/reportcxp']" id="button" class="btn btn-primary">Solicitar reporte</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="card" id="card">
+                    <div class="card-body">
+                        <h5 id="h5" class="card-title  text-center">Ventas</h5>
+                        <p class="card-text">Montos de ventas</p>
+                        <a [routerLink]="['/reportvts']" id="button" class="btn btn-primary">Solicitar reporte</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row ">
+            <div class="col-sm-4 ">
+                <div class="card" id="card">
+                    <div class="card-body">
+                        <h5 id="h5" class="card-title  text-center">Asientos contables</h5>
+                        <p class="card-text">Asientos contables por empresa</p>
+                        <a [routerLink]="['/reportasc']" id="button" class="btn btn-primary">Solicitar reporte</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4 ">
+                <div class="card" id="card">
+                    <div class="card-body">
+                        <h5 id="h5" class="card-title  text-center">Clientes por empresa</h5>
+                        <p class="card-text">Todos los clientes por empresa</p>
+                        <a [routerLink]="['/reportclixc']" id="button" class="btn btn-primary">Solicitar reporte</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4 ">
+                <div class="card" id="card">
+                    <div class="card-body">
+                        <h5 id="h5" class="card-title  text-center">Proveedores por empresa</h5>
+                        <p class="card-text">Todos los proveedores por empresa</p>
+                        <a [routerLink]="['/reportproxc']" id="button" class="btn btn-primary">Solicitar reporte</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row ">
+            <div class="col-sm-4 ">
+                <div class="card" id="card">
+                    <div class="card-body">
+                        <h5 id="h5" class="card-title text-center">Proyección</h5>
+                        <p class="card-text">Proyecciones de cuentas seleccionadas</p>
+                        <a [routerLink]="['/reportproy']" id="button" class="btn btn-primary">Solicitar reporte</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

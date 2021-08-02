@@ -1,0 +1,392 @@
+<div *ngIf="manager">
+    <app-manager-navbar></app-manager-navbar>
+</div>
+<div *ngIf="coll">
+    <app-collaborator-navbar></app-collaborator-navbar>
+</div>
+
+
+<div class="d-flex justify-content-center" id="loadinginit" *ngIf="divloading">
+    <div class="col-3 text-center ">
+        <img class="img-fluid" src="./assets/gifs/loading.gif" alt="">
+        <p class="loaderText">Procesando solicitud...</p>
+    </div>
+</div>
+
+<div class="container p-3" *ngIf="divreg">
+    <div class="row border">
+        <div class="row">
+            <div class="col m-3">
+                <div class="row">
+                    <div class="col-md-3">
+                        <h3 class="text-start" id="title">Balance general comparativo</h3>
+                    </div>
+                    <div class="col-md-3 p-2">
+                        <select class="form-select" id="company" [(ngModel)]="selectcompany" (ngModelChange)="changeCompany($event)" name="company" aria-label="Default select example">
+                            <option [ngValue]="undefined" selected>Compañías</option>
+                            <option *ngFor="let c of companies;"  [ngValue]="c">{{c.company_name}}</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <button class="btn btn-primary float-end m-2 " type="button" id="button" (click)="showTable()" *ngIf="reportbutton">Volver a reporte</button>
+                        <button class="btn btn-primary float-end m-2 " type="button" id="button" (click)="showGraph()" *ngIf="graphbutton">Mostrar gráficos</button>
+                        <button class="btn btn-primary  float-end m-2 " type="button" id="button" *ngIf="buttondownload" (click)="onClickDownloadPdf()">Descargar</button>
+                        <button class="btn btn-primary float-end m-2 " type="button" id="button" data-bs-toggle="modal" data-bs-target="#filtermodal">Seleccionar filtro</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="p-3" *ngIf="divnodata">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="d-flex justify-content-center">
+                            <img src="../assets/fondo/fondo.png" class="img-fluid" alt="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col" *ngIf="record">
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">Capital</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let a of ap">
+                            <td>{{a[0]}}</td>
+                            <td>{{a[1]}}</td>
+                            <td>{{a[2]}}</td>
+                            <td>{{a[3]}}</td>
+                            <td>{{a[4]}}</td>
+                            <td>{{a[5]}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">Activos corrientes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let a of ac">
+                            <td>{{a[0]}}</td>
+                            <td>{{a[1]}}</td>
+                            <td>{{a[2]}}</td>
+                            <td>{{a[3]}}</td>
+                            <td>{{a[4]}}</td>
+                            <td>{{a[5]}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">Pasivos corrientes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let a of pc">
+                            <td>{{a[0]}}</td>
+                            <td>{{a[1]}}</td>
+                            <td>{{a[2]}}</td>
+                            <td>{{a[3]}}</td>
+                            <td>{{a[4]}}</td>
+                            <td>{{a[5]}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">Activos NO corrientes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let a of anc">
+                            <td>{{a[0]}}</td>
+                            <td>{{a[1]}}</td>
+                            <td>{{a[2]}}</td>
+                            <td>{{a[3]}}</td>
+                            <td>{{a[4]}}</td>
+                            <td>{{a[5]}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">Pasivos NO corrientes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let a of pnc">
+                            <td>{{a[0]}}</td>
+                            <td>{{a[1]}}</td>
+                            <td>{{a[2]}}</td>
+                            <td>{{a[3]}}</td>
+                            <td>{{a[4]}}</td>
+                            <td>{{a[5]}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">Otros activos</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let a of oa">
+                            <td>{{a[0]}}</td>
+                            <td>{{a[1]}}</td>
+                            <td>{{a[2]}}</td>
+                            <td>{{a[3]}}</td>
+                            <td>{{a[4]}}</td>
+                            <td>{{a[5]}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">Otros Pasivos</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let a of op">
+                            <td>{{a[0]}}</td>
+                            <td>{{a[1]}}</td>
+                            <td>{{a[2]}}</td>
+                            <td>{{a[3]}}</td>
+                            <td>{{a[4]}}</td>
+                            <td>{{a[5]}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">Otros patrimonios</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let a of opat">
+                            <td>{{a[0]}}</td>
+                            <td>{{a[1]}}</td>
+                            <td>{{a[2]}}</td>
+                            <td>{{a[3]}}</td>
+                            <td>{{a[4]}}</td>
+                            <td>{{a[5]}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col" *ngIf="graf">
+            <div *ngIf="ap.length > 1">
+                <div>
+                    <div>
+                        <h2>Capital</h2>
+                    </div>
+                    <div style="display: block">
+                        <canvas width="400" height="150" baseChart [datasets]="barChartCapitalData" [labels]="barChartCapital" [options]="barChartOptions" [legend]="barChartLegend" [chartType]="barChartType">
+                    </canvas>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="ac.length > 1">
+                <div>
+                    <div>
+                        <h2>Activos corrientes</h2>
+                    </div>
+                    <div style="display: block">
+                        <canvas width="400" height="150" baseChart [datasets]="barChartacData" [labels]="barChartac" [options]="barChartOptions" [legend]="barChartLegend" [chartType]="barChartType">
+                    </canvas>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="pc.length > 1">
+                <div>
+                    <div>
+                        <h2>Pasivos corrientes</h2>
+                    </div>
+                    <div style="display: block">
+                        <canvas width="400" height="150" baseChart [datasets]="barChartpcData" [labels]="barChartpc" [options]="barChartOptions" [legend]="barChartLegend" [chartType]="barChartType">
+                    </canvas>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="anc.length > 1">
+                <div>
+                    <div>
+                        <h2>Activos NO corrientes</h2>
+                    </div>
+                    <div style="display: block">
+                        <canvas width="400" height="150" baseChart [datasets]="barChartancData" [labels]="barChartanc" [options]="barChartOptions" [legend]="barChartLegend" [chartType]="barChartType">
+                    </canvas>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="pnc.length > 1">
+                <div>
+                    <div>
+                        <h2>Pasivos NO corrientes</h2>
+                    </div>
+                    <div style="display: block">
+                        <canvas width="400" height="150" baseChart [datasets]="barChartpncData" [labels]="barChartpnc" [options]="barChartOptions" [legend]="barChartLegend" [chartType]="barChartType">
+                    </canvas>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="oa.length > 1">
+                <div>
+                    <div>
+                        <h2>Otros activos</h2>
+                    </div>
+                    <div style="display: block">
+                        <canvas width="400" height="150" baseChart [datasets]="barChartoaData" [labels]="barChartoa" [options]="barChartOptions" [legend]="barChartLegend" [chartType]="barChartType">
+                    </canvas>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="op.length > 1">
+                <div>
+                    <div>
+                        <h2>Otros pasivos</h2>
+                    </div>
+                    <div style="display: block">
+                        <canvas width="400" height="150" baseChart [datasets]="barChartopData" [labels]="barChartop" [options]="barChartOptions" [legend]="barChartLegend" [chartType]="barChartType">
+                    </canvas>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="opat.length > 1">
+                <div>
+                    <div>
+                        <h2>Otros patrimonios</h2>
+                    </div>
+                    <div style="display: block">
+                        <canvas width="400" height="150" baseChart [datasets]="barChartopatData" [labels]="barChartopat" [options]="barChartOptions" [legend]="barChartLegend" [chartType]="barChartType">
+                    </canvas>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Modal GP -->
+<div class="modal fade" id="filtermodal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Seleccione el filtro que desea comparar:</h5>
+            </div>
+            <div class="modal-body">
+                <div class="row" *ngIf="filter1">
+                    <div class="col-md-12">
+                        <div class="d-flex justify-content-center">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1" (click)="changeFilter('month')" [disabled]="chmonth">
+                                <label class="form-check-label" for="inlineCheckbox1">Meses</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2" (click)="changeFilter('year')" [disabled]="chyear">
+                                <label class="form-check-label" for="inlineCheckbox2">Años</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" *ngIf="filter2">
+                    <div class="col-md-12">
+                        <div class="d-flex justify-content-center">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1" (click)="changeFilter('month')" [disabled]="chmonth">
+                                <label class="form-check-label" for="inlineCheckbox1">Meses</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2" (click)="changeFilter('year')" [disabled]="chyear">
+                                <label class="form-check-label" for="inlineCheckbox2">Años</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <form class="p-3" *ngIf="monthfilter">
+                    <div class="d-flex justify-content-center">
+                        <div class="mb-3" *ngIf="divm1">
+                            <label class="form-label">Seleccione el mes que desea:</label>
+                            <form>
+                                <dp-month-calendar [(ngModel)]="dateObj1" theme="dp-material" (onSelect)="changeValue(dateObj1)" [config]="config" [ngModelOptions]="{standalone: true}"></dp-month-calendar>
+                            </form>
+                        </div>
+                        <div class="mb-3" *ngIf="divm2">
+                            <label class="form-label">Seleccione el mes que desea:</label>
+                            <form>
+                                <dp-month-calendar [(ngModel)]="dateObj2" theme="dp-material" (onSelect)="changeValue(dateObj2)" [config]="config" [ngModelOptions]="{standalone: true}"></dp-month-calendar>
+                            </form>
+                        </div>
+                        <div class="mb-3" *ngIf="divm3">
+                            <label class="form-label">Seleccione el mes que desea:</label>
+                            <form>
+                                <dp-month-calendar [(ngModel)]="dateObj3" theme="dp-material" (onSelect)="changeValue(dateObj3)" [config]="config" [ngModelOptions]="{standalone: true}"></dp-month-calendar>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="d-grid gap-2 col-6 mx-auto">
+                        <button class="btn btn-primary" type="button" id="button" (click)="addMonth()">Agregar</button>
+                    </div>
+                </form>
+                <form class="p-3" *ngIf="yearfilter">
+                    <div class="d-flex justify-content-center">
+                        <div class="mb-3">
+                            <label for="year" class="form-label">Seleccione un año:</label>
+                            <input id="year" type="number" min="1990" max="2099" step="1" name="year" class="form-control" [(ngModel)]="year" aria-describedby="emailHelp">
+                        </div>
+                    </div>
+                    <div class="d-grid gap-2 col-6 mx-auto">
+                        <button class="btn btn-primary" type="button" id="button" (click)="addYear()">Agregar</button>
+                    </div>
+                </form>
+                <div class="row p-2" *ngIf="showerror">
+                    <div class="col-md-12">
+                        <div class="alert alert-dismissable alert-warning">
+                            <h4>
+                                Error!
+                            </h4> <strong>Atención! {{errormessage}}</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="cleanValues()" *ngIf="buttoncan" id="button">Cancelar</button>
+
+                <button type="button" class="btn btn-primary" *ngIf="buttonreg" id="button" data-bs-dismiss="modal" (click)="getBGC()">Solicitar</button>
+            </div>
+        </div>
+    </div>
+</div>

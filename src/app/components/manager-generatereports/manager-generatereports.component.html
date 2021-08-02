@@ -1,0 +1,103 @@
+<app-manager-navbar></app-manager-navbar>
+
+
+<div class="d-flex justify-content-center" id="loadinginit" *ngIf="loading">
+    <div class="col-3 text-center ">
+        <img class="img-fluid" src="./assets/gifs/loading.gif" alt="">
+        <p class="loaderText">{{loadingmessage}}</p>
+    </div>
+</div>
+
+<div class="container-fluid p-5" *ngIf="showf">
+    <div class="row border" id="row">
+        <div class="col m-3">
+            <div class="row" *ngIf="noFE">
+                <div class="col">
+                    <h3 class="text-start" id="title">Reporte autogenerado: {{description}}</h3>
+                </div>
+                <div class="col">
+                    <button class="btn btn-primary float-end m-2 " type="button" id="button" (click)="cancelReport()">Reportar</button>
+                    <button class="btn btn-primary  float-end m-2 " type="button" id="button">Cancelar</button>
+                    <button class="btn btn-primary float-end m-2 " type="button" id="button" (click)="sendReport('Finalizado')"> Enviar </button>
+                </div>
+            </div>
+            <div class="row" *ngIf="FE">
+                <div class="col">
+                    <h4 class="text-start" id="title">Reporte autogenerado: {{description}}</h4>
+                </div>
+                <div class="col">
+                    <button class="btn btn-primary float-end m-2 " type="button" id="button" (click)="cancelReport()">Reportar</button>
+                    <button class="btn btn-primary  float-end m-2 " type="button" id="button">Cancelar</button>
+                    <button class="btn btn-primary float-end m-2 " type="button" id="button" (click)="sendReport('Finalizado')" *ngIf="sendFE"> Enviar </button>
+                    <button class="btn btn-primary float-end m-2 " type="button" id="button" data-bs-toggle="modal" data-bs-target="#accountsModal"> Seleccionar cuentas</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="row" *ngIf="NoPP">
+        <div class="col ratio ratio-1x1" *ngIf="showPDF">
+            <iframe id="ifrm" [src]="source" type="application/pdf"></iframe>
+        </div>
+    </div>
+    <div class="row p-5" *ngIf="PP">
+        <div class="col d-flex justify-content-center">
+            <form id="form" class="border m-2">
+                <div class="mb-3 m-4">
+                    <h4 class="text-center">Carga de reporte personalizado</h4>
+                </div>
+                <div class="mb-3 m-4 border">
+                    <div class="custom-file m-3">
+                        <input id="fileup" type="file" accept=".pdf" (change)="onFileChange($event.target)">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="accountsModal" tabindex="-1" aria-labelledby="accountsModalLabel" aria-hidden="true">
+    <div class="modal-dialog  modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="accountsModalLabel">Cuentas</h5>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <div class="row">
+                        <div class="col">
+                            <table class="table">
+                                <thead>
+                                    <tr class="text-center">
+                                        <th scope="col">Agregar</th>
+                                        <th scope="col">Código</th>
+                                        <th scope="col">Cuenta</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="text-center" *ngFor="let a of existingaccounts |paginate :{id:'coll',itemsPerPage:5,currentPage:p};">
+                                        <td>
+                                            <input class="form-check-input" [checked]="accounts.includes(a.id_account)" type="checkbox" value="" id="flexCheckDefault" (click)="addAccount(a.id_account)">
+                                        </td>
+                                        <td>{{a.account_code}}</td>
+                                        <td>{{a.account_name}}</td>
+                                    </tr>
+                                </tbody>
+                                <pagination-controls id='coll' (pageChange)="p = $event" previousLabel="Anterior" nextLabel="Siguiente" [autoHide]="true"></pagination-controls>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="cleanList()">Cerrar</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" *ngIf="NoEF" (click)="getFE()">Solicitar reporte</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" *ngIf="EF" (click)="getEF()">Solicitar estado financiero</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,85 @@
+<app-main-navbar></app-main-navbar>
+
+
+<div class="d-flex justify-content-center" id="loadinginit" *ngIf="loadinginit">
+    <div class="col-3 text-center ">
+        <img class="img-fluid" src="./assets/gifs/loading.gif" alt="">
+        <p class="loaderText">Cargando...</p>
+    </div>
+</div>
+
+<div class="container" *ngIf="showregister">
+    <div class="row">
+        <div class="col-md-6 offset-md-3 p-5 ">
+            <div id="mainc" class="col-md-12 p-2 border">
+                <div class="col-md-12 text-center">
+                    <h1>Formulario nuevo cliente</h1>
+                </div>
+                <form class="p-3 m-2">
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Nombre del cliente</label>
+                        <input name="name" class="form-control" [(ngModel)]="client.clients_name" aria-describedby="ColName" placeholder="Ingrese el nombre del cliente">
+                    </div>
+                    <div class="mb-3">
+                        <label for="number" class="form-label">Número de teléfono</label>
+                        <input name="number" class="form-control" [(ngModel)]="client.number_phone" aria-describedby="ColLastname" placeholder="Ingrese el número de teléfono">
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input name="email" class="form-control" type="email" [(ngModel)]="client.email" aria-describedby="ColEmail" placeholder="Ingrese el email del cliente">
+                    </div>
+                    <div class="mb-3">
+                        <label for="agent" class="form-label">Contacto</label>
+                        <input name="agent" class="form-control" [(ngModel)]="client.agent" aria-describedby="ColPass" placeholder="Ingrese el nombre de un agente de contacto">
+                    </div>
+                    <div class="mb-3">
+                        <div>
+                            <label for="form-check form-check-inline" class="form-label">Habilitar crédito:</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1" (click)="enableCredit()" [checked]="client.credit">
+                            <label class="form-check-label" for="inlineCheckbox1">Marque la casilla para habilitar el crédito del cliente</label>
+                        </div>
+                    </div>
+                    <div class="mb-3" *ngIf="showcredit || client.credit">
+                        <label for="credit_days" class="form-label">Cantidad de días:</label>
+                        <input name="credit_days" class="form-control" [(ngModel)]="client.credit_days" aria-describedby="ColPass" placeholder="Ingrese la cantidad de días habilitados">
+                    </div>
+                    <div class="mb-3">
+                        <div class="col-md-12 text-center p-2" *ngIf="showerror">
+                            <div class="col-md-12">
+                                <div class="alert alert-dismissable alert-warning">
+                                    <h4>
+                                        Error!
+                                    </h4> <strong>Atención! {{messageerror}} </strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 text-center" *ngIf="register">
+                        <div class="d-grid gap-2 col-4 mx-auto m-3">
+                            <button type="button" id="button" class="btn btn-block  btn-danger" (click)="registerClient()">Registrar</button>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 text-center" *ngIf="update">
+                        <div class="d-grid gap-2 col-4 mx-auto m-3">
+                            <button type="button" id="button" class="btn btn-block  btn-danger" (click)="updateClient()">Actualizar</button>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<div class="d-flex justify-content-center " id="secondcon" *ngIf="loading">
+    <div class="col-3 text-center ">
+        <img class="img-fluid" src="./assets/gifs/loading.gif" alt="">
+        <p class="loaderText">Procesando transacción...</p>
+    </div>
+</div>

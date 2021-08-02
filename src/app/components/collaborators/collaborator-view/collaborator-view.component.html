@@ -1,0 +1,63 @@
+<app-main-navbar></app-main-navbar>
+
+<div class="d-flex justify-content-center" id="loadinginit" *ngIf="loadinginit">
+    <div class="col-3 text-center ">
+        <img class="img-fluid" src="./assets/gifs/loading.gif" alt="">
+        <p class="loaderText">Cargando información...</p>
+    </div>
+</div>
+
+
+<div class="container-xl" *ngIf="showtable">
+    <div class="table-title">
+        <div class="row">
+            <div class="col-md-6">
+                <h2><b>Colaboradores</b></h2>
+            </div>
+            <div class="col-md-6">
+                <a href="/collaboratorform" class="btn"><i class="material-icons">&#xE147;</i> <span>Nuevo Colaborador</span></a>
+            </div>
+        </div>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Identificación</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Apellido</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Número de teléfono</th>
+                    <th scope="col">Rol</th>
+                    <th scope="col">Permisos</th>
+                    <th scope="col">Acciones</th>
+                </tr>
+            </thead>
+            <tbody *ngIf="record">
+                <tr *ngFor="let col of newcollaborators">
+                    <td>{{col.identification}}</td>
+                    <td>{{col.collaborator_name}}</td>
+                    <td>{{col.collaborator_lastname}}</td>
+                    <td>{{col.email}}</td>
+                    <td>{{col.number_phone}}</td>
+                    <td>{{col.rol_name}}</td>
+                    <td>
+                        <ul *ngFor='let permission of col.permissions'>
+                            <li>{{permission.permission_name}}</li>
+                        </ul>
+                    </td>
+
+                    <td>
+                        <a [routerLink]="['/collaboratorform/edit', col.id_collaborators]" class="edit"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+
+                        <a (click)="getdeleteCol(col.id_collaborators)" type="button" class="delete"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="d-flex justify-content-center" id="norecord" *ngIf="norecord">
+            Actualmente no se cuenta con colaboradores registra
+        </div>
+    </div>
+
+</div>

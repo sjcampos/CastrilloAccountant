@@ -1,0 +1,47 @@
+.form-label,
+.loaderText,
+.message,
+.message2 {
+    font-weight: bold;
+}
+
+.loaderText,
+.message,
+.message2 {
+    color: #0096d2;
+}
+
+#loadinginit {
+    padding-top: 13%;
+}
+
+#button {
+    border-radius: 50px;
+    background-color: #0096d2;
+    border-color: #0096d2;
+}
+
+#newbutton {
+    background-color: #0096d2;
+    border-color: #0096d2;
+}
+
+#soncon {
+    padding-top: 3%;
+}
+
+#row {
+    margin: 2%;
+    border: 1px solid rgba(0, 0, 0, .2);
+    border-radius: 1.1rem;
+    outline: 0;
+}
+
+#detail {
+    margin-left: 40%;
+}
+
+.message {
+    margin: 12%;
+    padding-left: 19%;
+}

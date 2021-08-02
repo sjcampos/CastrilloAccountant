@@ -1,0 +1,52 @@
+<app-main-navbar></app-main-navbar>
+
+
+<div class="d-flex justify-content-center" id="loadinginit" *ngIf="loadinginit">
+    <div class="col-3 text-center ">
+        <img class="img-fluid" src="./assets/gifs/loading.gif" alt="">
+        <p class="loaderText">Cargando información...</p>
+    </div>
+</div>
+
+<div class="container-xl" *ngIf="showtable">
+    <div class="table-title">
+        <div class="row">
+            <div class="col-sm-6">
+                <h2><b>Proveedores</b></h2>
+            </div>
+            <div class="col-sm-6">
+                <a [routerLink]="['/providerform', slug]" class="btn"><i class="material-icons">&#xE147;</i> <span>Nuevo Proveedor</span></a>
+            </div>
+        </div>
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Empresa</th>
+                <th scope="col">Teléfono</th>
+                <th scope="col">Email</th>
+                <th scope="col">Agente</th>
+                <th scope="col">Crédito</th>
+                <th scope="col">Acciones</th>
+            </tr>
+        </thead>
+        <tbody *ngIf="record">
+            <tr *ngFor="let p of providers">
+                <th scope="row">{{p.provider_name}}</th>
+                <td>{{p.number_phone}}</td>
+                <td>{{p.email}}</td>
+                <td>{{p.agent}}</td>
+                <td>
+                    <input [checked]="p.credit" class="form-check-input" type="checkbox" value="" id="flexCheckChecked" disabled>
+                </td>
+                <td>
+                    <a [routerLink]="['/providerform/edit/',p.id_provider, slug]" class="edit"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                    <a type="button" (click)="deleteProvider(p.id_provider)" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="d-flex justify-content-center" id="norecord" *ngIf="norecord">
+        Actualmente no se cuenta con empresas registradas
+    </div>
+</div>

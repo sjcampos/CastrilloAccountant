@@ -1,0 +1,16 @@
+#button {
+    border-radius: 50px;
+    background-color: #0096d2;
+    border-color: #0096d2;
+    margin-top: 1%;
+}
+
+.loaderText,
+#norecord {
+    font-weight: bold;
+    color: #0096d2;
+}
+
+#loading {
+    padding-top: 13%;
+}

@@ -1,0 +1,76 @@
+<div *ngIf="manager">
+    <app-manager-navbar></app-manager-navbar>
+</div>
+<div *ngIf="coll">
+    <app-collaborator-navbar></app-collaborator-navbar>
+</div>
+
+<div class="d-flex justify-content-center" id="loadinginit" *ngIf="divloading">
+    <div class="col-3 text-center ">
+        <img class="img-fluid" src="./assets/gifs/loading.gif" alt="">
+        <p class="loaderText">{{loadingMessage}}</p>
+    </div>
+</div>
+
+<div class="container p-3" *ngIf="divreg">
+    <div class="row border">
+        <div class="row">
+            <div class="col m-3">
+                <div class="row">
+                    <div class="col-md-4">
+                        <h3 class="text-start" id="title">Clientes por empresa</h3>
+                    </div>
+                    <div class="col-md-4 p-2">
+
+                        <select class="form-select" id="company" [(ngModel)]="selectcompany" (ngModelChange)="changeCompany($event)" name="company" aria-label="Default select example">
+                            <option [ngValue]="undefined" selected>Seleccione una compañía</option>
+                            <option *ngFor="let c of companies;"  [ngValue]="c">{{c.company_name}}</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <button class="btn btn-primary float-end m-2 " type="button" id="button" *ngIf="buttonlookUp" (click)="getClients()">Buscar</button>
+                        <button class="btn btn-primary float-end m-2 " type="button" id="button" *ngIf="buttondownload" (click)="onClickDownloadPdf()">Descargar PDF</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row p-3">
+        <div *ngIf="divdata" class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Empresa</th>
+                        <th scope="col">Teléfono</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Agente</th>
+                        <th scope="col">Crédito</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let c of clients">
+                        <th scope="row">{{c.clients_name}}</th>
+                        <td>{{c.number_phone}}</td>
+                        <td>{{c.email}}</td>
+                        <td>{{c.agent}}</td>
+                        <td>
+                            <input [checked]="c.credit" class="form-check-input" type="checkbox" value="" id="flexCheckChecked" disabled>
+                        </td>
+
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="p-3" *ngIf="divnodata">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="d-flex justify-content-center">
+                            <img src="../assets/fondo/fondo.png" class="img-fluid" alt="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,59 @@
+<app-main-navbar></app-main-navbar>
+
+
+<div class="d-flex justify-content-center" id="loadinginit" *ngIf="loadinginit">
+    <div class="col-3 text-center ">
+        <img class="img-fluid" src="./assets/gifs/loading.gif" alt="">
+        <p class="loaderText">Cargando información...</p>
+    </div>
+</div>
+
+<div class="container-xl" *ngIf="showtable">
+    <div class="table-title">
+        <div class="row">
+            <div class="col-sm-6">
+                <h2><b>Empresas</b></h2>
+            </div>
+            <div class="col-sm-6">
+                <a href="/companyform" class="btn"><i class="material-icons">&#xE147;</i> <span>Nueva Empresa</span></a>
+            </div>
+        </div>
+    </div>
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr class="text-center">
+                    <th scope="col">Empresa</th>
+                    <th scope="col">Encargado</th>
+                    <th scope="col">Teléfono</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Colaboradores</th>
+                    <th scope="col">Cuentas</th>
+                    <th scope="col">Proveedores</th>
+                    <th scope="col">Clientes</th>
+                    <th scope="col">Opciones</th>
+                </tr>
+            </thead>
+            <tbody *ngIf="record">
+                <tr class="text-center" *ngFor="let company of  companies">
+                    <th scope="row">{{company.company_name}}</th>
+                    <td>{{company.agent}}</td>
+                    <td>{{company.number_phone}}</td>
+                    <td>{{company.main_email}}</td>
+                    <td><a [routerLink]="['/companycollaborators', company.tenant]" class="data">Colaboradores</a></td>
+                    <td><a [routerLink]="['/accountslist', company.slug]" class="data">Cuentas</a></td>
+                    <td><a [routerLink]="['/providerlist', company.slug]" class="data">Proveedores</a></td>
+                    <td><a [routerLink]="['/clientslist', company.slug]" class="data">Clientes</a></td>
+                    <td>
+                        <a [routerLink]="['/companyform/edit', company.id_company]" class="edit"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                        <a type="button" (click)="deleteComp(company.id_company)" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="d-flex justify-content-center" id="norecord" *ngIf="norecord">
+            Actualmente no se cuenta con empresas registradas
+        </div>
+    </div>
+
+</div>

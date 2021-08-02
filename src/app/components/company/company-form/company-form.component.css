@@ -1,0 +1,37 @@
+#rounded {
+    border: 1px solid rgba(0, 0, 0, .2);
+    border-radius: 1.1rem;
+    outline: 0;
+}
+
+#maincon {
+    padding-top: 65px;
+    padding-bottom: 30px;
+}
+
+#secondcon {
+    padding-top: 13%;
+}
+
+.form-label,
+.loaderText {
+    font-weight: bold;
+}
+
+.loaderText {
+    color: #0096d2;
+}
+
+h1 {
+    padding-bottom: 20px;
+}
+
+#button {
+    border-radius: 50px;
+    background-color: #0096d2;
+    border-color: #0096d2;
+}
+
+#loadinginit {
+    padding: 13%;
+}

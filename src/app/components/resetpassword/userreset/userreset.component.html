@@ -1,0 +1,95 @@
+<nav id="navbar" class="navbar navbar-expand-lg navbar-light ">
+    <div class="container-fluid">
+        <a class="navbar-brand text-center" id="logo" href="#">
+            <img src="./assets/logos/logo.png" alt="" class="img-fluid"></a>
+    </div>
+</nav>
+
+<div class="d-flex justify-content-center" id="loadinginit" *ngIf="loading">
+    <div class="col-3 text-center ">
+        <img class="img-fluid" src="./assets/gifs/loading.gif" alt="">
+        <p class="loaderText">{{loadingmessage}}</p>
+    </div>
+</div>
+
+<div id="main" class="container p-10" *ngIf="showform">
+    <div class="row">
+        <div class="col-md-5 mx-auto ">
+            <div id="first">
+                <div class="myform form ">
+                    <div class="logo mb-3">
+                        <div class="col-md-12 text-center">
+                            <h1 class="logo"><b>Cambio de contraseña</b></h1>
+                        </div>
+                    </div>
+                    <form name="login">
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Contraseña</label>
+                            <input type="password" name="password" id="password" class="form-control" [(ngModel)]="password" aria-describedby="emailHelp" placeholder="Ingrese su contraseña">
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Repita su contraseña</label>
+                            <input type="password" name="password" id="password" class="form-control" [(ngModel)]="respassword" aria-describedby="emailHelp" placeholder="Ingrese nuevamente su contraseña">
+                        </div>
+                        <div class="col-md-12 text-center">
+                            <button type="button" id="button" class="btn btn-block  btn-danger" (click)="resetPassword()">Cambiar contraseña</button>
+                        </div>
+                    </form>
+                    <div class="row p-3" *ngIf="showerror">
+                        <div class="col-md-12">
+                            <div class="alert alert-dismissable alert-warning">
+                                <h4>
+                                    Error!
+                                </h4> <strong>Atención! {{messageerror}}</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="main" class="container p-10" *ngIf="okmessage">
+    <div class="row">
+        <div class="col-md-5 mx-auto ">
+            <div id="first">
+                <div class="myform form ">
+                    <div class="logo mb-3">
+                        <div class="col-md-12 text-center">
+                            <h2 class="logo"><b>Contraseña actualizada de manera exitosa</b></h2>
+                        </div>
+                    </div>
+                    <form name="login">
+                        <div class="col-md-12 text-center">
+                            <button type="button" id="button" class="btn btn-block  btn-danger" (click)="continue()"><i class="fas fa-arrow-right"></i> Continuar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="main" class="container p-10" *ngIf="errorredirect">
+    <div class="row">
+        <div class="col-md-5 mx-auto ">
+            <div id="first">
+                <div class="myform form ">
+                    <div class="logo mb-3">
+                        <div class="col-md-12 text-center">
+                            <h2 class="logo"><b>Ha ocurrido un error, vuelva a intentarlo por favor</b></h2>
+                        </div>
+                    </div>
+                    <form name="login">
+                        <div class="col-md-12 text-center">
+                            <button type="button" id="button" class="btn btn-block  btn-danger" (click)="backlogin()"><i class="fas fa-arrow-right"></i>Aceptar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,61 @@
+<app-main-navbar></app-main-navbar>
+
+<div class="d-flex justify-content-center" id="loadinginit" *ngIf="loading">
+    <div class="col-3 text-center ">
+        <img class="img-fluid" src="./assets/gifs/loading.gif" alt="">
+        <p class="loaderText">Cargando información...</p>
+    </div>
+</div>
+
+<div class="container-xl" id="maincon" *ngIf="showtable">
+    <div class="table-title">
+        <div class="row">
+            <div class="col-md-6">
+                <h2><b>Empresas</b></h2>
+            </div>
+            <div class="col-md-6 ">
+                <input class="form-control " type="text" name="company_name" [(ngModel)]="company_name" (ngModelChange)="searchCompany()" placeholder="Ingrese el nombre de la compañía a buscar">
+            </div>
+        </div>
+    </div>
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr class="text-center">
+                    <th scope="col">Empresa</th>
+                    <th scope="col">Encargado</th>
+                    <th scope="col">Teléfono</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Cambiar contraseña</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="text-center" *ngFor="let company of  companies |paginate :{id:'compa',itemsPerPage:5,currentPage:p};">
+                    <th scope="row">{{company.company_name}}</th>
+                    <td>{{company.agent}}</td>
+                    <td>{{company.number_phone}}</td>
+                    <td>{{company.main_email}}</td>
+                    <td>
+                        <a (click)="resetPassword(company.id_company)" class="edit">Cambiar <i class="fas fa-arrow-circle-right"></i></a>
+                    </td>
+                </tr>
+            </tbody>
+            <pagination-controls id='compa' (pageChange)="p = $event" previousLabel="Anterior" nextLabel="Siguiente" [autoHide]="true"></pagination-controls>
+        </table>
+    </div>
+
+</div>
+
+<div class="d-flex justify-content-center" id="loadinginit" *ngIf="loadinginit">
+    <div class="col-3 text-center ">
+        <img class="img-fluid" src="./assets/gifs/loading.gif" alt="">
+        <p class="loaderText">Realizando cambio de contraseña...</p>
+    </div>
+</div>
+
+<div class="d-flex justify-content-center" id="loadinginit" *ngIf="showmessage">
+    <div class="col-3 text-center" id="okmessage">
+        <p class="loaderText m-5">{{message}}</p>
+        <button type="button" id="button" class="btn btn-primary m-3" (click)="resetview()">Aceptar</button>
+    </div>
+</div>

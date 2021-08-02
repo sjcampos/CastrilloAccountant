@@ -1,0 +1,187 @@
+<app-main-navbar></app-main-navbar>
+
+<div class="d-flex justify-content-center" id="loadinginit" *ngIf="loadinginit">
+    <div class="col-3 text-center ">
+        <img class="img-fluid" src="./assets/gifs/loading.gif" alt="">
+        <p class="loaderText">Cargando información...</p>
+    </div>
+</div>
+
+
+<div class="container-fluid p-5" *ngIf="showtable">
+    <div class="row" id="row">
+        <div class="col-md-6" id="soncon">
+            <div class="col-md-12">
+                <h2 class="text-center">
+                    <p>Búsqueda avanzada</p>
+                </h2>
+            </div>
+            <div>
+                <form>
+                    <div class="mb-3" *ngIf="type1">
+                        <label for="" class="form-label">Seleccione una fecha para visualizar el historial:</label>
+                        <form>
+                            <label class=" form-label m-2" for="bill">Fecha:</label>
+                            <input type="date" id="bill" name="bill" (change)="dateObj = $event.target">
+                        </form>
+                    </div>
+                    <div class="mb-3" *ngIf="type2">
+                        <label for="" class="form-label">Seleccione una fecha para visualizar el historial:</label>
+                        <form>
+                            <label class=" form-label m-2" for="bill">Fecha:</label>
+                            <input type="date" id="bill" name="bill" (change)="dateObj = $event.target">
+                        </form>
+                    </div>
+                    <div class="mb-3" *ngIf="type1">
+                        <div>
+                            <label for="form-check form-check-inline" class="form-label">Tipo de cuenta:</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1" (click)="changeUser('clientes')" [disabled]="chclient">
+                            <label class="form-check-label" for="inlineCheckbox1">Clientes</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2" (click)="changeUser('collabs')" [disabled]="chcollab">
+                            <label class="form-check-label" for="inlineCheckbox2">Colaboradores</label>
+                        </div>
+                    </div>
+                    <div class="mb-3" *ngIf="type2">
+                        <div>
+                            <label for="form-check form-check-inline" class="form-label">Tipo de cuenta:</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1" (click)="changeUser('clientes')" [disabled]="chclient">
+                            <label class="form-check-label" for="inlineCheckbox1">Clientes</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2" (click)="changeUser('collabs')" [disabled]="chcollab">
+                            <label class="form-check-label" for="inlineCheckbox2">Colaboradores</label>
+                        </div>
+                    </div>
+                    <div class="mb-3" *ngIf="showclients">
+                        <label for="" class="form-label">Clientes:</label>
+                        <select id="reload" class="form-select" aria-label="Default select example" [(ngModel)]=" client" (ngModelChange)="changeClient($event)" name="client">
+                            <option [ngValue]="undefined" selected>Despliegue el menu para escoger una empresa</option>
+                            <option *ngFor="let fat of selectclients;"  [ngValue]="fat">{{fat.company_name}}</option>
+                        </select>
+                    </div>
+                    <div class="mb-3" *ngIf="showcollabs">
+                        <label for="" class="form-label">Colaboradores:</label>
+                        <select id="reload" class="form-select" aria-label="Default select example" [(ngModel)]="collab" (ngModelChange)="changeCollab($event)" name="collab">
+                            <option [ngValue]="undefined" selected>Despliegue el menu para escoger un colaborador</option>
+                            <option *ngFor="let fat of  selectcollabs;"  [ngValue]="fat">{{fat.collaborator_name +" "+ fat.collaborator_lastname}}</option>
+                        </select>
+                    </div>
+                    <div class="mb-3" *ngIf="type1">
+                        <div>
+                            <label for="form-check form-check-inline" class="form-label">Tipo de actividades:</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1" (click)="registerActivity(1)">
+                            <label class="form-check-label" for="inlineCheckbox1">Login</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2" (click)="registerActivity(2)">
+                            <label class="form-check-label" for="inlineCheckbox2">Logout</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3" (click)="registerActivity(3)">
+                            <label class="form-check-label" for="inlineCheckbox3">Asientos</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox4" value="option4" (click)="registerActivity(4)">
+                            <label class="form-check-label" for="inlineCheckbox4">Descarga de reportes</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox5" value="option5" (click)="registerActivity(5)">
+                            <label class="form-check-label" for="inlineCheckbox5">Cambios de contraseñas</label>
+                        </div>
+                    </div>
+                    <div class="mb-3" *ngIf="type2">
+                        <div>
+                            <label for="form-check form-check-inline" class="form-label">Tipo de actividades:</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1" (click)="registerActivity(1)">
+                            <label class="form-check-label" for="inlineCheckbox1">Login</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2" (click)="registerActivity(2)">
+                            <label class="form-check-label" for="inlineCheckbox2">Logout</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3" (click)="registerActivity(3)">
+                            <label class="form-check-label" for="inlineCheckbox3">Asientos</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox4" value="option4" (click)="registerActivity(4)">
+                            <label class="form-check-label" for="inlineCheckbox4">Descarga de reportes</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox5" value="option5" (click)="registerActivity(5)">
+                            <label class="form-check-label" for="inlineCheckbox5">Cambios de contraseñas</label>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <div class="col-md-12 text-center p-2" *ngIf="showerror">
+                            <div class="col-md-12">
+                                <div class="alert alert-dismissable alert-warning">
+                                    <h4>
+                                        Error!
+                                    </h4> <strong>Atención! {{messageerror}}</strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 text-center">
+                        <div class="d-grid gap-2 col-4 mx-auto m-3">
+                            <button type="button" id="button" class="btn btn-block  btn-danger" (click)="getFilterActivities()">Filtrar</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-md-6 border-start" id="soncon">
+            <div class="row">
+                <div class="col-md-9">
+                    <div class="d-grid gap-2 d-md-block">
+                        <h4>Historial de actividades</h4>
+                        <a type="button" class="reload" id="reload" (click)="getInitalRecord('reload')"><i class="fas fa-sync-alt"></i>Recargar</a>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <button type="button" id="button" class="btn btn-block  btn-danger" (click)="onClickDownloadPdf()">Descargar PDF</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">Fecha</th>
+                            <th scope="col">Actividad</th>
+                            <th scope="col">Usuario</th>
+                            <th scope="col">Detalle</th>
+                        </tr>
+                    </thead>
+                    <tbody *ngIf="record">
+                        <tr *ngFor="let r of activityrecord |paginate :{id:'coll',itemsPerPage:6,currentPage:p};">
+                            <td>{{r.activity_date}}</td>
+                            <td>{{r.details}}</td>
+                            <td *ngIf="r.id_user.collaborators != undefined">{{r.id_user.collaborators[0].collaborator_name +" "+r.id_user.collaborators[0].collaborator_lastname}}</td>
+                            <td *ngIf="r.id_user.company != undefined">{{r.id_user.company[0].company_name}}</td>
+                            <td><a type="button" class="detail" id="detail" (click)="showDetails(r)"><i class="fas fa-info-circle"></i></a></td>
+                        </tr>
+                    </tbody>
+                    <pagination-controls id='coll' (pageChange)="p = $event" previousLabel="Anterior" nextLabel="Siguiente" [autoHide]="true"></pagination-controls>
+                </table>
+                <div class="d-flex justify-content-center" id="norecord" *ngIf="norecord">
+                    Actualmente no se cuenta con actividades registradas
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

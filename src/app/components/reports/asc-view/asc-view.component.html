@@ -1,0 +1,200 @@
+<div *ngIf="manager">
+    <app-manager-navbar></app-manager-navbar>
+</div>
+<div *ngIf="coll">
+    <app-collaborator-navbar></app-collaborator-navbar>
+</div>
+
+
+<div class="d-flex justify-content-center" id="loadinginit" *ngIf="divloading">
+    <div class="col-3 text-center ">
+        <img class="img-fluid" src="./assets/gifs/loading.gif" alt="">
+        <p class="loaderText">{{loadingMessage}}</p>
+    </div>
+</div>
+
+<div class="container p-3" *ngIf="divreg">
+    <div class="row border">
+        <div class="row">
+            <div class="col m-3">
+                <div class="row">
+                    <div class="col-md-4">
+                        <h3 class="text-start" id="title">Asientos contables por empresa</h3>
+                    </div>
+                    <div class="col-md-4 p-2">
+
+                        <select class="form-select" id="company" [(ngModel)]="selectcompany" (ngModelChange)="changeCompany($event)" name="company" aria-label="Default select example">
+                            <option [ngValue]="undefined" selected>Seleccione una compañía</option>
+                            <option *ngFor="let c of companies;"  [ngValue]="c">{{c.company_name}}</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <button class="btn btn-primary float-end m-2 " type="button" id="button" data-bs-toggle="modal" data-bs-target="#filtermodal" *ngIf="buttonfilter">Filtrar</button>
+                        <button class="btn btn-primary float-end m-2 " type="button" id="button" *ngIf="buttondownload" (click)="onClickDownloadPdf()">Descargar PDF</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row p-3">
+        <div class="row border" id="entry" *ngIf="divdata">
+            <div class="row">
+                <div class="col text-center">
+                    <h6>Código del asiento: {{entrycode}} </h6>
+                    <h6>Fecha de registro: {{entryregdate}} </h6>
+                    <h6>Fecha del asiento: {{entrydate}} </h6>
+                    <h6>Detalle: {{entrydetail}} </h6>
+                </div>
+            </div>
+            <div class="row">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr class="text-center">
+                                <th scope="col">Código</th>
+                                <th scope="col">Cuenta</th>
+                                <th scope="col">Debe</th>
+                                <th scope="col">Haber</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="text-center" *ngFor="let a of dataentry">
+                                <td>{{a.account_code}}</td>
+                                <td>{{a.account_name}}</td>
+                                <td *ngIf="a.pk == 40">{{a.amount}}</td>
+                                <td> </td>
+                                <td *ngIf="a.pk == 50">{{a.amount}}</td>
+                            </tr>
+                            <tr>
+                                <td>TOTAL</td>
+                                <td></td>
+                                <td class="text-center">{{totaldebe}}</td>
+                                <td class="text-center">{{totalhaber}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="d-grid gap-2 d-md-block">
+                        <button class="btn btn-primary" id="button" type="button" (click)="previousEntry()"><i class="fas fa-arrow-left"></i></button>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <button class="btn btn-primary me-md-2" id="button" type="button" (click)="nextEntry()"><i class="fas fa-arrow-right"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="p-3" *ngIf="divnodata">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="d-flex justify-content-center">
+                            <img src="../assets/fondo/fondo.png" class="img-fluid" alt="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal GP -->
+<div class="modal fade" id="filtermodal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Seleccione el tipo de filtro que desea:</h5>
+            </div>
+            <div class="modal-body">
+                <div class="row" *ngIf="divfilter1">
+                    <div class="col-md-12">
+                        <div class="d-flex justify-content-center">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1" (click)="changeFilter(1)" [disabled]="chdate">
+                                <label class="form-check-label" for="inlineCheckbox1">Fecha específica</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2" (click)="changeFilter(2)" [disabled]="chmonth">
+                                <label class="form-check-label" for="inlineCheckbox2">Mes</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3" (click)="changeFilter(3)" [disabled]="chyear">
+                                <label class="form-check-label" for="inlineCheckbox3">Año</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" *ngIf="divfilter2">
+                    <div class="col-md-12">
+                        <div class="col-md-12">
+                            <div class="d-flex justify-content-center">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1" (click)="changeFilter(1)" [disabled]="chdate">
+                                    <label class="form-check-label" for="inlineCheckbox1">Fecha específica</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2" (click)="changeFilter(2)" [disabled]="chmonth">
+                                    <label class="form-check-label" for="inlineCheckbox2">Mes</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3" (click)="changeFilter(3)" [disabled]="chyear">
+                                    <label class="form-check-label" for="inlineCheckbox3">Año</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <form class="p-3" *ngIf="divspecdate">
+                    <div class="d-flex justify-content-center">
+                        <div class="mb-3">
+                            <label class="form-label">Seleccione la fecha que desea:</label>
+                            <form class="justify-content-center">
+                                <input type="date" id="limit" name="limit" (change)="dateObj1 = $event.target">
+                            </form>
+                        </div>
+                    </div>
+                </form>
+                <form class="p-3" *ngIf="divyear">
+                    <div class="d-flex justify-content-center">
+                        <div class="mb-3">
+                            <label for="customRange1" class="form-label">Ingrese el año que desea:</label>
+                            <form class="justify-content-center">
+                                <input type="number" id="name" name="name" class="form-control" min="2015" max="2100" required [(ngModel)]="year">
+                            </form>
+
+                        </div>
+                    </div>
+                </form>
+                <form class="p-3" *ngIf="divmonth">
+                    <div class="d-flex justify-content-center">
+                        <div class="mb-3">
+                            <label class="form-label">Seleccione el mes que desea:</label>
+                            <form>
+                                <dp-month-calendar [(ngModel)]="dateObj2" theme="dp-material" (onSelect)="changeValue(dateObj2)" [ngModelOptions]="{standalone: true}"></dp-month-calendar>
+                            </form>
+                        </div>
+                    </div>
+                </form>
+                <div class="row p-2" *ngIf="showerror">
+                    <div class="col-md-12">
+                        <div class="alert alert-dismissable alert-warning">
+                            <h4>
+                                Error!
+                            </h4> <strong>Atención! {{messageerror}}</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="button" (click)="cleanFilter()">Cancelar</button>
+
+                <button type="button" class="btn btn-primary" id="button" data-bs-dismiss="modal" (click)="getEntries()">Solicitar</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,217 @@
+<app-manager-navbar></app-manager-navbar>
+
+
+<div class="d-flex justify-content-center" id="loadinginit" *ngIf="loadinginit">
+    <div class="col-3 text-center ">
+        <img class="img-fluid" src="./assets/gifs/loading.gif" alt="">
+        <p class="loaderText">Cargando información...</p>
+    </div>
+</div>
+
+<div class="container-fluid p-5" *ngIf="showtable">
+    <div class="row border">
+        <div class="col">
+            <div class="row p-2">
+                <div class="col-md-9">
+                    <div class="d-grid gap-2 d-md-block">
+                        <h4>Solicitud de reportes</h4>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <a type="button" class="reload" id="reload" (click)="getReports()"><i class="fas fa-sync-alt"></i>Recargar</a>
+                    </div>
+                </div>
+            </div>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr class="text-center">
+                            <th scope="col">Compañía</th>
+                            <th scope="col">Descripción</th>
+                            <th scope="col">Acciones</th>
+
+                        </tr>
+                    </thead>
+                    <tbody *ngIf="recordreport">
+                        <tr class="text-center" *ngFor="let r of reports|paginate :{id:'reports',itemsPerPage:4,currentPage:pr};">
+                            <th scope="row">{{r.company_name}}</th>
+                            <td>{{r.description}}</td>
+                            <td>
+                                <a [routerLink]="['/generatereport', r.slug,r.description,r.date_application,r.id_application]" class="edit"><i class="fas fa-file-invoice"></i></a>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <pagination-controls id='reports' (pageChange)="pr = $event" previousLabel="Anterior" nextLabel="Siguiente" [autoHide]="true"></pagination-controls>
+                </table>
+                <div class="d-flex justify-content-center" id="norecord" *ngIf="norecordreport">
+                    <label class="message2">Actualmente no se cuenta con solicitudes de reportes</label>
+                </div>
+            </div>
+        </div>
+        <div class="col border-start">
+            <div class="row p-2">
+                <div class="col-md-9">
+                    <div class="d-grid gap-2 d-md-block">
+                        <h4>Solicitud de reuniones</h4>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <a type="button" class="reload" id="reload" (click)="getMeetings()"><i class="fas fa-sync-alt"></i>Recargar</a>
+                    </div>
+                </div>
+            </div>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr class="text-center">
+                            <th scope="col">Descripción</th>
+                            <th scope="col">Fecha</th>
+                            <th scope="col">Hora</th>
+                            <th scope="col">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody *ngIf="meeting">
+                        <tr class="text-center" *ngFor="let r of meetings|paginate :{id:'pmee',itemsPerPage:5,currentPage:pm};">
+                            <th scope="row">{{r.description}}</th>
+                            <td>{{showdate(r.date_application)}}</td>
+                            <td>{{r.hour_application}}</td>
+                            <td>
+                                <a type="button" class="edit" (click)="updateApplicationState('Finalizado',r.id_application)"><i class="fas fa-check"></i></a>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <pagination-controls id='pmee' (pageChange)="pm = $event" previousLabel="Anterior" nextLabel="Siguiente" [autoHide]="true"></pagination-controls>
+                </table>
+                <div class="d-flex justify-content-center" id="norecord" *ngIf="nomeeting">
+                    <label class="message2">Actualmente no se cuenta con solicitudes de reuniones</label>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="row border-start border-end border-bottom">
+        <div class="col" *ngIf="record">
+            <div class="row" id="row">
+                <div class="col-md-6" id="soncon">
+                    <div class="col-md-12">
+                        <h2 class="text-center">
+                            <p>Búsqueda avanzada historial</p>
+                        </h2>
+                    </div>
+                    <div>
+                        <form>
+                            <div class="mb-3" *ngIf="type1">
+                                <label for="" class="form-label">Seleccione una fecha para visualizar el historial:</label>
+                                <form>
+                                    <label class=" form-label m-2" for="bill">Fecha:</label>
+                                    <input type="date" id="bill" name="bill" (change)="dateObj = $event.target">
+                                </form>
+                            </div>
+                            <div class="mb-3" *ngIf="type2">
+                                <label for="" class="form-label">Seleccione una fecha para visualizar el historial:</label>
+                                <form>
+                                    <label class=" form-label m-2" for="bill">Fecha:</label>
+                                    <input type="date" id="bill" name="bill" (change)="dateObj = $event.target">
+                                </form>
+                            </div>
+                            <div class="mb-3">
+                                <label for="" class="form-label">Colaboradores:</label>
+                                <select id="reload" class="form-select" aria-label="Default select example" [(ngModel)]="collab" (ngModelChange)="changeCollab($event)" name="collab">
+                                    <option [ngValue]="undefined" selected>Despliegue el menu para escoger un colaborador</option>
+                                    <option *ngFor="let fat of  selectcollabs;"  [ngValue]="fat">{{fat.collaborator_name +" "+ fat.collaborator_lastname}}</option>
+                                </select>
+                            </div>
+                            <div class="mb-3" *ngIf="type1">
+                                <div>
+                                    <label for="form-check form-check-inline" class="form-label">Tipo de actividades:</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3" (click)="registerActivity(3)">
+                                    <label class="form-check-label" for="inlineCheckbox3">Asientos</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" id="inlineCheckbox4" value="option4" (click)="registerActivity(4)">
+                                    <label class="form-check-label" for="inlineCheckbox4">Descarga de reportes</label>
+                                </div>
+                            </div>
+                            <div class="mb-3" *ngIf="type2">
+                                <div>
+                                    <label for="form-check form-check-inline" class="form-label">Tipo de actividades:</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3" (click)="registerActivity(3)">
+                                    <label class="form-check-label" for="inlineCheckbox3">Asientos</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" id="inlineCheckbox4" value="option4" (click)="registerActivity(4)">
+                                    <label class="form-check-label" for="inlineCheckbox4">Descarga de reportes</label>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <div class="col-md-12 text-center p-2" *ngIf="showerror">
+                                    <div class="col-md-12">
+                                        <div class="alert alert-dismissable alert-warning">
+                                            <h4>
+                                                Error!
+                                            </h4> <strong>Atención! {{messageerror}}</strong>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 text-center">
+                                <div class="d-grid gap-2 col-4 mx-auto m-3">
+                                    <button type="button" id="button" class="btn btn-block  btn-danger" (click)="getFilterActivities()">Filtrar</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-md-6 border-start" id="soncon">
+                    <div class="row">
+                        <div class="col-md-7">
+                            <div class="d-grid gap-2 d-md-block">
+                                <h4>Historial de actividades</h4>
+
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                <button type="button" id="button" class="btn btn-block  btn-danger" (click)="getInitalRecord('reload')"><i class="fas fa-sync-alt"></i> Recargar</button>
+                                <button type="button" id="button" class="btn btn-block  btn-danger" (click)="onClickDownloadPdf()" *ngIf="download">Descargar PDF</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div *ngIf="noactivities">
+                        <label class="message">Actualmente no existen actividades registradas</label>
+                    </div>
+                    <div class="table-responsive" *ngIf="hasactivities">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Fecha</th>
+                                    <th scope="col">Actividad</th>
+                                    <th scope="col">Usuario</th>
+                                    <th scope="col">Detalle</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let r of activityrecord |paginate :{id:'coll',itemsPerPage:6,currentPage:p};">
+                                    <td>{{r.activity_date}}</td>
+                                    <td>{{r.details}}</td>
+                                    <td *ngIf="r.id_user.collaborators != undefined">{{r.id_user.collaborators[0].collaborator_name +" "+r.id_user.collaborators[0].collaborator_lastname}}</td>
+                                    <td *ngIf="r.id_user.company != undefined">{{r.id_user.company[0].company_name}}</td>
+                                    <td><a type="button" class="detail" id="detail" (click)="showDetails(r)"><i class="fas fa-info-circle"></i></a></td>
+                                </tr>
+                            </tbody>
+                            <pagination-controls id='coll' (pageChange)="p = $event" previousLabel="Anterior" nextLabel="Siguiente" [autoHide]="true"></pagination-controls>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

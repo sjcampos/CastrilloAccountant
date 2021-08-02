@@ -1,0 +1,78 @@
+<app-main-navbar></app-main-navbar>
+
+<div class="d-flex justify-content-center" id="loadinginit" *ngIf="loadinginit">
+    <div class="col-3 text-center ">
+        <img class="img-fluid" src="./assets/gifs/loading.gif" alt="">
+        <p class="loaderText">Cargando información...</p>
+    </div>
+</div>
+
+
+<div class="container" id="maincon" *ngIf="showtable">
+    <div class="row" id="rounded">
+        <div class="text-center p-4">
+            <h1>Asignación de colaboradores</h1>
+        </div>
+        <div class="col-md-6">
+
+            <div class="mb-3 table-responsive">
+                <label class="form-label">Colaboradores asignados</label>
+                <table class="table table-striped ">
+                    <thead>
+                        <tr>
+                            <th scope="col">Identificación</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Apellido</th>
+                            <th scope="col">Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let col of  assignedcollaborators |paginate :{id:'coll',itemsPerPage:5,currentPage:p};">
+                            <td>{{col.identification}}</td>
+                            <td>{{col.collaborator_name}}</td>
+                            <td>{{col.collaborator_lastname}}</td>
+                            <td>
+                                <a class="delete" data-toggle="modal"><i (click)="deleteColl(col)" class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <pagination-controls id='coll' (pageChange)="p = $event" previousLabel="Anterior" nextLabel="Siguiente" [autoHide]="true"></pagination-controls>
+                </table>
+            </div>
+        </div>
+        <div class="col-md-6 border-start">
+            <div class="text-center p-5" *ngIf="notavailable">
+                <h2><b>No se cuenta con nuevos colaboradores para asignar a esta empresa.</b></h2>
+            </div>
+            <div class="mb-3 table-responsive" *ngIf="hasaccounts">
+                <label class="form-label">Colaboradores sin asignar</label>
+                <table class="table table-striped ">
+                    <thead>
+                        <tr>
+                            <th scope="col">Asignar</th>
+                            <th scope="col">Identificación</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Apellido</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let col of  unassignedcollaborators |paginate :{id:'coll',itemsPerPage:5,currentPage:pp};">
+                            <td>
+                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" (click)="addColl(col)">
+                            </td>
+                            <td>{{col.identification}}</td>
+                            <td>{{col.collaborator_name}}</td>
+                            <td>{{col.collaborator_lastname}}</td>
+                        </tr>
+                    </tbody>
+                    <pagination-controls id='coll' (pageChange)="pp = $event" previousLabel="Anterior" nextLabel="Siguiente" [autoHide]="true"></pagination-controls>
+                </table>
+            </div>
+            <div class="col-md-12 text-center ">
+                <div class="d-grid gap-2 col-4 mx-auto m-3">
+                    <button type="button" id="button" class="btn btn-block  btn-danger" (click)="registerCollaborators()">Registrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,40 @@
+#maincon {
+    padding-top: 8%;
+}
+
+#mainborder {
+    border: 1px solid rgba(0, 0, 0, .2);
+    border-radius: 1.1rem;
+    outline: 0;
+}
+
+.form-label,
+.loaderText {
+    font-weight: bold;
+}
+
+.loaderText {
+    color: #0096d2;
+}
+
+#button {
+    border-radius: 50px;
+    background-color: #0096d2;
+    border-color: #0096d2;
+}
+
+table.table td a.edit {
+    color: #FFC107;
+}
+
+table.table td a.delete {
+    color: #F44336;
+}
+
+.loaderText {
+    color: #0096d2;
+}
+
+#loadinginit {
+    padding-top: 13%;
+}

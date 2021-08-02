@@ -1,0 +1,28 @@
+.form-label,
+.loaderText {
+    font-weight: bold;
+}
+
+#mainc {
+    border: 1px solid rgba(0, 0, 0, .2);
+    border-radius: 1.1rem;
+    outline: 0;
+}
+
+#button {
+    border-radius: 50px;
+    background-color: #0096d2;
+    border-color: #0096d2;
+}
+
+#secondcon {
+    padding-top: 13%;
+}
+
+.loaderText {
+    color: #0096d2;
+}
+
+#loadinginit {
+    padding-top: 13%;
+}
