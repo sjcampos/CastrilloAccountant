@@ -33,7 +33,8 @@ export class BGCViewComponent implements OnInit {
   divm2 : boolean = false;
   divm3 : boolean = false;
   divyear : boolean = false;
-  buttondownload : boolean = true;
+
+  allowdownload : boolean = false;
 
   monthfilter : boolean = false;
   yearfilter : boolean = false;
@@ -69,6 +70,9 @@ export class BGCViewComponent implements OnInit {
 
   type1 : boolean = true;
   type2 : boolean = false;
+
+  buttonfilter : boolean = false;
+  buttondownload : boolean = false;
 
   record : boolean = false;
   graf : boolean = false;
@@ -121,9 +125,9 @@ export class BGCViewComponent implements OnInit {
   ngOnInit(): void {
     let data = this.storageService.readData();
     if(data.permissions.includes("1")){
-      this.buttondownload = true;
+      this.allowdownload = true;
     }else{
-      this.buttondownload = false;
+      this.allowdownload = false;
     }
     if(data.permissions.includes("4") && data.permissions.includes("5")){
       this.coll = false;
@@ -267,10 +271,36 @@ export class BGCViewComponent implements OnInit {
   //changes the company
   changeCompany(c : any){
     if(c != undefined){
-      this.slug = c.slug;
+      if(c.slug != this.slug){
+        this.slug = c.slug;
+        this.buttonfilter = true;
+        this.divreg = true;
+        this.record = false;
+        this.divnodata = true;
+        this.graf = false;
+        this.graphbutton = false;
+        this.reportbutton = false;
+        this.buttondownload = false;
+        this.cleanLists();
+        this.cleanValues();
+      }
+      else{
+        this.slug = c.slug;
+        this.buttonfilter = true;
+      }
     }
     else{
       this.slug = null;
+      this.buttonfilter = false;
+      this.divreg = true;
+      this.record = false;
+      this.divnodata = true;
+      this.graf = false;
+      this.graphbutton = false;
+      this.reportbutton = false;
+      this.buttondownload = false;
+      this.cleanLists();
+      this.cleanValues();
     }
   }
   //Gets all the companies for the manager
@@ -280,8 +310,6 @@ export class BGCViewComponent implements OnInit {
         let comp: any = [];
         comp = res;
         this.companies = comp.data;
-        
-        
       },
       err => console.log(err)
     )
@@ -292,7 +320,7 @@ export class BGCViewComponent implements OnInit {
       res=>{
         let comp: any = [];
         comp = res;
-        this.companies = comp.data;
+        this.companies = comp.companys;
         
       },
       err => console.log(err)
@@ -342,19 +370,16 @@ export class BGCViewComponent implements OnInit {
   //gets the bgc
   getBGC(){
     if(this.selectcompany == undefined){
-      this.showerror = true;
-      this.errormessage = "Debe seleccionar una compañía."
+      this.showmodalError("Debe seleccionar una compañía.");
     }
     else{
       this.showerror = false;
       if(this.dates.length <= 0 || this.dates.length == 1){
-        this.showerror = true;
-        this.errormessage = "Debe proporcionar los meses o años a comparar."
+        this.showmodalError("Debe proporcionar los meses o años a comparar.");
       }else{
         this.showerror = false;
         if(this.dates.length > 3){
-          this.showerror = true;
-          this.errormessage = "No puede comparar más de 3 meses o años."
+          this.showmodalError("No puede comparar más de 3 meses o años.");
         }
         else{
           let timeoutId;    
@@ -369,6 +394,9 @@ export class BGCViewComponent implements OnInit {
                 let temp : any = [];
                 temp = res;
                 this.pdfdates = this.dates;
+                if(this.allowdownload){
+                  this.buttondownload = true;
+                }
                 this.fixingData(temp.data);
                 timeoutId = setTimeout(() =>{
                   this.divloading = false;
@@ -387,6 +415,9 @@ export class BGCViewComponent implements OnInit {
                 title: 'Atención',
                 text: err.error.message,
                 icon: 'warning',
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                confirmButtonColor:'#0096d2',
                 showCancelButton: false,
                 confirmButtonText: 'Aceptar'
               }).then((result) => {
@@ -437,7 +468,7 @@ export class BGCViewComponent implements OnInit {
   }
   //Gets the PDF file on base64 
   onClickDownloadPdf(){
-    console.log(this.pdfdates);
+   
     if(this.pdfdates.length != 0 && this.pdfdates.length <= 3){
       this.reportService.getBGCPDF(this.slug, this.pdfdates).subscribe(
         res =>{
@@ -447,7 +478,16 @@ export class BGCViewComponent implements OnInit {
             let base64String =temp.report.toString();
             this.downloadPdf(base64String,"Balance general comparativo");
           }
-        },err => console.log(err)
+        },err => {
+          Swal.fire({
+            title:'Error',
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+            confirmButtonColor:'#0096d2',
+            text:err.error.message,
+            icon :'error'
+          })
+          }
       )
     }else{
     Swal.fire(
@@ -788,6 +828,22 @@ export class BGCViewComponent implements OnInit {
     this.barChartopat  = [];
     this.barChartopatData = [];
   }
-
+  //Shows modal error
+  showmodalError(text :string){
+    Swal.fire({
+      title: 'Atención',
+      text : text,
+      allowOutsideClick: false,
+      allowEscapeKey: false,
+      confirmButtonColor:'#0096d2',
+      icon: 'warning',
+      showClass: {
+        popup: 'animate__animated animate__fadeInDown'
+      },
+      hideClass: {
+        popup: 'animate__animated animate__fadeOutUp'
+      }
+    })
+  }
 
 }

@@ -4,6 +4,7 @@ import { AuthAdminGuard } from './guard/admin/auth-admin.guard';
 import { AuthManagerGuard } from './guard/manager/auth-manager.guard';
 import { AuthCollaGuard } from './guard/colla/auth-colla.guard';
 import { AuthClientGuard } from './guard/client/auth-client.guard';
+import { AuthreportsGuard } from './guard/reports/authreports.guard';
 
 import { AdminDashboardComponent } from './components/admin-dashboard/admin-dashboard.component';
 import { ManagerDashboardComponent } from './components/manager-dashboard/manager-dashboard.component';
@@ -47,6 +48,7 @@ import { AscViewComponent } from './components/reports/asc-view/asc-view.compone
 import { ClixempViewComponent } from './components/reports/clixemp-view/clixemp-view.component';
 import { ProxempViewComponent } from './components/reports/proxemp-view/proxemp-view.component';
 import { ProyViewComponent } from './components/reports/proy-view/proy-view.component';
+import { NotAccessComponent } from './components/not-access/not-access.component';
 
   
 
@@ -64,6 +66,7 @@ const routes: Routes = [
   {path: 'login', component:LoginComponent},
   //NOT FOUND
   {path:'404', component:NotFoundComponent},
+  {path:'not-access', component:NotAccessComponent},
   //Clients routes
   {path: 'clientslist/:slug', component:ClientsViewComponent, canActivate:[AuthAdminGuard]},
   {path: 'clientsform/:slug', component:ClientsFormComponent, canActivate:[AuthAdminGuard]},
@@ -102,17 +105,17 @@ const routes: Routes = [
   //manager
   {path: 'generatereport/:slug/:description/:date_application/:id_application', component:ManagerGeneratereportsComponent,  canActivate:[AuthManagerGuard]},
   //reports
-  {path: 'reportmenu', component:MenuReportsComponent}, //falta guard
-  {path: 'reportbgc', component:BGCViewComponent},
-  {path: 'reporteri', component:EriViewComponent},
-  {path: 'reportbxc' , component:BxcViewComponent},
-  {path: 'reportcxc' , component:CxcViewComponent},
-  {path: 'reportcxp' , component:CxpViewComponent},
-  {path: 'reportvts' , component:VtsViewComponent},
-  {path: 'reportasc' , component:AscViewComponent},
-  {path: 'reportclixc' , component:ClixempViewComponent},
-  {path: 'reportproxc' , component:ProxempViewComponent},
-  {path: 'reportproy' , component:ProyViewComponent}
+  {path: 'reportmenu', component:MenuReportsComponent,canActivate:[AuthreportsGuard]}, //falta guard
+  {path: 'reportbgc', component:BGCViewComponent,canActivate:[AuthreportsGuard]},
+  {path: 'reporteri', component:EriViewComponent,canActivate:[AuthreportsGuard] },
+  {path: 'reportbxc' , component:BxcViewComponent,canActivate:[AuthreportsGuard]},
+  {path: 'reportcxc' , component:CxcViewComponent,canActivate:[AuthreportsGuard]},
+  {path: 'reportcxp' , component:CxpViewComponent,canActivate:[AuthreportsGuard]},
+  {path: 'reportvts' , component:VtsViewComponent,canActivate:[AuthreportsGuard]},
+  {path: 'reportasc' , component:AscViewComponent,canActivate:[AuthreportsGuard]},
+  {path: 'reportclixc' , component:ClixempViewComponent,canActivate:[AuthreportsGuard]},
+  {path: 'reportproxc' , component:ProxempViewComponent,canActivate:[AuthreportsGuard]},
+  {path: 'reportproy' , component:ProyViewComponent,canActivate:[AuthreportsGuard]}
 
 
 

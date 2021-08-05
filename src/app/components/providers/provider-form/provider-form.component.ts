@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { ProviderServiceService } from "../../../services/providers/provider-service.service";
 //models
 import { provider } from '../../../models/provider.model';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-provider-form',
@@ -69,6 +70,18 @@ export class ProviderFormComponent implements OnInit {
           let pr : any = [];
           pr = res;
           this.provider = pr[0];
+        },err =>{
+          this.loadinginit = false;
+          Swal.fire({
+            title: 'Error',
+            confirmButtonText: `Aceptar`,
+            confirmButtonColor:'#0096d2',
+           text: err.error.message
+          }).then((result) => {
+            if (result.isConfirmed) {
+              this.router.navigate([`/companylist`]);
+            } 
+          })
         }
       )
 
@@ -77,11 +90,11 @@ export class ProviderFormComponent implements OnInit {
   updateProvider(){
     let timeoutId;
     if(this.validateData(this.provider)){
+      this.showregister = false;
+      this.loading = true;
       this.providerService.updateProvider(this.slug,this.provider).subscribe(
         res =>{
           if(res!= null){
-            this.showregister = false;
-            this.loading = true;
             timeoutId = setTimeout(() =>{
               this.router.navigate([`/providerlist/${this.slug}`]);
             },1500)
@@ -89,6 +102,8 @@ export class ProviderFormComponent implements OnInit {
           }
         },
         (err) =>{
+          this.loading = false;
+          this.showregister = true;
           this.showerror = true;
           this.messageerror = err['error']['message'];
         }

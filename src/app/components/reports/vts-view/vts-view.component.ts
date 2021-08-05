@@ -56,6 +56,7 @@ export class VtsViewComponent implements OnInit {
   sales : any = [];
   buttongraf : boolean = false;
   buttonback : boolean = false;
+  showyear : boolean = false;
 
   isYear : boolean = false;
   isMonth : boolean = false;
@@ -131,10 +132,22 @@ export class VtsViewComponent implements OnInit {
   //changes the company
   changeCompany(c : any){
     if(c != undefined){
-      this.slug = c.slug;
-      this.getAffectedAccounts();
-      this.buttonaccounts = true;
-      this.cleanValues();
+      if(c.slug != this.slug){
+        this.slug = c.slug;
+        this.cleanFilter();
+        this.cleanValues();
+        this.getAffectedAccounts();
+        this.buttonaccounts = true;
+        
+        this.existingaccounts = [];
+        this.buttongraf = false;
+        this.buttonpdf = false;
+        this.divnodata = true;
+        this.divdata = false;
+        this.graf = false;
+        this.sales = [];
+        this.buttonback = false;
+      }
     }
     else{
       this.slug = null;
@@ -169,7 +182,7 @@ export class VtsViewComponent implements OnInit {
       res=>{
         let comp: any = [];
         comp = res;
-        this.companies = comp.data;
+        this.companies = comp.companys;
         
       },
       err => console.log(err)
@@ -183,7 +196,6 @@ export class VtsViewComponent implements OnInit {
       res=>{
         let temp : any = [];
         temp = res;
-        console.log(temp.accounts);
         for (let i = 0; i < temp.accounts.length; i++) {
           if(temp.accounts[i].classification == "afectable"){
             this.existingaccounts.push(temp.accounts[i]);
@@ -222,6 +234,7 @@ export class VtsViewComponent implements OnInit {
       else{
         this.yearfilter = true;
         this.chmonth = true;
+        this.filterdate = null;      
       }
     }
  
@@ -304,7 +317,6 @@ export class VtsViewComponent implements OnInit {
           }else{
             this.graphMaking("month");
           }
-          console.log(this.sales);
           timeoutId = setTimeout(() =>{
             this.divloading = false;
             this.divreg = true;
@@ -336,6 +348,7 @@ export class VtsViewComponent implements OnInit {
         this.year = null;
         this.isMonth = true;
         this.isYear = false;
+        this.showyear = true;
         this.getVTSdata(this.slug,this.filterdate.month,this.filterdate.year,this.accountId);
       }else{
         if(this.year != null && this.year != undefined){
@@ -343,6 +356,7 @@ export class VtsViewComponent implements OnInit {
           this.divloading = true;
           this.isMonth = false;
           this.isYear = true;
+          this.showyear = false;
           this.getVTSdata(this.slug,0,this.year,this.accountId);
         }else{
           this.showmodalError("Debe seleccionar un mes o año valido.");
@@ -393,6 +407,8 @@ export class VtsViewComponent implements OnInit {
   //Arrange the data to create the chart
   graphMaking(type: any){
     //{ data: [65, 59, 80, 81, 56, 55, 40], label: 'Series A' } 
+    this.lineChartData = [];
+    this.lineChartLabels = [];
     let x= {
       data: [],
       label : this.accountname
@@ -464,22 +480,26 @@ export class VtsViewComponent implements OnInit {
   }
   //Gets the PDF file on base64 
   onClickDownloadPdf(){
-    if(this.slug != null || this.slug != undefined){
-      this.reportService.getVTSPDF(this.slug, this.sales).subscribe(
-        res =>{
-          if(res != null){
-            let temp : any;
-            temp = res;
-            let base64String =temp.report.toString();
-            this.downloadPdf(base64String,"Ventas");
-          }
-        },err =>{
-          console.log(err);
-          this.showmodalError(err.error.message);        
-        } 
-      )
+    let data = this.storageService.readData();
+    if(data.permissions.includes("1")){
+      if(this.slug != null || this.slug != undefined){
+        this.reportService.getVTSPDF(this.slug, this.sales).subscribe(
+          res =>{
+            if(res != null){
+              let temp : any;
+              temp = res;
+              let base64String =temp.report.toString();
+              this.downloadPdf(base64String,"Ventas");
+            }
+          },err =>{
+            this.showmodalError(err.error.message);        
+          } 
+        )
+      }else{
+      this.showmodalError('No se cuenta con un identificador de compañía valido, refresque la página por favor.');
+      }
     }else{
-    this.showmodalError('No se cuenta con un identificador de compañía valido, refresque la página por favor.');
+      this.showmodalError('No cuenta con los permisos necesarios para realizar esta acción.');
     }
   }
 

@@ -46,6 +46,8 @@ export class ManagerGeneratereportsComponent implements OnInit {
   NoEF : boolean = true;
   EF : boolean = false;
 
+  divnodata : boolean = false;
+
   constructor(private router: Router, private activedRoute: ActivatedRoute, private autoreportService : AutoreportsServiceService,private dom:DomSanitizer,
     private clientReportService : ClientreportServiceService, private accountService : AccountServiceService) { }
 
@@ -113,7 +115,9 @@ export class ManagerGeneratereportsComponent implements OnInit {
       title: 'Solicitud procesada',
       text: 'La solicitud se procesó de manera exitosa.',
       icon: 'success',
-      showCancelButton: true,
+      allowOutsideClick: false,
+      allowEscapeKey: false,
+      confirmButtonColor:'#0096d2',
       confirmButtonText: 'Cerrar',
       
     }).then((result) => {
@@ -148,7 +152,6 @@ export class ManagerGeneratereportsComponent implements OnInit {
             },900);
           }
         },err =>{
-          console.log(err);
           Swal.fire(
             'Error',
             'No se puede enviar el reporte.',
@@ -172,7 +175,7 @@ export class ManagerGeneratereportsComponent implements OnInit {
     this.clientReportService.updateState(Number.parseInt(this.id_application), status_application).subscribe(
       res =>{
         if(res != null){
-          console.log(res);
+          
         }
         
       },err => {
@@ -209,6 +212,7 @@ export class ManagerGeneratereportsComponent implements OnInit {
       case "Flujo de efectivo por cuenta":
         this.FE = true;
         this.noFE = false;
+        this.divnodata = true;
         this.month = tempdate.getMonth()+1;
         this.year = tempdate.getFullYear();
         this.showPDF = false;
@@ -219,6 +223,7 @@ export class ManagerGeneratereportsComponent implements OnInit {
         this.noFE = false;
         this.NoEF = false;
         this.EF = true;
+        this.divnodata = true;
         this.month = tempdate.getMonth()+1;
         this.year = tempdate.getFullYear();
         this.showPDF = false;
@@ -247,7 +252,19 @@ export class ManagerGeneratereportsComponent implements OnInit {
             this.pdf=temp.report;
             this.generatePDF(this.pdf);
           }
-        },err => console.log(err)
+        },err => {
+        this.showPDF = false;
+        Swal.fire({
+          title: 'Error',
+          confirmButtonText: `Aceptar`,
+          confirmButtonColor:'#0096d2',
+         text: err.error.message
+        }).then((result) => {
+          if (result.isConfirmed) {
+            
+          } 
+        })
+      }
       )
   }
   //Gets the perdidas y ganancias
@@ -260,7 +277,19 @@ export class ManagerGeneratereportsComponent implements OnInit {
           this.pdf=temp.report;
           this.generatePDF(this.pdf);
         }
-      },err => console.log(err)
+      },err => {
+        this.showPDF = false;
+        Swal.fire({
+          title: 'Error',
+          confirmButtonText: `Aceptar`,
+          confirmButtonColor:'#0096d2',
+         text: err.error.message
+        }).then((result) => {
+          if (result.isConfirmed) {
+            
+          } 
+        })
+      }
     )
   }
   //Gets the Flujo de efectivo report
@@ -273,6 +302,7 @@ export class ManagerGeneratereportsComponent implements OnInit {
           this.pdf=temp.report;
           this.generatePDF(this.pdf);
           this.cleanList();
+          this.divnodata = false;
           this.showPDF = true;
           this.sendFE = true;
         }
@@ -288,12 +318,12 @@ export class ManagerGeneratereportsComponent implements OnInit {
         this.pdf = temp.report;
         this.generatePDF(this.pdf);
         this.cleanList();
+        this.divnodata = false;
         this.showPDF = true;
         this.sendFE = true;
       }
     )
   }
-
   //cleans the account list
   cleanList(){
     this.accounts = [];
@@ -318,8 +348,19 @@ export class ManagerGeneratereportsComponent implements OnInit {
       res=>{
         let temp : any = [];
         temp = res;
-        console.log(temp.accounts);
         this.existingaccounts = temp.accounts;  
+      },err =>{
+        this.showPDF = false;
+        Swal.fire({
+          title: 'Error',
+          confirmButtonText: `Aceptar`,
+          confirmButtonColor:'#0096d2',
+         text: err.error.message
+        }).then((result) => {
+          if (result.isConfirmed) {
+            
+          } 
+        })
       }
     );  
   }

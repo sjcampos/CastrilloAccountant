@@ -15,40 +15,53 @@ export class AuthCollaGuard implements CanActivate {
       if(data.permissions != null && data.code != null && data.id != null && data.token != null && data.rol != null){
         if(data.permissions.length > 0 && data.permissions.length < 4){
           let per : any = ["1","2","3"];
-          for (let i = 0; i < data.permissions.length; i++) {
-            if(!per.includes(data.permissions[i])){
-              this.router.navigate(['']);
-                return false;
-            }
+          if(data.permissions.includes("4") || data.permissions.includes("5") || data.permissions.includes("6")){
+            this.storageService.logout();
+            this.router.navigate(['not-access']);
+            return false;
           }
-            if(data.token != null && data.token != undefined && data.token.trim().length != 0){
-    
-                if(data.code == 'CO'){
-    
-                  if(data.id != null && data.id != undefined){
-                    return true;
-                  }
-                  else{
-                    this.router.navigate(['']);
+          else{
+            for (let i = 0; i < data.permissions.length; i++) {
+              if(!per.includes(data.permissions[i])){
+                this.storageService.logout();
+                this.router.navigate(['not-access']);
+                return false;
+              }
+            }
+              if(data.token != null && data.token != undefined && data.token.trim().length != 0){
+      
+                  if(data.code == 'CO'){
+      
+                    if(data.id != null && data.id != undefined){
+                      return true;
+                    }
+                    else{
+                      this.storageService.logout();
+                      this.router.navigate(['not-access']);
+                      return false;
+                    }
+                  }else{
+                    this.storageService.logout();
+                    this.router.navigate(['not-access']);;
                     return false;
                   }
-                }else{
-                  this.router.navigate(['']);
-                  return false;
-                }
-            }
-            else{
-              this.router.navigate(['']);
-              return false;
-            }
+              }
+              else{
+                this.storageService.logout();
+                this.router.navigate(['not-access']);
+                return false;
+              }
+          }
         }
         else{
-          this.router.navigate(['']);
+          this.storageService.logout();
+          this.router.navigate(['not-access']);
           return false;
         }
       }
       else{
-        this.router.navigate(['']);
+        this.storageService.logout();
+        this.router.navigate(['not-access']);
         return false;
       }
   }

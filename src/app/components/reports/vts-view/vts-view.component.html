@@ -63,7 +63,7 @@
                         <td *ngIf="s.date == 10">Octubre</td>
                         <td *ngIf="s.date == 11">Noviembre</td>
                         <td *ngIf="s.date == 12">Diciembre</td>
-                        <td *ngIf="year == null">{{s.date}}</td>
+                        <td *ngIf="showyear">{{s.date}}</td>
                     </tr>
                 </tbody>
                 <pagination-controls id='coll' (pageChange)="p2 = $event" previousLabel="Anterior" nextLabel="Siguiente" [autoHide]="true"></pagination-controls>
@@ -104,7 +104,7 @@
                 <div class="row" *ngIf="divmodaldata">
                     <div class="col-md-12">
                         <div class="table-responsive">
-                            <table class="table">
+                            <table class="table" *ngIf="existingaccounts.length > 0">
                                 <thead>
                                     <tr class="text-center">
                                         <th scope="col">Seleccionar</th>
@@ -125,6 +125,9 @@
                                 </tbody>
                                 <pagination-controls id='coll' (pageChange)="p = $event" previousLabel="Anterior" nextLabel="Siguiente" [autoHide]="true"></pagination-controls>
                             </table>
+                            <div class="d-flex justify-content-center" id="norecord" *ngIf="existingaccounts.length == 0">
+                                <label class="message2">Actualmente no se cuenta con cuentas registradas en esta empresa.</label>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -145,7 +148,6 @@
                 </div>
                 <div class="row" *ngIf="filter2">
                     <div class="col-md-12">
-
                         <div class="d-flex justify-content-center">
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1" (click)="changeFilter('month')" [disabled]="chmonth">

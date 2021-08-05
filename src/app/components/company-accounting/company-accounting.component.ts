@@ -37,7 +37,7 @@ export class CompanyAccountingComponent implements OnInit {
     if(params.filter){
       if(params.filter == "accountant"){
         this.getCollaCompanies(data.id);
-      timeoutId = setTimeout(() =>{
+        timeoutId = setTimeout(() =>{
         if(this.companies.length <= 0){
           this.showtable = false;
           this.loadinginit = false;

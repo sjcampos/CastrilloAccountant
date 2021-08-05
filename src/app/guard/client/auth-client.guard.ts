@@ -17,8 +17,9 @@ export class AuthClientGuard implements CanActivate {
         let per : any = ["345","465"];
         for (let i = 0; i < data.permissions.length; i++) {
           if(!per.includes(data.permissions[i])){
-            this.router.navigate(['']);
-              return false;
+            this.storageService.logout();
+            this.router.navigate(['not-access']);
+            return false;
           }
         }
           if(data.token != null && data.token != undefined && data.token.trim().length != 0){
@@ -29,26 +30,31 @@ export class AuthClientGuard implements CanActivate {
                   return true;
                 }
                 else{
-                  this.router.navigate(['']);
+                  this.storageService.logout();
+                  this.router.navigate(['not-access']);
                   return false;
                 }
               }else{
-                this.router.navigate(['']);
+                this.storageService.logout();
+                this.router.navigate(['not-access']);
                 return false;
               }
           }
           else{
-            this.router.navigate(['']);
+            this.storageService.logout();
+            this.router.navigate(['not-access']);
             return false;
           }
       }
       else{
-        this.router.navigate(['']);
+        this.storageService.logout();
+        this.router.navigate(['not-access']);
         return false;
       }
     }
     else{
-      this.router.navigate(['']);
+      this.storageService.logout();
+      this.router.navigate(['not-access']);
       return false;
     }
   }

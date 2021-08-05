@@ -66,7 +66,6 @@ export class AdminDashboardComponent implements OnInit {
   }
 
   showDetails(act : any){
-    console.log(act);
     if(act.id_user.collaborators != undefined){
       Swal.fire(
         'Detalle',

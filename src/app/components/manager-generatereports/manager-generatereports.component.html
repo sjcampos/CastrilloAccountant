@@ -17,7 +17,7 @@
                 </div>
                 <div class="col">
                     <button class="btn btn-primary float-end m-2 " type="button" id="button" (click)="cancelReport()">Reportar</button>
-                    <button class="btn btn-primary  float-end m-2 " type="button" id="button">Cancelar</button>
+
                     <button class="btn btn-primary float-end m-2 " type="button" id="button" (click)="sendReport('Finalizado')"> Enviar </button>
                 </div>
             </div>
@@ -27,7 +27,7 @@
                 </div>
                 <div class="col">
                     <button class="btn btn-primary float-end m-2 " type="button" id="button" (click)="cancelReport()">Reportar</button>
-                    <button class="btn btn-primary  float-end m-2 " type="button" id="button">Cancelar</button>
+
                     <button class="btn btn-primary float-end m-2 " type="button" id="button" (click)="sendReport('Finalizado')" *ngIf="sendFE"> Enviar </button>
                     <button class="btn btn-primary float-end m-2 " type="button" id="button" data-bs-toggle="modal" data-bs-target="#accountsModal"> Seleccionar cuentas</button>
                 </div>
@@ -52,6 +52,17 @@
                     </div>
                 </div>
             </form>
+        </div>
+    </div>
+    <div class="p-3" *ngIf="divnodata">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="d-flex justify-content-center">
+                        <img src="../assets/fondo/fondo.png" class="img-fluid" alt="">
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -94,9 +105,9 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="cleanList()">Cerrar</button>
-                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" *ngIf="NoEF" (click)="getFE()">Solicitar reporte</button>
-                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" *ngIf="EF" (click)="getEF()">Solicitar estado financiero</button>
+                <button type="button" id="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="cleanList()">Cerrar</button>
+                <button type="button" id="button" class="btn btn-primary" data-bs-dismiss="modal" *ngIf="NoEF" (click)="getFE()">Solicitar reporte</button>
+                <button type="button" id="button" class="btn btn-primary" data-bs-dismiss="modal" *ngIf="EF" (click)="getEF()">Solicitar estado financiero</button>
             </div>
         </div>
     </div>

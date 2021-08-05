@@ -15,7 +15,7 @@ import { map, catchError } from 'rxjs/operators';
 export class HttpConfigInterceptor implements HttpInterceptor {
     constructor() { }
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        const token: any = localStorage.getItem('UTK');
+        const token: any = sessionStorage.getItem('UTK');
 
         if (token) {
             

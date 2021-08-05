@@ -83,30 +83,42 @@ export class CxpViewComponent implements OnInit {
   }
   //Gets the PDF file on base64 
   onClickDownloadPdf(){
-    if(this.slug != null || this.slug != undefined){
-      
-      this.reportService.getCXPPDF(this.slug, this.existingaccounts).subscribe(
-        res =>{
-          if(res != null){
-            let temp : any;
-            temp = res;
-            let base64String =temp.report.toString();
-            this.downloadPdf(base64String,"Cuentas por pagar");
-          }
-        },err =>{
-          console.log(err);
-          this.showmodalError(err.error.message);        
-        } 
-      )
+    let data = this.storageService.readData();
+    if(data.permissions.includes("1")){
+      if(this.slug != null || this.slug != undefined){
+        this.reportService.getCXPPDF(this.slug, this.existingaccounts).subscribe(
+          res =>{
+            if(res != null){
+              let temp : any;
+              temp = res;
+              let base64String =temp.report.toString();
+              this.downloadPdf(base64String,"Cuentas por pagar");
+            }
+          },err =>{
+            this.showmodalError(err.error.message);        
+          } 
+        )
+      }else{
+      this.showmodalError('No se cuenta con un identificador de compañía valido, refresque la página por favor.');
+      }
     }else{
-    this.showmodalError('No se cuenta con un identificador de compañía valido, refresque la página por favor.');
+      this.showmodalError('No cuenta con los permisos necesarios para realizar esta acción.');
     }
   }
   //changes the company
   changeCompany(c : any){
     if(c != undefined){
-      this.slug = c.slug;
-      this.getUpcomingAccounts(30);
+      if(c.slug != this.slug){
+        this.slug = c.slug;
+        this.buttonFilter = false;
+        this.buttonDownload = false;
+        this.divdata = false;
+        this.divnodata = true;
+        this.getUpcomingAccounts(30);
+      }else{
+        this.slug = c.slug;
+        this.getUpcomingAccounts(30);
+      }
     }
     else{
       this.slug = null;
@@ -114,6 +126,7 @@ export class CxpViewComponent implements OnInit {
       this.buttonDownload = false;
       this.divdata = false;
       this.divnodata = true;
+      this.cleanFilter();
     }
   }
   //Gets all the companies for the manager
@@ -135,7 +148,7 @@ export class CxpViewComponent implements OnInit {
       res=>{
         let comp: any = [];
         comp = res;
-        this.companies = comp.data;
+        this.companies = comp.companys;
         
       },
       err => console.log(err)

@@ -65,7 +65,7 @@ export class RolViewComponent implements OnInit {
           }
         }, err =>{
           this.formerror = true;
-          this.errormessage = err;
+          this.errormessage = err.error.message;
         }
       )
     }
@@ -78,6 +78,7 @@ export class RolViewComponent implements OnInit {
     this.rol.id_rol = 0;
     this.registerbutton = true;
     this.updatebutton = false;
+    this.formerror = false;
   }
   //Validates de rol data
   validData(rol : Rol){
@@ -119,13 +120,14 @@ export class RolViewComponent implements OnInit {
             this.cleanForm();
             this.roles = [];
             this.getRoles();  
+            this.formerror = false;
           }
           else{
             console.log("Error");
           }
         }, err =>{
           this.formerror = true;
-          this.errormessage = err;
+          this.errormessage = err.error.message;
         }
       )
     }

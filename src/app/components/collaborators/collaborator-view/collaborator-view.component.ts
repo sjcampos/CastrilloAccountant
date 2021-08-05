@@ -40,8 +40,6 @@ export class CollaboratorViewComponent implements OnInit {
       this.showtable= true;
     },800)
   }
-
-
   //Gets the collaborators for the form
   getCollaborators(){
     this.collaboratorService.getCollaborators().subscribe(
@@ -58,7 +56,6 @@ export class CollaboratorViewComponent implements OnInit {
       err => console.log(err)
     );
   }
-
   async getdeleteCol(id : any){
   await Swal.fire({
       title: 'Eliminar colaborador',
@@ -104,7 +101,6 @@ export class CollaboratorViewComponent implements OnInit {
     })
 
   }
-  
   deleteCol(id:any){
     this.collaboratorService.deleteCollaborator(id).subscribe(
       res =>{

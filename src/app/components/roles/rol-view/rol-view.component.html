@@ -27,8 +27,8 @@
                             <td>{{r.rol_name}}</td>
                             <td>{{r.rol_description}}</td>
                             <td *ngIf="r.id_rol != 1 && r.id_rol != 2 && r.id_rol != 3">
-                                <a (click)="updateAvailable(r)" class="edit"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                                <a (click)="deleteRol(r.id_rol)" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                                <a (click)="updateAvailable(r)" type="button" class="edit"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                                <a (click)="deleteRol(r.id_rol)" type="button" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
                             </td>
                             <td *ngIf="r.id_rol == 1 || r.id_rol == 2 || r.id_rol == 3">
                                 <label>N.A</label>

@@ -92,7 +92,7 @@ export class ProxempViewComponent implements OnInit {
       res=>{
         let comp: any = [];
         comp = res;
-        this.companies = comp.data;
+        this.companies = comp.companys;
         
       },
       err => console.log(err)
@@ -161,23 +161,26 @@ export class ProxempViewComponent implements OnInit {
   }
   //Gets the PDF file on base64 
   onClickDownloadPdf(){
-    if(this.slug != null || this.slug != undefined){
-      
-      this.reportService.getPROXCOMPPDF(this.slug).subscribe(
-        res =>{
-          if(res != null){
-            let temp : any;
-            temp = res;
-            let base64String =temp.report.toString();
-            this.downloadPdf(base64String,"Proveedores por empresa");
-          }
-        },err =>{
-          console.log(err);
-          this.showmodalError(err.error.message);        
-        } 
-      )
+    let data = this.storageService.readData();
+    if(data.permissions.includes("1")){
+      if(this.slug != null || this.slug != undefined){
+        this.reportService.getPROXCOMPPDF(this.slug).subscribe(
+          res =>{
+            if(res != null){
+              let temp : any;
+              temp = res;
+              let base64String =temp.report.toString();
+              this.downloadPdf(base64String,"Proveedores por empresa");
+            }
+          },err =>{
+            this.showmodalError(err.error.message);        
+          } 
+        )
+      }else{
+      this.showmodalError('No se cuenta con un identificador de compañía valido, refresque la página por favor.');
+      }
     }else{
-    this.showmodalError('No se cuenta con un identificador de compañía valido, refresque la página por favor.');
+      this.showmodalError('No cuenta con los permisos necesarios para realizar esta acción.');
     }
   }
   //cleans values

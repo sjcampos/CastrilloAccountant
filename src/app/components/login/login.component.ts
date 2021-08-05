@@ -114,9 +114,8 @@ export class LoginComponent implements OnInit {
           this.loginform = false;
           this.codeform = true;
         },850);
-          console.log(err);
          this.showerror = true;
-         this.messageerror = err.error;
+         this.messageerror = err.error.message;
         }
       )
     }

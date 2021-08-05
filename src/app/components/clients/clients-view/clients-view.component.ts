@@ -42,7 +42,7 @@ export class ClientsViewComponent implements OnInit {
       },750)
     }
   }
-
+  //Gets clients
   getClients(slug : any){
       this.clientService.getClients(slug).subscribe(
         res=>{
@@ -50,7 +50,19 @@ export class ClientsViewComponent implements OnInit {
             temp= res;
             this.clients = temp.data;
         }
-        ,err=> console.log(err)
+        ,err=> {
+          this.loadinginit = false;
+          Swal.fire({
+            title: 'Error',
+            confirmButtonText: `Aceptar`,
+            confirmButtonColor:'#0096d2',
+           text: err.error.message
+          }).then((result) => {
+            if (result.isConfirmed) {
+              this.router.navigate([`/companylist`]);
+            } 
+          })
+        }
       );
   }
   //Deletes an existing provider

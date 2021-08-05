@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { ClientServiceService } from "../../../services/clients/client-service.service";
 //models
 import { clients } from '../../../models/client.model';
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-clients-form',
   templateUrl: './clients-form.component.html',
@@ -72,10 +73,21 @@ export class ClientsFormComponent implements OnInit {
         let cl : any = [];
         cl = res;
         this.client = cl[0];
+      },err =>{
+        this.loadinginit = false;
+        Swal.fire({
+          title: 'Error',
+          confirmButtonText: `Aceptar`,
+          confirmButtonColor:'#0096d2',
+         text: err.error.message
+        }).then((result) => {
+          if (result.isConfirmed) {
+            this.router.navigate([`/companylist`]);
+          } 
+        })
       }
     )
   }
-
   //enables the client credit
   enableCredit(){
     if(this.client.credit){
@@ -103,6 +115,8 @@ export class ClientsFormComponent implements OnInit {
           }
         },
         (err) =>{
+          this.loading = false;
+          this.register = true;
          this.showerror = true;
          this.messageerror = err['error']['message'];
         }
@@ -110,21 +124,26 @@ export class ClientsFormComponent implements OnInit {
     }
 
   }
-
   //updates a client data
   updateClient(){
     let timeoutId;
     if(this.validateData(this.client)){
+      this.showregister = false;
+      this.loading = true;
       this.clientService.updateClient(this.slug, this.client).subscribe(
         res =>{
           if(res !=  null){
-            this.showregister = false;
-            this.loading = true;
+            
             //time out for the loading gif
             timeoutId = setTimeout(() =>{
               this.router.navigate([`/clientslist/${this.slug}`]);
             },1500) 
           }
+        },err =>{
+          this.loading = false;
+          this.register = true;
+          this.showerror = true;
+          this.messageerror = err['error']['message'];
         }
       )
     }

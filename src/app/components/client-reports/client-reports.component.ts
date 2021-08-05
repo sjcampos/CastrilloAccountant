@@ -135,7 +135,7 @@ export class ClientReportsComponent implements OnInit {
   generateYearDate(){
     if( this.year == null || this.year == undefined){
       this.showerror = true;
-      this.errormessage ="Debe ingresar un año valido 1.";
+      this.errormessage ="Debe ingresar un año válido.";
       return false;
     }
     else{
@@ -143,7 +143,7 @@ export class ClientReportsComponent implements OnInit {
         if(Number.isInteger(this.year)){
           if(this.year.toString().trim().length > 4){
             this.showerror = true;
-            this.errormessage ="Debe ingresar un año valido2."
+            this.errormessage ="Debe ingresar un año válido."
             return false;
           }
           else{
@@ -152,7 +152,7 @@ export class ClientReportsComponent implements OnInit {
               let ty = tempDate.getFullYear();
               if(this.year > ty){
                 this.showerror = true;
-                this.errormessage ="Debe ingresar un año valido3."
+                this.errormessage ="Debe ingresar un año válido."
                 return false;
               }
               else{
@@ -168,7 +168,7 @@ export class ClientReportsComponent implements OnInit {
             }
             else{
               this.showerror = true;
-              this.errormessage ="Debe ingresar un año valido4."
+              this.errormessage ="Debe ingresar un año válido."
               return false;
             }
           }
@@ -176,13 +176,13 @@ export class ClientReportsComponent implements OnInit {
         }
         else{
           this.showerror = true;
-          this.errormessage ="Debe ingresar un año valido5."
+          this.errormessage ="Debe ingresar un año válido."
           return false;
         }
       }
       else{
         this.showerror = true;
-        this.errormessage ="Debe ingresar un año valid6."
+        this.errormessage ="Debe ingresar un año válido."
         return false;
       }
 
@@ -307,6 +307,7 @@ export class ClientReportsComponent implements OnInit {
           if(res != null){
             timeoutId = setTimeout(() =>{
               this.getReports();
+              this.showerror = false;
               this.divloading = false;
               this.buttonclose = true;
               this.showsuccess = true;
@@ -322,13 +323,10 @@ export class ClientReportsComponent implements OnInit {
     }
   }
   //Register the estado financiero report
-  registerEF()
-  {
-    
+  registerEF(){
     this.newRequest.description = "Estado financiero";
     this.newRequest.hour_application ="00:00:00";
     this.newRequest.date_application = "2021-01-01";
-    console.log(this.newRequest.date_application);
     this.newRequest.type_application = "Reporte";
     this.newRequest.id_company = Number.parseInt(this.id);
     this.reportService.registerRequest(this.newRequest).subscribe(
@@ -352,7 +350,6 @@ export class ClientReportsComponent implements OnInit {
       }
     )
   }
-
   //Validates if the balance general report data is correct
   validRequest(re : Request){
     if(re.description == "" || re.description == null || re.description == undefined){
@@ -387,6 +384,7 @@ export class ClientReportsComponent implements OnInit {
           if(res != null){
             timeoutId = setTimeout(() =>{
               this.getReports();
+              this.showerror = false;
               this.divloading = false;
               this.buttonclose = true;
               this.showsuccess = true;
@@ -421,6 +419,7 @@ export class ClientReportsComponent implements OnInit {
           if(res != null){
             timeoutId = setTimeout(() =>{
               this.getReports();
+              this.showerror = false;
               this.divloading = false;
               this.buttonclose = true;
               this.showsuccess = true;

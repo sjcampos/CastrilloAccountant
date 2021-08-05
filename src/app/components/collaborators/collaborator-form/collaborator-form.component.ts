@@ -9,6 +9,7 @@ import { permission } from '../../../models/permission.model';
 //services
 import { CollaboratorServiceService } from '../../../services/collaborators/collaborator-service.service';
 import { RolServiceService } from '../../../services/rol/rol-service.service';
+import Swal from 'sweetalert2';
 
 
 
@@ -81,6 +82,19 @@ export class CollaboratorFormComponent implements OnInit {
               this.showregister = true;
             },850)  
           }
+        },err =>{
+          this.loadinginit = false;
+          Swal.fire({
+            title: 'Error',
+            confirmButtonText: `Aceptar`,
+            confirmButtonColor:'#0096d2',
+           text: err.error.message
+          }).then((result) => {
+            if (result.isConfirmed) {
+              this.router.navigate([`/collaboratorlist`]);
+            } 
+          })
+
         }
       )
     }

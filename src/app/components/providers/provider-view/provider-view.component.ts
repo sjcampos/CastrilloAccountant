@@ -51,6 +51,20 @@ export class ProviderViewComponent implements OnInit {
         let temp : any = [];
         temp = res;
         this.providers = temp.data;
+      },err=>{
+        this.loadinginit = false;
+        Swal.fire({
+          title: 'Error',
+          confirmButtonText: `Aceptar`,
+          allowOutsideClick: false,
+          allowEscapeKey: false,
+          confirmButtonColor:'#0096d2',
+         text: err.error.message
+        }).then((result) => {
+          if (result.isConfirmed) {
+            this.router.navigate([`/companylist`]);
+          } 
+        })
       }
     )
   }

@@ -6,6 +6,7 @@ import { collaborator } from '../../../models/collaborator.model';
 //services
 import { CollaboratorServiceService } from '../../../services/collaborators/collaborator-service.service';
 import { CompanyServiceService } from '../../../services/companies/company-service.service';
+import Swal from 'sweetalert2';
 
 
 
@@ -97,12 +98,26 @@ export class CompanyFormComponent implements OnInit {
 
           this.company = temp.company[0] ;
           
+        },err =>{
+          this.loadinginit = false;
+          Swal.fire({
+            title: 'Error',
+            confirmButtonText: `Aceptar`,
+            confirmButtonColor:'#0096d2',
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+           text: err.error.message
+          }).then((result) => {
+            if (result.isConfirmed) {
+              this.router.navigate([`/companylist`]);
+            } 
+          })
+
         }
       )      
     }
 
   }
-
   //Updates a company data
   updateCompany(){
     let timeoutId;
@@ -111,24 +126,24 @@ export class CompanyFormComponent implements OnInit {
     this.company.collaborators = [];
     this.company.company_password = "null";
     if(this.validUpdate(this.company)){
+        this.register = false;
+        this.loading = true;
         this.companyService.updateCompany(this.company).subscribe(
           res=>{
-            console.log(res);
-            this.register = false;
-            this.loading = true;
-            timeoutId = setTimeout(() =>{
-                    this.router.navigate(['/companylist']);
-            },1500)
+            if(res != null){
+              timeoutId = setTimeout(() =>{
+              this.router.navigate(['/companylist']);
+              },1500)
+            }
           },
           (err) =>{
            this.formerror = true;
-           this.formerrormessage = err['error']['message'];
+           this.formerrormessage = err.error.message;
           }
         )
     }
 
   }
-
   //Gets the collaborators for the form
   getCollaborators(){
     this.collaboratorService.getCollaborators().subscribe(
@@ -151,22 +166,24 @@ export class CompanyFormComponent implements OnInit {
     let accounts: any = [];
     let timeoutId;
     if(this.ValidCompanyData(this.company)){
+      this.register = false;
+      this.loading = true;
       this.companyService.registerCompany(this.company).subscribe(
         res => {
           if (res != null) {
             resp = res;
             slug = resp.message;
             accounts = this.accountsNew;
-            this.register = false;
-            this.loading = true;
             timeoutId = setTimeout(() =>{
                     this.router.navigate(['/companylist']);
             },1500)
             
           }
-        },
-      (err) =>{
-        console.log(err);
+        },err =>{
+          this.loadinginit = false;
+          this.register = true;
+        this.formerror = true;
+        this.formerrormessage = err.error.message;
 
       }
       );
@@ -190,27 +207,27 @@ export class CompanyFormComponent implements OnInit {
   ValidCompanyData(comp : company){
     if(comp.company_name.trim() == '' || comp.company_name == null || comp.company_name == undefined){
       this.formerror = true;
-      this.formerrormessage = "Debe ingresar un nombre de empresa valido."
+      this.formerrormessage = "Debe ingresar un nombre de empresa válido."
       return false;
     }
     if(comp.agent.trim() == '' || comp.agent == null || comp.agent == undefined){
       this.formerror = true;
-      this.formerrormessage = "Debe ingresar un nombre de contacto valido."
+      this.formerrormessage = "Debe ingresar un nombre de contacto válido."
       return false;
     }
     if(comp.number_phone.trim() == '' || comp.number_phone == null || comp.number_phone == undefined){
       this.formerror = true;
-      this.formerrormessage = "Debe ingresar un número de teléfono valido."
+      this.formerrormessage = "Debe ingresar un número de teléfono válido."
       return false;
     }
     if(comp.main_email.trim() == '' || comp.main_email == null || comp.main_email == undefined){
       this.formerror = true;
-      this.formerrormessage = "Debe ingresar un email valido";
+      this.formerrormessage = "Debe ingresar un email válido";
       return false;
     }
     if(comp.company_password.trim() == '' || comp.company_password == null || comp.company_password == undefined){
       this.formerror = true;
-      this.formerrormessage = "Debe ingresar una contraseña valida.";
+      this.formerrormessage = "Debe ingresar una contraseña válida.";
       return false;
     }
     if(comp.collaborators.length <= -1 ){

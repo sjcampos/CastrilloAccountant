@@ -172,8 +172,7 @@ export class AscViewComponent implements OnInit {
       res=>{
         let comp: any = [];
         comp = res;
-        this.companies = comp.data;
-        
+        this.companies = comp.companys;
       },
       err => console.log(err)
     )
@@ -402,16 +401,18 @@ export class AscViewComponent implements OnInit {
       }
     })
   }
-    //Converts and downloads the pdf
-    downloadPdf(base64String : any, fileName : any) {
-      const source = `data:application/pdf;base64,${base64String}`;
-      const link = document.createElement("a");
-      link.href = source;
-      link.download = `${fileName}.pdf`
-      link.click();
-    }
-    //Gets the PDF file on base64 
-    onClickDownloadPdf(){
+  //Converts and downloads the pdf
+  downloadPdf(base64String : any, fileName : any) {
+    const source = `data:application/pdf;base64,${base64String}`;
+    const link = document.createElement("a");
+    link.href = source;
+    link.download = `${fileName}.pdf`
+    link.click();
+  }
+  //Gets the PDF file on base64 
+  onClickDownloadPdf(){
+    let data = this.storageService.readData();
+    if(data.permissions.includes("1")){
       if(this.slug != null || this.slug != undefined){
         if(this.entries.length > 0){
           this.reportService.getASCPDF(this.slug, this.entries).subscribe(
@@ -432,6 +433,9 @@ export class AscViewComponent implements OnInit {
         }
       }else{
       this.showmodalError('No se cuenta con un identificador de compañía valido, refresque la página por favor.');
-      }
+      } 
+    }else{
+      this.showmodalError('No cuenta con los permisos necesarios para realizar esta acción.');
     }
+  }
 }

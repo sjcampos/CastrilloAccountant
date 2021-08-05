@@ -74,6 +74,19 @@ export class CompanyCollabComponent implements OnInit {
         t = res;
         this.assignedcollaborators = t.Collaborators;
         this.getCollaborators();
+      },err=>{
+        Swal.fire({
+          title: 'Error',
+          confirmButtonText: `Aceptar`,
+          allowOutsideClick: false,
+          allowEscapeKey: false,
+          confirmButtonColor:'#0096d2',
+         text: err.error.message
+        }).then((result) => {
+          if (result.isConfirmed) {
+            this.router.navigate([`/companylist`]);
+          } 
+        })
       }
     )
   }

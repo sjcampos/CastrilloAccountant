@@ -71,21 +71,35 @@ export class AccountingEntriesComponent implements OnInit {
 
   ngOnInit(): void {
     const params = this.activedRoute.snapshot.params;
-    if(params.slug){
-      this.slug = params.slug;
-      let t = localStorage.getItem('UD');
-      if(t != null){
-        let tempid = this.storageService.decryptData(t!) ;
-        this.iduser = Number.parseInt(tempid!);
-        this.entry.id_collaborator = this.iduser;
-        this.getAccounts(this.slug);
-      }else{
-        this.router.navigate(['company/manager/accounting']);
+    let data = this.storageService.readData();
+    if(data.permissions.includes("3")){
+      if(params.slug){
+        this.slug = params.slug;
+        let t = sessionStorage.getItem('UD');
+        if(t != null){
+          let tempid = this.storageService.decryptData(t!);
+          this.iduser = Number.parseInt(tempid!);
+          this.entry.id_collaborator = this.iduser;
+          this.getAccounts(this.slug);
+        }else{
+          if(data.permissions.includes("4") && data.permissions.includes("5")){
+            this.router.navigate(['company/manager/accounting']);
+          }else{
+            this.router.navigate(['company/accounting/accountant']);
+          }
+        }
       }
+      else{
+        if(data.permissions.includes("4") && data.permissions.includes("5")){
+          this.router.navigate(['company/manager/accounting']);
+        }else{
+          this.router.navigate(['company/accounting/accountant']);
+        }
+      }
+    }else{
+      this.router.navigate(['not-access']);
     }
-    else{
-      this.router.navigate(['company/manager/accounting']);
-    }
+
     
   }
   //registers the entries on the db
@@ -122,7 +136,12 @@ export class AccountingEntriesComponent implements OnInit {
                     confirmButtonText: 'Aceptar',
                   }).then((result) => {
                     if (result.isConfirmed) {
-                      this.router.navigate([`/company/manager/accounting`]);
+                      let data = this.storageService.readData();
+                      if(data.permissions.includes("4") && data.permissions.includes("5")){
+                        this.router.navigate(['company/manager/accounting']);
+                      }else{
+                        this.router.navigate(['company/accounting/accountant']);
+                      }
                     } 
                   })
                 },860)

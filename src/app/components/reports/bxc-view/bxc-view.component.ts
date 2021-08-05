@@ -110,18 +110,29 @@ export class BxcViewComponent implements OnInit {
         'error')
     }
     else{
-      
+      console.log(this.slug);
       this.accountService.getAccounts(this.slug, "affected").subscribe(
         res=>{
           let temp : any = [];
           temp = res;
-          for (let i = 0; i < temp.accounts.length; i++) {
-            if(temp.accounts[i].classification == "afectable"){
-              this.existingaccounts.push(temp.accounts[i]);
+          this.existingaccounts = [];
+          if(temp.accounts.length > 0){
+            for (let i = 0; i < temp.accounts.length; i++) {
+              if(temp.accounts[i].classification == "afectable"){
+                this.existingaccounts.push(temp.accounts[i]);
+              }
             }
+            this.divnodata = false;
+            this.record = true;
+          }else{
+            this.divnodata = true;
+            this.record = false;
+            Swal.fire(
+              'Error',
+              'La empresa seleccionada no tiene cuentas afectables registradas.',
+              'error')
+
           }
-          this.divnodata = false;
-          this.record = true;
         },err =>{
           this.divnodata = true;
           this.record = false;
@@ -136,10 +147,27 @@ export class BxcViewComponent implements OnInit {
   //changes the company
   changeCompany(c : any){
     if(c != undefined){
-      this.slug = c.slug;
+      if(c.slug != this.slug){
+        this.slug = c.slug;
+        this.divnodata = true;
+        this.record = false;
+        this.taxtInt = false;
+        this.existingaccounts = [];
+        this.buttonback = false;
+        this.buttonaccounts = true;
+        this.cleanValues();
+      }else{
+        this.slug = c.slug;
+      }
     }
     else{
       this.slug = null;
+      this.buttonaccounts = true;
+      this.divnodata = true;
+      this.record = false;
+      this.taxtInt = false;
+      this.buttonback = false;
+      this.cleanValues();
     }
   }
   //Gets all the companies for the manager
@@ -159,7 +187,7 @@ export class BxcViewComponent implements OnInit {
       res=>{
         let comp: any = [];
         comp = res;
-        this.companies = comp.data;
+        this.companies = comp.companys;
         
       },
       err => console.log(err)
@@ -203,29 +231,40 @@ export class BxcViewComponent implements OnInit {
   }
   //Gets the PDF file on base64 
   onClickDownloadPdf(){
-    if(this.slug != null || this.slug != undefined){
-      
-      this.reportService.getBXCPDF(this.slug, this.entries).subscribe(
-        res =>{
-          if(res != null){
-            let temp : any;
-            temp = res;
-            let base64String =temp.report.toString();
-            this.downloadPdf(base64String,"Movimientos por cuenta");
-          }
-        },err =>{
-          console.log(err);
-          Swal.fire(
-            'Error',
-            err.error.message,
-            'error')          
-        } 
-      )
+    let data = this.storageService.readData();
+    if(data.permissions.includes("1")){
+      if(this.slug != null || this.slug != undefined){
+        
+        this.reportService.getBXCPDF(this.slug, this.entries).subscribe(
+          res =>{
+            if(res != null){
+              let temp : any;
+              temp = res;
+              let base64String =temp.report.toString();
+              this.downloadPdf(base64String,"Movimientos por cuenta");
+            }
+          },err =>{
+            Swal.fire({
+              title:'Error',
+              allowOutsideClick: false,
+              allowEscapeKey: false,
+              confirmButtonColor:'#0096d2',
+              text:err.error.message,
+              icon :'error'
+            })        
+          } 
+        )
+      }else{
+      Swal.fire(
+        'Error',
+        'No se cuenta con un identificador de compañía valido, refresque la página por favor.',
+        'error')
+      }
     }else{
-    Swal.fire(
-      'Error',
-      'No se cuenta con un identificador de compañía valido, refresque la página por favor.',
-      'error')
+      Swal.fire(
+        'Error',
+        'No cuenta con los permisos necesarios para realizar esta acción.',
+        'error')
     }
   }
   //Pass the id for the filter
@@ -253,17 +292,34 @@ export class BxcViewComponent implements OnInit {
             if(res != null){
               let temp : any = [];
               temp = res;
-              this.entries = temp.Seals;
-              timeoutId = setTimeout(() =>{
-                this.divnodata = false;
-                this.divloading = false;
-                this.divreg = true;
-                this.record = false;
-                this.taxtInt = true;
-                this.buttonaccounts = false;
-                this.buttonback = true;
-                this.cleanValues();
-              },850)
+              if(temp.Seals.length > 0){
+                this.entries = temp.Seals;
+                timeoutId = setTimeout(() =>{
+                  this.divnodata = false;
+                  this.divloading = false;
+                  this.divreg = true;
+                  this.record = false;
+                  this.taxtInt = true;
+                  this.buttonaccounts = false;
+                  this.buttonback = true;
+                  this.cleanValues();
+                },850)
+              }else{
+                timeoutId = setTimeout(() =>{
+                  this.divnodata = false;
+                  this.divloading = false;
+                  this.divreg = true;
+                  this.taxtInt = false;
+                  Swal.fire({
+                    title:'Atención',
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    confirmButtonColor:'#0096d2',
+                    text:'No existen movimientos en la cuenta solicitada.',
+                    icon :'warning'
+                  })
+                },850)
+              }
             }
           },err => {
             timeoutId = setTimeout(() =>{

@@ -55,6 +55,7 @@ import { AscViewComponent } from './components/reports/asc-view/asc-view.compone
 import { ClixempViewComponent } from './components/reports/clixemp-view/clixemp-view.component';
 import { ProxempViewComponent } from './components/reports/proxemp-view/proxemp-view.component';
 import { ProyViewComponent } from './components/reports/proy-view/proy-view.component';
+import { NotAccessComponent } from './components/not-access/not-access.component';
 
 
 
@@ -104,6 +105,7 @@ import { ProyViewComponent } from './components/reports/proy-view/proy-view.comp
     ClixempViewComponent,
     ProxempViewComponent,
     ProyViewComponent,
+    NotAccessComponent,
 
   
   ],

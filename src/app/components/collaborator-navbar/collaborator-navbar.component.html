@@ -13,14 +13,8 @@
                 <li class="nav-item" *ngIf="accounting">
                     <a class="nav-link" [routerLink]="['/company/accounting','accountant']">Contabilidad</a>
                 </li>
-                <li class="nav-item dropdown" *ngIf="reports">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                      Reportes
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" [routerLink]="['/reset/companies']">Clientes</a></li>
-                        <li><a class="dropdown-item" [routerLink]="['/reset/collaborators']">Colaboradores</a></li>
-                    </ul>
+                <li class="nav-item" *ngIf="reports">
+                    <a class="nav-link" href="/reportmenu">Reportes</a>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">

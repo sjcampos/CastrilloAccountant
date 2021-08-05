@@ -19,19 +19,19 @@ export class StorageServiceService {
     }
     let c = CryptoJS.AES.encrypt(data.Code.toString(), this.saveword).toString();
     let encriptUper = CryptoJS.AES.encrypt(uper.toString(), this.saveword).toString();
-    localStorage.setItem('UTK',utk);
-    localStorage.setItem('UD',ud);
-    localStorage.setItem('UR', ur);
-    localStorage.setItem('UPER',encriptUper);
-    localStorage.setItem('UC',c);
+    sessionStorage.setItem('UTK',utk);
+    sessionStorage.setItem('UD',ud);
+    sessionStorage.setItem('UR', ur);
+    sessionStorage.setItem('UPER',encriptUper);
+    sessionStorage.setItem('UC',c);
   }
   //reads and decrypts the localstorage data
   readData(){
-    let tempUTK = localStorage.getItem('UTK');
-    let tempUD = localStorage.getItem('UD');
-    let tempUR = localStorage.getItem('UR');
-    let tempUPER = localStorage.getItem('UPER');
-    let tempUC = localStorage.getItem('UC');
+    let tempUTK = sessionStorage.getItem('UTK');
+    let tempUD = sessionStorage.getItem('UD');
+    let tempUR = sessionStorage.getItem('UR');
+    let tempUPER = sessionStorage.getItem('UPER');
+    let tempUC = sessionStorage.getItem('UC');
 
     let data = {
       token :tempUTK,
@@ -73,11 +73,11 @@ export class StorageServiceService {
   }
   //Deletes the localstorage data
   logout(){
-    localStorage.removeItem('UC');
-    localStorage.removeItem('UD');
-    localStorage.removeItem('UPER');
-    localStorage.removeItem('UR');
-    localStorage.removeItem('UTK');
+    sessionStorage.removeItem('UC');
+    sessionStorage.removeItem('UD');
+    sessionStorage.removeItem('UPER');
+    sessionStorage.removeItem('UR');
+    sessionStorage.removeItem('UTK');
   }
 
 
