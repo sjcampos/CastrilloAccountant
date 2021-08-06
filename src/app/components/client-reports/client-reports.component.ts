@@ -161,7 +161,7 @@ export class ClientReportsComponent implements OnInit {
                   return true;
                 }
                 else{
-                  this.newRequest.date_application = (this.year+1).toString()+"-"+"01-01";
+                  this.newRequest.date_application = (this.year).toString()+"-12-01";
                   return true;
                 }
               }
@@ -339,7 +339,6 @@ export class ClientReportsComponent implements OnInit {
           ) 
         }
       },err => {
-        console.log(err);
         Swal.fire(
           'Error al solicitar reporte',
           'El reporte no pudo ser solicitado de manera exitosa, intente de nuevo por favor.',

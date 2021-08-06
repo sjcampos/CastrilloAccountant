@@ -315,6 +315,20 @@ export class ManagerGeneratereportsComponent implements OnInit {
           this.showPDF = true;
           this.sendFE = true;
         }
+      },err => {
+        this.showPDF = false;
+        Swal.fire({
+          title: 'Error',
+          allowOutsideClick: false,
+          allowEscapeKey: false,
+          confirmButtonText: `Aceptar`,
+          confirmButtonColor:'#0096d2',
+         text: err.error.message
+        }).then((result) => {
+          if (result.isConfirmed) {
+            
+          } 
+        })
       }
     )
   }
@@ -330,6 +344,20 @@ export class ManagerGeneratereportsComponent implements OnInit {
         this.divnodata = false;
         this.showPDF = true;
         this.sendFE = true;
+      },err => {
+        this.showPDF = false;
+        Swal.fire({
+          title: 'Error',
+          allowOutsideClick: false,
+          allowEscapeKey: false,
+          confirmButtonText: `Aceptar`,
+          confirmButtonColor:'#0096d2',
+         text: err.error.message
+        }).then((result) => {
+          if (result.isConfirmed) {
+            
+          } 
+        })
       }
     )
   }

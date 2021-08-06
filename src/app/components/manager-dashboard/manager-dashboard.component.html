@@ -67,6 +67,7 @@
                     <thead>
                         <tr class="text-center">
                             <th scope="col">Descripción</th>
+                            <th scope="col">Email</th>
                             <th scope="col">Fecha</th>
                             <th scope="col">Hora</th>
                             <th scope="col">Acciones</th>
@@ -74,7 +75,8 @@
                     </thead>
                     <tbody *ngIf="meeting">
                         <tr class="text-center" *ngFor="let r of meetings|paginate :{id:'pmee',itemsPerPage:5,currentPage:pm};">
-                            <th scope="row">{{r.description}}</th>
+                            <th scope="row">{{r.description+': '+r.company_name}}</th>
+                            <td>{{r.main_email}}</td>
                             <td>{{showdate(r.date_application)}}</td>
                             <td>{{r.hour_application}}</td>
                             <td>

@@ -38,8 +38,11 @@
                     <td>{{company.agent}}</td>
                     <td>{{company.number_phone}}</td>
                     <td>{{company.main_email}}</td>
-                    <td>
+                    <td *ngIf="manager">
                         <a [routerLink]="['/accountingentries/', company.slug]" class="edit"><i class="fas fa-edit"></i> Registrar movimiento</a>
+                    </td>
+                    <td *ngIf="coll">
+                        <a [routerLink]="['/accountingentries/collaborator/', company.slug]" class="edit"><i class="fas fa-edit"></i> Registrar movimiento</a>
                     </td>
                 </tr>
             </tbody>

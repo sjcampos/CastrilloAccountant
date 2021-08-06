@@ -99,6 +99,7 @@ const routes: Routes = [
   {path: 'company/manager/accounting', component:CompanyAccountingComponent, canActivate:[AuthManagerGuard]},
   {path: 'company/accounting/:filter',component:CompanyAccountingComponent ,canActivate:[AuthCollaGuard]}, //Revisar navbar de colaborador
   {path: 'accountingentries/:slug', component:AccountingEntriesComponent, canActivate:[AuthManagerGuard]},
+  {path: 'accountingentries/collaborator/:slug', component:AccountingEntriesComponent, canActivate:[AuthCollaGuard]},
   //Client
   {path: 'reportrequest',component:ClientReportsComponent, canActivate:[AuthClientGuard]},
   {path: 'meetingrequest', component:ClientMeetingComponent, canActivate:[AuthClientGuard]},
