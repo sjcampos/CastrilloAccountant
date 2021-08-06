@@ -159,9 +159,7 @@ export class AscViewComponent implements OnInit {
       res=>{
         let comp: any = [];
         comp = res;
-        this.companies = comp.data;
-        
-        
+        this.companies = comp.data; 
       },
       err => console.log(err)
     )
@@ -308,12 +306,13 @@ export class AscViewComponent implements OnInit {
   }
   //Gets the entries from the DB
   getDBEntries(type : any, filter : any){
+    console.log(filter);
     this.reportService.getASC(this.slug, type,filter).subscribe(
       res =>{
         if(res != null){
           let temp : any = [];
           temp = res;
-          
+          console.log(temp);
           if(temp.seats.length > 0){
             this.entries = temp.seats;
             this.entrycode = this.entries[0][0].code;
