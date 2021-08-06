@@ -267,7 +267,7 @@ export class ClientReportsComponent implements OnInit {
       else{
         if(e._d.getMonth() == 11){
           tempMonth = "12";
-          tempYear = (e._d.getFullYear()+1).toString();
+          tempYear = (e._d.getFullYear()).toString();
         }
         else{
           tempMonth = (e._d.getMonth() + 1).toString();

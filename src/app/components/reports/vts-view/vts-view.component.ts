@@ -334,8 +334,8 @@ export class VtsViewComponent implements OnInit {
           this.divdata = false;
           this.buttongraf = false;
           this.buttonpdf = false;
+          this.showmodalError(err.error.message);
         },850)
-        this.showmodalError(err.error.message);
       }
     )
   }
