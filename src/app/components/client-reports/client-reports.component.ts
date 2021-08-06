@@ -275,7 +275,6 @@ export class ClientReportsComponent implements OnInit {
         }
       }
       let tempdate = tempYear+"-"+tempMonth+"-01";
-      console.log(tempdate);
       this.newRequest.date_application = tempdate;
     }
   }

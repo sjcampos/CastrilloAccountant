@@ -185,7 +185,9 @@ export class ManagerGeneratereportsComponent implements OnInit {
   }
   //Validates the type of report
   validateReportType(d : string, f : any){
+    console.log(f);
     let tempdate = new Date(f);
+    console.log(tempdate);
     switch (d) {
       case "Balance general Mes actual":
         this.month = tempdate.getMonth()+1;
