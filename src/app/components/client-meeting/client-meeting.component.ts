@@ -93,7 +93,15 @@ export class ClientMeetingComponent implements OnInit {
     else{
       let h = this.selectedTime._d.getHours();
       let m = this.selectedTime._d.getMinutes();
-      time = h.toString() +":"+m.toString()+":00";
+      if(m == 0){
+        time = h.toString() +":0"+m.toString()+":00";
+      }else{
+        if(m.toString().trim().length == 1){
+          time = h.toString() +":0"+m.toString()+":00";
+        }else{
+          time = h.toString() +":"+m.toString()+":00";
+        }
+      }
     }
 
     this.newRequest.date_application = date;
