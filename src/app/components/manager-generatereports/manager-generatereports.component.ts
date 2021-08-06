@@ -203,6 +203,7 @@ export class ManagerGeneratereportsComponent implements OnInit {
       case "Balance general mes específico":
         this.month = tempdate.getMonth()+1;
         this.year = tempdate.getFullYear();
+        console.log(this.month);
         this.getGeneralBalance(this.month,this.year);
         //año  y mes
         break;
