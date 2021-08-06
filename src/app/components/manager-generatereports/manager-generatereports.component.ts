@@ -190,25 +190,24 @@ export class ManagerGeneratereportsComponent implements OnInit {
     console.log(tempdate);
     switch (d) {
       case "Balance general Mes actual":
-        this.month = tempdate.getMonth()+1;
+        this.month = tempdate.getMonth()+2;
         this.year = tempdate.getFullYear();
         this.getGeneralBalance(this.month,this.year);
         //año  y mes
         break;
       case "Balance general por año":
-        this.month = tempdate.getMonth()+1;
+        this.month = tempdate.getMonth()+2;
         this.year = tempdate.getFullYear();
         this.getGeneralBalance(this.month,this.year);
         break;
       case "Balance general mes específico":
-        this.month = tempdate.getMonth()+1;
+        this.month = tempdate.getMonth()+2;
         this.year = tempdate.getFullYear();
-        console.log(this.month);
         this.getGeneralBalance(this.month,this.year);
         //año  y mes
         break;
       case "Ganancias y perdidas por mes":
-        this.month = tempdate.getMonth()+1;
+        this.month = tempdate.getMonth()+2;
         this.year = tempdate.getFullYear();
         this.getPYG(this.month,this.year);
         break;
@@ -216,7 +215,7 @@ export class ManagerGeneratereportsComponent implements OnInit {
         this.FE = true;
         this.noFE = false;
         this.divnodata = true;
-        this.month = tempdate.getMonth()+1;
+        this.month = tempdate.getMonth()+2;
         this.year = tempdate.getFullYear();
         this.showPDF = false;
         this.getAccounts(this.slug);
@@ -227,7 +226,7 @@ export class ManagerGeneratereportsComponent implements OnInit {
         this.NoEF = false;
         this.EF = true;
         this.divnodata = true;
-        this.month = tempdate.getMonth()+1;
+        this.month = tempdate.getMonth()+2;
         this.year = tempdate.getFullYear();
         this.showPDF = false;
         this.getAccounts(this.slug);
