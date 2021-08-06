@@ -76,6 +76,9 @@ export class ManagerGeneratereportsComponent implements OnInit {
       text: 'Al cancelar esta solicitud de reporte no podra volver a acceder a ella y debera ponerse en contacto con el solicitante.',
       icon: 'warning',
       showCancelButton: true,
+      allowOutsideClick: false,
+      allowEscapeKey: false,
+      confirmButtonColor:'#0096d2',
       confirmButtonText: 'Cancelar',
       cancelButtonText: 'Cerrar'
     }).then((result) => {
@@ -258,6 +261,8 @@ export class ManagerGeneratereportsComponent implements OnInit {
         this.showPDF = false;
         Swal.fire({
           title: 'Error',
+          allowOutsideClick: false,
+          allowEscapeKey: false,
           confirmButtonText: `Aceptar`,
           confirmButtonColor:'#0096d2',
          text: err.error.message
@@ -284,6 +289,8 @@ export class ManagerGeneratereportsComponent implements OnInit {
         Swal.fire({
           title: 'Error',
           confirmButtonText: `Aceptar`,
+          allowOutsideClick: false,
+          allowEscapeKey: false,
           confirmButtonColor:'#0096d2',
          text: err.error.message
         }).then((result) => {
