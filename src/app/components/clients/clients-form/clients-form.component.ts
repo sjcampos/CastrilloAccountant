@@ -115,7 +115,7 @@ export class ClientsFormComponent implements OnInit {
         },
         (err) =>{
           this.loading = false;
-          this.register = true;
+          this.showregister = true;
           this.showerror = true;
           this.messageerror = err['error']['message'];
         }
