@@ -184,6 +184,7 @@ export class CompanyFormComponent implements OnInit {
           }
         },err =>{
           this.loadinginit = false;
+          this.loading = false;
           this.register = true;
           this.formerror = true;
           this.formerrormessage = err.error.message;

@@ -68,7 +68,6 @@ export class CompanyCollabComponent implements OnInit {
       })
     )
   }
-
   //Gets the assigned collaborators
   getAssignedColl(id : any){
     this.collaboratorService.getCompanyCollaborator(id).subscribe(
@@ -127,7 +126,19 @@ export class CompanyCollabComponent implements OnInit {
               }            
             }
             else{
-              this.unassignedcollaborators = temp.Collaborators;
+              for (let x = 0; x < temp.Collaborators.length; x++) {
+                if(t[x].rol_name  != "Administrador" && t[x].rol_name  != "Gerente contable"){
+                  this.unassignedcollaborators.push(t[x]);
+                }
+              }
+              if(this.unassignedcollaborators.length <= 0 || this.unassignedcollaborators == undefined){
+                this.hasaccounts = false;
+                this.notavailable = true;
+              }
+              else{
+                this.hasaccounts = true;
+                this.notavailable = false; 
+              }  
             }
           }
 
