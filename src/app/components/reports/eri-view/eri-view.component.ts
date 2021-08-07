@@ -29,7 +29,6 @@ export class EriViewComponent implements OnInit {
 
   divyear : boolean = false;
   
-
   monthfilter : boolean = false;
   yearfilter : boolean = false;
 
@@ -163,7 +162,7 @@ export class EriViewComponent implements OnInit {
     }
     else{
       this.showerror = true;
-      this.errormessage = "Debe escoger un año valido."
+      this.errormessage = "Debe escoger un año válido."
     }
   }
   //Generates an specific month date
@@ -229,7 +228,7 @@ export class EriViewComponent implements OnInit {
         
         
       },
-      err => console.log(err)
+      err => {}
     )
   }
   //Gets the companys of a collaborator
@@ -238,11 +237,11 @@ export class EriViewComponent implements OnInit {
       res=>{
         let comp: any = [];
         comp = res;
-        console.log(comp);
+        
         this.companies = comp.companys;
         
       },
-      err => console.log(err)
+      err => {}
     )
   }
   //Cleans the form
@@ -288,7 +287,7 @@ export class EriViewComponent implements OnInit {
       this.showerror = false;
       if(this.filterdate == null || this.filterdate == undefined){
         this.showerror = true;
-        this.errormessage = "Debe proporcionar una fecha valida."
+        this.errormessage = "Debe proporcionar una fecha válida."
       }else{
         this.showerror = false;
           let timeoutId;    
@@ -315,6 +314,9 @@ export class EriViewComponent implements OnInit {
                 title: 'Atención',
                 text: err.error.message,
                 icon: 'warning',
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                confirmButtonColor:'#0096d2',
                 showCancelButton: false,
                 confirmButtonText: 'Aceptar'
               }).then((result) => {
@@ -371,10 +373,14 @@ export class EriViewComponent implements OnInit {
           } 
         )
       }else{
-      Swal.fire(
-        'Error',
-        'No se cuenta con fechas para generar PDF.',
-        'error')
+        Swal.fire({
+          title:'Error',
+          allowOutsideClick: false,
+          allowEscapeKey: false,
+          confirmButtonColor:'#0096d2',
+          text:'No se cuenta con fechas para generar PDF.',
+          icon :'error'
+        }) 
       }
     }else{
       Swal.fire({
@@ -424,7 +430,7 @@ export class EriViewComponent implements OnInit {
           }
         })
       }
-      console.log(this.net_sales);
+      
     }
     else if(this.s){
       if(this.gross_profit.includes(a)){
@@ -537,7 +543,7 @@ export class EriViewComponent implements OnInit {
       }
     }
     else{
-      console.log("nada");
+      
     }    
   }
   //Pass to the next types of accounts
@@ -607,7 +613,7 @@ export class EriViewComponent implements OnInit {
 
     }
     else{
-      console.log("nada");
+     
     }
 
   }

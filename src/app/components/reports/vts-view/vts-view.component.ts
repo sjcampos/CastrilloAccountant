@@ -173,7 +173,7 @@ export class VtsViewComponent implements OnInit {
         
         
       },
-      err => console.log(err)
+      err => {}
     )
   }
   //Gets the companys of a collaborator
@@ -185,7 +185,7 @@ export class VtsViewComponent implements OnInit {
         this.companies = comp.companys;
         
       },
-      err => console.log(err)
+      err => {}
     )
   }
   //Gets the affected accounts of a company
@@ -280,7 +280,6 @@ export class VtsViewComponent implements OnInit {
     this.modaltitle = "Seleccione el tipo de filtro que desea:"
     this.accountId = a.id_account;
     this.accountname = a.account_name;
-    
   }
   //Cleans filter
   cleanFilter(){
@@ -359,7 +358,7 @@ export class VtsViewComponent implements OnInit {
           this.showyear = false;
           this.getVTSdata(this.slug,0,this.year,this.accountId);
         }else{
-          this.showmodalError("Debe seleccionar un mes o año valido.");
+          this.showmodalError("Debe seleccionar un mes o año válido.");
         }
       }
     }else{
@@ -496,7 +495,7 @@ export class VtsViewComponent implements OnInit {
           } 
         )
       }else{
-      this.showmodalError('No se cuenta con un identificador de compañía valido, refresque la página por favor.');
+      this.showmodalError('No se cuenta con un identificador de compañía válido, refresque la página por favor.');
       }
     }else{
       this.showmodalError('No cuenta con los permisos necesarios para realizar esta acción.');

@@ -125,7 +125,7 @@ export class ProyViewComponent implements OnInit {
         
         
       },
-      err => console.log(err)
+      err => {}
     )
   }
   //Gets the companys of a collaborator
@@ -137,7 +137,7 @@ export class ProyViewComponent implements OnInit {
         this.companies = comp.companys;
         
       },
-      err => console.log(err)
+      err => {}
     )
   }
   //Gets the accounts of a company
@@ -371,7 +371,7 @@ export class ProyViewComponent implements OnInit {
           } 
         )
       }else{
-      this.showmodalError('No se cuenta con un identificador de compañía valido, refresque la página por favor.');
+      this.showmodalError('No se cuenta con un identificador de compañía válido, refresque la página por favor.');
       }
     }else{
       this.showmodalError('No cuenta con los permisos necesarios para realizar esta acción.');

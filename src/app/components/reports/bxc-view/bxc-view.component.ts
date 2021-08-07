@@ -104,13 +104,15 @@ export class BxcViewComponent implements OnInit {
   //gets the accounts with the actual balance
   getAccounts(){
     if(this.slug == null || this.slug == undefined){
-      Swal.fire(
-        'Error',
-        'Debe escoger una compañía.',
-        'error')
+      Swal.fire({
+        title:'Error',
+        text:'Debe escoger una compañía.',
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        confirmButtonColor:'#0096d2',
+        icon:'error'})
     }
     else{
-      console.log(this.slug);
       this.accountService.getAccounts(this.slug, "affected").subscribe(
         res=>{
           let temp : any = [];
@@ -127,19 +129,25 @@ export class BxcViewComponent implements OnInit {
           }else{
             this.divnodata = true;
             this.record = false;
-            Swal.fire(
-              'Error',
-              'La empresa seleccionada no tiene cuentas afectables registradas.',
-              'error')
+            Swal.fire({
+              title:'Error',
+              text:'La empresa seleccionada no tiene cuentas afectables registradas.',
+              allowOutsideClick: false,
+              allowEscapeKey: false,
+              confirmButtonColor:'#0096d2',
+              icon:'error'})
 
           }
         },err =>{
           this.divnodata = true;
           this.record = false;
-          Swal.fire(
-            'Error',
-            err.error.message,
-            'error')
+          Swal.fire({
+            title:'Error',
+            text:err.error.message,
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+            confirmButtonColor:'#0096d2',
+            icon:'error'})
         }
       );
     }
@@ -178,7 +186,9 @@ export class BxcViewComponent implements OnInit {
         comp = res;
         this.companies = comp.data;
       },
-      err => console.log(err)
+      err => {
+
+      }
     )
   }
   //Gets the companys of a collaborator
@@ -190,7 +200,9 @@ export class BxcViewComponent implements OnInit {
         this.companies = comp.companys;
         
       },
-      err => console.log(err)
+      err => {
+        
+      }
     )
   }
   //Cleans the form
@@ -255,16 +267,22 @@ export class BxcViewComponent implements OnInit {
           } 
         )
       }else{
-      Swal.fire(
-        'Error',
-        'No se cuenta con un identificador de compañía valido, refresque la página por favor.',
-        'error')
+      Swal.fire({
+        title:'Error',
+        text:'No se cuenta con un identificador de compañía valido, refresque la página por favor.',
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        confirmButtonColor:'#0096d2',
+        icon:'error'})
       }
     }else{
-      Swal.fire(
-        'Error',
-        'No cuenta con los permisos necesarios para realizar esta acción.',
-        'error')
+      Swal.fire({
+        title:'Error',
+        text:'No cuenta con los permisos necesarios para realizar esta acción.',
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        confirmButtonColor:'#0096d2',
+        icon:'error'})
     }
   }
   //Pass the id for the filter
@@ -326,7 +344,10 @@ export class BxcViewComponent implements OnInit {
               this.divloading = false;
               Swal.fire({
               title: 'Atención',
-              text: err.error.message,
+              text: err.error.message, 
+              allowOutsideClick: false,
+              allowEscapeKey: false,
+              confirmButtonColor:'#0096d2',
               icon: 'warning',
               showCancelButton: false,
               confirmButtonText: 'Aceptar'

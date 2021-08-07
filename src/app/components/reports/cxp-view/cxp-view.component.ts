@@ -99,7 +99,7 @@ export class CxpViewComponent implements OnInit {
           } 
         )
       }else{
-      this.showmodalError('No se cuenta con un identificador de compañía valido, refresque la página por favor.');
+      this.showmodalError('No se cuenta con un identificador de compañía válido, refresque la página por favor.');
       }
     }else{
       this.showmodalError('No cuenta con los permisos necesarios para realizar esta acción.');
@@ -139,7 +139,7 @@ export class CxpViewComponent implements OnInit {
         
         
       },
-      err => console.log(err)
+      err => {}
     )
   }
   //Gets the companys of a collaborator
@@ -151,7 +151,7 @@ export class CxpViewComponent implements OnInit {
         this.companies = comp.companys;
         
       },
-      err => console.log(err)
+      err => {}
     )
   }
   //Bring suggestions accounts
@@ -190,7 +190,7 @@ export class CxpViewComponent implements OnInit {
           }
         }
       },err=>{
-        console.log(err);
+        this.showmodalError(err.error.message);
       }
     )
   }
@@ -205,7 +205,7 @@ export class CxpViewComponent implements OnInit {
         if(res != null){
           let temp : any = [];
           temp = res;
-          console.log(temp.accounts);
+          
           if(temp.accounts != undefined){
             if(temp.accounts.length > 0){
               this.buttonDownload = true;
@@ -223,7 +223,7 @@ export class CxpViewComponent implements OnInit {
               this.divdata = false;
               this.divreg = true;
               this.divloading = false;
-              this.showmodalError("No existen cuentas que encajen con el filtro seleccionado");
+              this.showmodalError("No existen cuentas que encajen con el filtro seleccionado.");
             }
           }else{
             this.divnodata = true;
@@ -231,7 +231,7 @@ export class CxpViewComponent implements OnInit {
             this.buttonDownload = false;
             this.divreg = true;
             this.divloading = false;
-            this.showmodalError("No existen cuentas que encajen con el filtro seleccionado");
+            this.showmodalError("No existen cuentas que encajen con el filtro seleccionado.");
           }
         }
       },err=>{
@@ -240,7 +240,7 @@ export class CxpViewComponent implements OnInit {
         this.buttonDownload = false;
         this.divreg = true;
         this.divloading = false;
-        console.log(err);
+        
         this.showmodalError(err.error.message);
       }
     )
@@ -300,7 +300,7 @@ export class CxpViewComponent implements OnInit {
         date = this.specificdate.value;
         this.getAccounts(date);
       }else{
-        this.showmodalError("Debe seleccionar una fecha valida.");
+        this.showmodalError("Debe seleccionar una fecha válida.");
       }
     }
     else if(this.filter == "due"){
@@ -311,7 +311,7 @@ export class CxpViewComponent implements OnInit {
           this.getAccounts(this.range);
       }
       else{
-        this.showmodalError("Debe ingresar una cantidad de días valida.");
+        this.showmodalError("Debe ingresar una cantidad de días válida.");
       }
     }else{
       this.showmodalError("Debe seleccionar un filtro.");

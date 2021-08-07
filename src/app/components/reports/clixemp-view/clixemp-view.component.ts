@@ -27,7 +27,6 @@ export class ClixempViewComponent implements OnInit {
   record : boolean = false;
   norecord : boolean = false;
 
-
   divreg : boolean = false;
   divloading : boolean = true;
   idColl : any;
@@ -83,7 +82,7 @@ export class ClixempViewComponent implements OnInit {
         
         
       },
-      err => console.log(err)
+      err => {}
     )
   }
   //Gets the companys of a collaborator
@@ -95,7 +94,7 @@ export class ClixempViewComponent implements OnInit {
         this.companies = comp.companys;
         
       },
-      err => console.log(err)
+      err => {}
     )
   }
   //Gets the clients of a company
@@ -125,7 +124,7 @@ export class ClixempViewComponent implements OnInit {
             }
         }
         ,err=> {
-          console.log(err)
+          
           this.showmodalError(err.error.message);
         }
       );
@@ -177,7 +176,7 @@ export class ClixempViewComponent implements OnInit {
           } 
         )
       }else{
-      this.showmodalError('No se cuenta con un identificador de compañía valido, refresque la página por favor.');
+      this.showmodalError('No se cuenta con un identificador de compañía válido, refresque la página por favor.');
       }
     }else{
       this.showmodalError('No cuenta con los permisos necesarios para realizar esta acción.');

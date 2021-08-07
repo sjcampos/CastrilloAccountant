@@ -96,7 +96,7 @@ export class UserresetComponent implements OnInit {
     }
     if(this.password.trim().length < 8){
       this.showerror = true;
-      this.messageerror = "Las contraseña debe contener minimo 8 caracteres entre mayúsculas, miniscúlas y números."
+      this.messageerror = "La contraseña debe contener minimo 8 caracteres entre mayúsculas, miniscúlas y números."
       return false;
     }
     else{

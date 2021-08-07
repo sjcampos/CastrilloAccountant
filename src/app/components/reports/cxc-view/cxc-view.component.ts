@@ -101,7 +101,7 @@ export class CxcViewComponent implements OnInit {
           } 
         )
       }else{
-      this.showmodalError('No se cuenta con un identificador de compañía valido, refresque la página por favor.');
+      this.showmodalError('No se cuenta con un identificador de compañía válido, refresque la página por favor.');
       }
     }else{
       this.showmodalError('No cuenta con los permisos necesarios para realizar esta acción.');
@@ -141,7 +141,7 @@ export class CxcViewComponent implements OnInit {
         
         
       },
-      err => console.log(err)
+      err => {}
     )
   }
   //Gets the companys of a collaborator
@@ -153,7 +153,7 @@ export class CxcViewComponent implements OnInit {
         this.companies = comp.companys;
         
       },
-      err => console.log(err)
+      err => {}
     )
   }
   //Bring suggestions accounts
@@ -192,7 +192,7 @@ export class CxcViewComponent implements OnInit {
           }
         }
       },err=>{
-        console.log(err);
+        
         this.showmodalError(err.error.message);
       }
     )
@@ -242,7 +242,7 @@ export class CxcViewComponent implements OnInit {
         this.buttonDownload = false;
         this.divreg = true;
         this.divloading = false;
-        console.log(err);
+        
         this.showmodalError(err.error.message);
       }
     )
@@ -302,7 +302,7 @@ export class CxcViewComponent implements OnInit {
         date = this.specificdate.value;
         this.getAccounts(date);
       }else{
-        this.showmodalError("Debe seleccionar una fecha valida.");
+        this.showmodalError("Debe seleccionar una fecha válida.");
       }
     }
     else if(this.filter == "due"){
@@ -313,7 +313,7 @@ export class CxcViewComponent implements OnInit {
           this.getAccounts(this.range);
       }
       else{
-        this.showmodalError("Debe ingresar una cantidad de días valida.");
+        this.showmodalError("Debe ingresar una cantidad de días válida.");
       }
     }else{
       this.showmodalError("Debe seleccionar un filtro.");

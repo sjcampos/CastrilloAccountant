@@ -47,23 +47,28 @@ export class CollaboratorsResetComponent implements OnInit {
           }
         }
       },
-      err => console.log(err)
-    );
-    console.log(this.collaborators);
-  }
+      err => {
 
+      }
+    );
+    
+  }
+  //resets the view
   resetview(){
     this.collaborators = [];
     this.getCollaborators();
     this.showmessage = false;
     this.showtable = true;
   }
-
+  //resets the password
   async resetPassword(id : any){
     await Swal.fire({
       title: 'Cambiar contraseña',
       text: '¿Esta seguro que desea cambiar la contraseña de este colaborador?',
       icon: 'warning',
+      allowOutsideClick: false,
+      allowEscapeKey: false,
+      confirmButtonColor:'#0096d2',
       showCancelButton: true,
       confirmButtonText: 'Cambiar',
       cancelButtonText: 'Cancelar'
@@ -92,21 +97,28 @@ export class CollaboratorsResetComponent implements OnInit {
           )
         }
         else{
-          Swal.fire(
-            'Cancelado',
-            'Se necesita un colaborador valido para realizar un cambio de contraseña.',
-            'error'
-          )
+          Swal.fire({
+            title:'Cancelado',
+            text:'Se necesita un colaborador valido para realizar un cambio de contraseña.',
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+            confirmButtonColor:'#0096d2',
+            icon:'error'
+          })
         }
       } else if (result.dismiss === Swal.DismissReason.cancel) {
-        Swal.fire(
-          'Cancelado',
-          'El cambio de contraseña no ha sido efectuado.',
-          'error'
-        )
+        Swal.fire({
+          title:'Cancelado',
+          text:'El cambio de contraseña no ha sido efectuado.',
+          allowOutsideClick: false,
+          allowEscapeKey: false,
+          confirmButtonColor:'#0096d2',
+          icon:'error'
+        })
       }
     })
   }
+  //Search the collaborator
   searchCollab(){
     if(this.identification == ""){
       this.collaborators = [];

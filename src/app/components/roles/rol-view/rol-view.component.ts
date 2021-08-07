@@ -61,7 +61,7 @@ export class RolViewComponent implements OnInit {
             this.getRoles();
           }
           else{
-            console.log(res);
+            
           }
         }, err =>{
           this.formerror = true;
@@ -84,12 +84,12 @@ export class RolViewComponent implements OnInit {
   validData(rol : Rol){
       if(rol.rol_name == "" || rol.rol_name == undefined || rol.rol_name.trim().length == 0){
         this.formerror = true;
-        this.errormessage = "Ingrese un nombre de rol valido";
+        this.errormessage = "Ingrese un nombre de rol válido";
         return false;
       }
       if(rol.rol_description == "" || rol.rol_description == undefined || rol.rol_description.trim().length == 0){
         this.formerror = true;
-        this.errormessage = "Debe ingresar una descripción valida para el rol."
+        this.errormessage = "Debe ingresar una descripción válida para el rol."
         return false;
       }
       else{
@@ -123,7 +123,7 @@ export class RolViewComponent implements OnInit {
             this.formerror = false;
           }
           else{
-            console.log("Error");
+            
           }
         }, err =>{
           this.formerror = true;
@@ -139,6 +139,9 @@ export class RolViewComponent implements OnInit {
       text: 'Al eliminar este registro no podra recuperarlo.',
       icon: 'warning',
       showCancelButton: true,
+      allowOutsideClick: false,
+      allowEscapeKey: false,
+      confirmButtonColor:'#0096d2',
       confirmButtonText: 'Eliminar',
       cancelButtonText: 'Cancelar'
     }).then((result) => {
@@ -149,33 +152,45 @@ export class RolViewComponent implements OnInit {
             if(res != null){
               this.roles = [];
               this.getRoles();
-              Swal.fire(
-                'Eliminado',
-                'El registro de el rol ha sido eliminado.',
-                'success'
-              )
+              Swal.fire({
+                title:'Eliminado',
+                text:'El registro de el rol ha sido eliminado.',
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                confirmButtonColor:'#0096d2',
+                icon:'success'
+              })
             }
             else{
-              Swal.fire(
-                'Error al eliminar el registro',
-                'El rol seleccionado no ha sido eliminado.',
-                'error'
-              )
+              Swal.fire({
+                title:'Error al eliminar el registro',
+                text:'El rol seleccionado no ha sido eliminado.',
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                confirmButtonColor:'#0096d2',
+                icon:'error'
+              })
 
             }
-          } , error => Swal.fire(
-            'Error al eliminar el rol seleccionado',
-            error.error.message,
-            'error'
-          )
+          } , error => Swal.fire({
+            title:'Error al eliminar el rol seleccionado',
+            text:error.error.message,
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+            confirmButtonColor:'#0096d2',
+            icon:'error'
+          })
 
         )
       } else if (result.dismiss === Swal.DismissReason.cancel) {
-        Swal.fire(
-          'Cancelado',
-          'El registro del rol no ha sido eliminado.',
-          'error'
-        )
+        Swal.fire({
+          title:'Cancelado',
+          text:'El registro del rol no ha sido eliminado.',
+          allowOutsideClick: false,
+          allowEscapeKey: false,
+          confirmButtonColor:'#0096d2',
+          icon:'error'
+        })
       }
     })
   }

@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import Swal from 'sweetalert2';
 import { ChartDataSets, ChartOptions, ChartType } from 'chart.js';
-
 import { Label } from 'ng2-charts';
-
 //models
 import { company } from '../../../models/company.model';
 //services
@@ -173,7 +171,7 @@ export class BGCViewComponent implements OnInit {
   addMonth(){
     if(this.filterdate == undefined){
       this.showerror = true;
-      this.errormessage = "Debe escoger un mes valido."
+      this.errormessage = "Debe escoger un mes válido."
     }
     else{
       this.showerror = false;
@@ -231,7 +229,7 @@ export class BGCViewComponent implements OnInit {
     }
     else{
       this.showerror = true;
-      this.errormessage = "Debe escoger un año valido."
+      this.errormessage = "Debe escoger un año válido."
     }
   }
   //Generates an specific month date

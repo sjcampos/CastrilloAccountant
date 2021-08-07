@@ -6,7 +6,7 @@ import { CompanyServiceService } from '../../../services/companies/company-servi
 import { StorageServiceService } from '../../../services/localstorage/storage-service.service';
 import { ReportServiceService } from '../../../services/reports/report-service.service';
 import { ProviderServiceService } from '../../../services/providers/provider-service.service';
-import { provider } from '../../../models/provider.model';
+
 
 @Component({
   selector: 'app-proxemp-view',
@@ -83,7 +83,7 @@ export class ProxempViewComponent implements OnInit {
         
         
       },
-      err => console.log(err)
+      err => {}
     )
   }
   //Gets the companys of a collaborator
@@ -95,7 +95,7 @@ export class ProxempViewComponent implements OnInit {
         this.companies = comp.companys;
         
       },
-      err => console.log(err)
+      err => {}
     )
   }
   //Gets the providers of a company
@@ -121,11 +121,10 @@ export class ProxempViewComponent implements OnInit {
               this.divloading = false;
               this.divreg = true;
               this.buttondownload = false;
-              this.showmodalError("No se cuenta con clientes registrados");
+              this.showmodalError("No se cuenta con clientes registrados.");
             }
         }
         ,err=> {
-          console.log(err)
           this.showmodalError(err.error.message);
         }
       );
@@ -177,7 +176,7 @@ export class ProxempViewComponent implements OnInit {
           } 
         )
       }else{
-      this.showmodalError('No se cuenta con un identificador de compañía valido, refresque la página por favor.');
+      this.showmodalError('No se cuenta con un identificador de compañía válido, refresque la página por favor.');
       }
     }else{
       this.showmodalError('No cuenta con los permisos necesarios para realizar esta acción.');

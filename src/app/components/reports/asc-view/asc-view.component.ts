@@ -161,7 +161,9 @@ export class AscViewComponent implements OnInit {
         comp = res;
         this.companies = comp.data; 
       },
-      err => console.log(err)
+      err => {
+        
+      }
     )
   }
   //Gets the companys of a collaborator
@@ -172,7 +174,7 @@ export class AscViewComponent implements OnInit {
         comp = res;
         this.companies = comp.companys;
       },
-      err => console.log(err)
+      err => {}
     )
   }
   //Change the filter
@@ -271,7 +273,7 @@ export class AscViewComponent implements OnInit {
             if(date != null && date != undefined){
               this.getDBEntries('date',date);
             }else{
-              this.showmodalError("Debe seleccionar una fecha valida.");
+              this.showmodalError("Debe seleccionar una fecha válida.");
             }
             break;
           case 'month':
@@ -280,7 +282,7 @@ export class AscViewComponent implements OnInit {
               this.getDBEntries('month',newdate);
             }
             else{
-              this.showmodalError("Debe seleccionar una fecha valida.");
+              this.showmodalError("Debe seleccionar una fecha válida.");
             }
             break;
           case 'year':
@@ -288,7 +290,7 @@ export class AscViewComponent implements OnInit {
               let dateyear = this.year+"-01-01";
               this.getDBEntries('year',dateyear);
             }else{
-              this.showmodalError("Debe seleccionar una fecha valida.");
+              this.showmodalError("Debe seleccionar una fecha válida.");
             }
             break;
           default:
@@ -338,7 +340,7 @@ export class AscViewComponent implements OnInit {
   //Shows the next entry on the main list
   nextEntry(){
     if(this.entryindex >= this.entries.length-1){
-      this.showmodalError("No se cuenta con más asientos contables para mostrar");
+      this.showmodalError("No se cuenta con más asientos contables para mostrar.");
     }else{
       this.entryindex = this.entryindex +1;
       this.dataentry = [];
@@ -357,7 +359,7 @@ export class AscViewComponent implements OnInit {
   previousEntry(){
     if(this.entryindex <= 0){
       this.entryindex = 0;
-      this.showmodalError("No se cuenta con más asientos contables para mostrar");
+      this.showmodalError("No se cuenta con más asientos contables para mostrar.");
     }else{
       this.entryindex = this.entryindex -1;
       this.dataentry = this.entries[this.entryindex];

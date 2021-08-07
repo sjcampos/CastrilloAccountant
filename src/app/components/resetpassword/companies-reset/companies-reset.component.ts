@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from "@angular/router";
 import Swal from 'sweetalert2';
-
 //services
 import { CompanyServiceService } from '../../../services/companies/company-service.service';
 import { ResetServiceService } from '../../../services/resetpassword/reset-service.service';
@@ -44,7 +43,7 @@ export class CompaniesResetComponent implements OnInit {
         this.companies = comp.data;
         
       },
-      err => console.log(err)
+      err => {}
     )
   }
 
@@ -54,6 +53,9 @@ export class CompaniesResetComponent implements OnInit {
         text: '¿Esta seguro que desea cambiar la contraseña de este cliente?',
         icon: 'warning',
         showCancelButton: true,
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        confirmButtonColor:'#0096d2',
         confirmButtonText: 'Cambiar',
         cancelButtonText: 'Cancelar'
       }).then((result) => {
@@ -83,7 +85,7 @@ export class CompaniesResetComponent implements OnInit {
           else{
             Swal.fire(
               'Cancelado',
-              'Se necesita un cliente valido para realizar un cambio de contraseña.',
+              'Se necesita un cliente válido para realizar un cambio de contraseña.',
               'error'
             )
           }
