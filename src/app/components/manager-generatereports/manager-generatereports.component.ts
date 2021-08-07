@@ -205,8 +205,7 @@ export class ManagerGeneratereportsComponent implements OnInit {
     let tempd = f.split("-");
     let tempmonth = tempd[1];
     let tempyear = tempd[0];
-    let tempdate = new Date(f);
-     console.log(tempyear +" "+ tempmonth);
+  
     switch (d) {
       case "Balance general Mes actual":
         this.month = tempmonth;
@@ -215,27 +214,27 @@ export class ManagerGeneratereportsComponent implements OnInit {
         //año  y mes
         break;
       case "Balance general por año":
-        this.month = tempdate.getMonth()+2;
-        this.year = tempdate.getFullYear();
+        this.month = tempmonth;
+        this.year = tempyear;
         this.getGeneralBalance(this.month,this.year);
         break;
       case "Balance general mes específico":
-        this.month = tempdate.getMonth()+2;
-        this.year = tempdate.getFullYear();
+        this.month = tempmonth;
+        this.year = tempyear;
         this.getGeneralBalance(this.month,this.year);
         //año  y mes
         break;
       case "Ganancias y pérdidas por mes":
-        this.month = tempdate.getMonth()+2;
-        this.year = tempdate.getFullYear();
+        this.month = tempmonth;
+        this.year = tempyear;
         this.getPYG(this.month,this.year);
         break;
       case "Flujo de efectivo por cuenta":
         this.FE = true;
         this.noFE = false;
         this.divnodata = true;
-        this.month = tempdate.getMonth()+2;
-        this.year = tempdate.getFullYear();
+        this.month = tempmonth;
+        this.year = tempyear;
         this.showPDF = false;
         this.getAccounts(this.slug);
         break;
