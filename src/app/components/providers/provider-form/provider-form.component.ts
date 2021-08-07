@@ -74,6 +74,8 @@ export class ProviderFormComponent implements OnInit {
           this.loadinginit = false;
           Swal.fire({
             title: 'Error',
+            allowOutsideClick: false,
+            allowEscapeKey: false,
             confirmButtonText: `Aceptar`,
             confirmButtonColor:'#0096d2',
            text: err.error.message
@@ -114,17 +116,19 @@ export class ProviderFormComponent implements OnInit {
   registerProvider(){
     let timeoutId;
     if(this.validateData(this.provider)){
+      this.showregister = false;
+      this.loading = true;
       this.providerService.registerProvider(this.provider,this.slug).subscribe(
         res=>{
           if(res != null){
-            this.showregister = false;
-            this.loading = true;
             timeoutId = setTimeout(() =>{
               this.router.navigate([`/providerlist/${this.slug}`]);
             },1500)
           }
         },
         (err) =>{
+          this.showregister = true;
+          this.loading = false;
           this.showerror = true;
           this.messageerror = err['error']['message'];
         }
@@ -148,29 +152,29 @@ export class ProviderFormComponent implements OnInit {
   validateData(p : provider){
     if(p.provider_name == "" || p.provider_name == undefined || p.provider_name == " "){
       this.showerror = true;
-      this.messageerror = "Debe ingresar un nombre valido para el cliente."
+      this.messageerror = "Debe ingresar un nombre válido para el cliente."
       return false;
     }
     if(p.number_phone == "" || p.number_phone == undefined || p.number_phone == " "){
       this.showerror = true;
-      this.messageerror = "Debe ingresar un número de teléfono valido."
+      this.messageerror = "Debe ingresar un número de teléfono válido."
       return false;
     }
     if(p.email == "" || p.email == undefined || p.email == " "){
       this.showerror = true;
-      this.messageerror = "Debe ingresar un email valido para contactar al cliente."
+      this.messageerror = "Debe ingresar un email válido para contactar al cliente."
       return false;
     }
     if(p.agent == "" || p.agent == undefined || p.agent == " "){
       this.showerror = true;
-      this.messageerror = "Debe ingresar un nombre valido para el contacto."
+      this.messageerror = "Debe ingresar un nombre válido para el contacto."
       return false;
     }
     
     if(p.credit){
       if( p.credit_days == undefined || p.credit_days <= 0 ){
         this.showerror = true;
-        this.messageerror = "Debe ingresar una cantidad de días validos."
+        this.messageerror = "Debe ingresar una cantidad de días válidos."
         return false
       }
       else{

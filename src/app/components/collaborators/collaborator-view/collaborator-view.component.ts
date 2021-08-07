@@ -53,15 +53,21 @@ export class CollaboratorViewComponent implements OnInit {
         
 
       },
-      err => console.log(err)
+      err => {
+
+      }
     );
   }
   async getdeleteCol(id : any){
   await Swal.fire({
       title: 'Eliminar colaborador',
-      text: 'Al eliminar este registro no podra recuperarlo',
+      text: 'Al eliminar este registro no podrá recuperarlo',
       icon: 'warning',
       showCancelButton: true,
+      allowOutsideClick: false,
+      allowEscapeKey: false,
+      confirmButtonColor:'#0096d2',
+      cancelButtonColor: '#0096d2',
       confirmButtonText: 'Eliminar',
       cancelButtonText: 'Cancelar'
     }).then((result) => {
@@ -72,31 +78,43 @@ export class CollaboratorViewComponent implements OnInit {
             if(res != null){
               this.newcollaborators = [];
               this.getCollaborators();
-              Swal.fire(
-                'Eliminado',
-                'El registro del colaborador ha sido eliminado.',
-                'success'
-              )
+              Swal.fire({
+                title:'Eliminado',
+                text:'El registro del colaborador ha sido eliminado.',
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                confirmButtonColor:'#0096d2',
+                icon:'success'
+              })
             }else{
-              Swal.fire(
-                'Error al eliminar el registro',
-                'El registro del colaborador no ha sido eliminado.',
-                'error'
-              )
+              Swal.fire({
+                title:'Error al eliminar el registro',
+                text:'El registro del colaborador no ha sido eliminado.',
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                confirmButtonColor:'#0096d2',
+                icon:'error'
+              })
             }
-          }, error => Swal.fire(
-            'Error al eliminar la cuenta seleccionada',
-            error.error.message,
-            'error'
-          )
+          }, error => Swal.fire({
+            title:'Error al eliminar la cuenta seleccionada',
+            text: error.error.message,
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+            confirmButtonColor:'#0096d2',
+            icon: 'error'
+          })
           )
         
       } else if (result.dismiss === Swal.DismissReason.cancel) {
-        Swal.fire(
-          'Cancelado',
-          'El registro del colaborador no ha sido eliminado.',
-          'error'
-        )
+        Swal.fire({
+          title:'Cancelado',
+          text:'El registro del colaborador no ha sido eliminado.',
+          allowOutsideClick: false,
+          allowEscapeKey: false,
+          confirmButtonColor:'#0096d2',
+          icon:'error'
+      })
       }
     })
 
@@ -110,7 +128,9 @@ export class CollaboratorViewComponent implements OnInit {
           return 2;
         }
       },
-      err => console.log(err)
+      err => {
+
+      }
     )
     return 0;
      

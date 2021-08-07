@@ -113,18 +113,23 @@ export class ManagerDashboardComponent implements OnInit {
       res =>{
         if(res != null){
           this.getMeetings();
-          Swal.fire(
-            'Solicitud de reunión',
-            'La solicitud de reunión fue procesada de manera exitosa.',
-            'success')
+          Swal.fire({
+            title:'Solicitud de reunión',
+            text:'La solicitud de reunión fue procesada de manera exitosa.',
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+            confirmButtonColor:'#0096d2',
+            icon:'success'})
         }
         
       },err => {
-        console.log(err);
-        Swal.fire(
-          'Error',
-          'No se pudo procesar la solicitud de manera exitosa.',
-          'error')
+        Swal.fire({
+          title:'Error',
+          text:'No se pudo procesar la solicitud de manera exitosa.',
+          allowOutsideClick: false,
+          allowEscapeKey: false,
+          confirmButtonColor:'#0096d2',
+          icon:'error'})
       }
     ) 
   }
@@ -152,28 +157,34 @@ export class ManagerDashboardComponent implements OnInit {
   //Show the details of an activity
   showDetails(act : any){
   if(act.id_user.collaborators != undefined){
-    Swal.fire(
-      'Detalle',
-      `Fecha: ${act.activity_date} <br>
+    Swal.fire({
+      title:'Detalle',
+      text:`Fecha: ${act.activity_date} <br>
         Código: ${act.activity_code} <br> Actividad: ${act.details} <br>
         Identificación: ${act.id_user.collaborators[0].identification} <br>
         Usuario: ${act.id_user.collaborators[0].collaborator_name +' '+ act.id_user.collaborators[0].collaborator_lastname} <br>
         Correo electrónico: ${act.id_user.collaborators[0].email} <br>
         Teléfono: ${act.id_user.collaborators[0].number_phone}`,
-      'info'
-    );
+      allowOutsideClick: false,
+      allowEscapeKey: false,
+      confirmButtonColor:'#0096d2',
+      icon:'info'
+    });
   }
   else{
-    Swal.fire(
-      'Detalle',
-      `Fecha: ${act.activity_date} <br>
+    Swal.fire({
+      title:'Detalle',
+      text:`Fecha: ${act.activity_date} <br>
         Código: ${act.activity_code} <br> Actividad: ${act.details} <br>
         Compañía: ${act.id_user.company[0].company_name} <br>
         Agente: ${act.id_user.company[0].agent} <br>
         Correo electrónico: ${act.id_user.company[0].main_email} <br>
         Teléfono: ${act.id_user.company[0].number_phone}`,
-      'info'
-    );
+      allowOutsideClick: false,
+      allowEscapeKey: false,
+      confirmButtonColor:'#0096d2',
+      icon:'info'
+    });
   }
 
   }
@@ -205,7 +216,7 @@ export class ManagerDashboardComponent implements OnInit {
             this.activity = [];
           }
         }
-      },err => console.log(err)
+      },err => {}
     )
   }
   //Cleans the filter
@@ -223,7 +234,6 @@ export class ManagerDashboardComponent implements OnInit {
   }
   //Gets the filter activities
   getFilterActivities(){
-    console.log(this.filterCollab);
     let date;
     if(this.dateObj == undefined){
       date = null;
@@ -317,13 +327,16 @@ export class ManagerDashboardComponent implements OnInit {
             this.downloadPdf(base64String,"Historial de actividades");
           
           }
-        },err => console.log(err)
+        },err => {}
       )
     }else{
-      Swal.fire(
-        'Error',
-        'No se cuenta con un historial para descargar.',
-        'error')
+      Swal.fire({
+        title:'Error',
+        text:'No se cuenta con un historial para descargar.',
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        confirmButtonColor:'#0096d2',
+        icon:'error'})
     }
     
   }
@@ -345,7 +358,9 @@ export class ManagerDashboardComponent implements OnInit {
         this.selectcollabs = temp.Collaborators;
 
       },
-      err => console.log(err)
+      err => {
+
+      }
     );
   }
   //registers all the activities

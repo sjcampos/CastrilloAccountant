@@ -58,11 +58,14 @@ export class CompanyCollabComponent implements OnInit {
         },550)
           
         }
-      }, error => Swal.fire(
-        'Error al asignar el colaborador asignado',
-        error.error.message,
-        'error'
-      )
+      }, error => Swal.fire({
+        title:'Error al asignar el colaborador asignado',
+        text:error.error.message,
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        confirmButtonColor:'#0096d2',
+        icon:'error'
+      })
     )
   }
 
@@ -131,7 +134,7 @@ export class CompanyCollabComponent implements OnInit {
           
 
         },
-        err => console.log(err)
+        err => {}
       );
   }
   //Filters all the collaborators that are no assigned
@@ -154,7 +157,6 @@ export class CompanyCollabComponent implements OnInit {
           }
         }
         else{
-          console.log("No estaba entonces lo agregué");
           this.collaborators.push(col.id_collaborators);
         }
     }
@@ -167,6 +169,10 @@ export class CompanyCollabComponent implements OnInit {
       text: '¿Desea deshacer la asignación de este colaborador?',
       icon: 'warning',
       showCancelButton: true,
+      allowOutsideClick: false,
+      allowEscapeKey: false,
+      confirmButtonColor:'#0096d2',
+      cancelButtonColor: '#0096d2',
       confirmButtonText: 'Deshacer',
       cancelButtonText: 'Cancelar'
     }).then((result) => {
@@ -184,32 +190,44 @@ export class CompanyCollabComponent implements OnInit {
                 this.hasaccounts = true;
                 this.notavailable = false; 
               }  
-              Swal.fire(
-                'Eliminado',
-                'El registro del colaborador ha sido eliminado.',
-                'success'
-              )
+              Swal.fire({
+                title:'Eliminado',
+                text:'El registro del colaborador ha sido eliminado.',
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                confirmButtonColor:'#0096d2',
+                icon:'success'
+              })
             }else{
-              Swal.fire(
-                'Error al eliminar el registro',
-                'El registro del colaborador no ha sido eliminado.',
-                'error'
-              )
+              Swal.fire({
+                title:'Error al eliminar el registro',
+                text:'El registro del colaborador no ha sido eliminado.',
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                confirmButtonColor:'#0096d2',
+                icon:'error'
+              })
             }
-          }, error => Swal.fire(
-            'Error al eliminar el colaborador asignado',
-            error.error.message,
-            'error'
-          )
+          }, error => Swal.fire({
+            title:'Error al eliminar el colaborador asignado',
+            text:error.error.message,
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+            confirmButtonColor:'#0096d2',
+            icon:'error'
+          })
         )
         
         
       } else if (result.dismiss === Swal.DismissReason.cancel) {
-        Swal.fire(
-          'Cancelado',
-          'El registro de asignación no ha sido eliminado.',
-          'error'
-        )
+        Swal.fire({
+          title:'Cancelado',
+          text:'El registro de asignación no ha sido eliminado.',
+          allowOutsideClick: false,
+          allowEscapeKey: false,
+          confirmButtonColor:'#0096d2',
+          icon:'error'
+        })
       }
     })
 

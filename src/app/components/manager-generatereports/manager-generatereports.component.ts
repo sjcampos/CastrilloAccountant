@@ -89,25 +89,34 @@ export class ManagerGeneratereportsComponent implements OnInit {
               this.closeWindow();
             }
             else{
-              Swal.fire(
-              'Error',
-              'La solicitud no se pudo cancelar de manera exitosa.',
-              'error')
+              Swal.fire({
+              title:'Error',
+              text:'La solicitud no se pudo cancelar de manera exitosa.',
+              allowOutsideClick: false,
+              allowEscapeKey: false,
+              confirmButtonColor:'#0096d2',
+              icon:'error'})
             }         
           },err => {
-            Swal.fire(
-              'Error',
-               err,
-              'error'
-            )
+            Swal.fire({
+              title:'Error',
+              text:err.error.message,
+              allowOutsideClick: false,
+              allowEscapeKey: false,
+              confirmButtonColor:'#0096d2',
+              icon:'error'
+            })
           }
         ) 
       } else if (result.dismiss === Swal.DismissReason.cancel) {
-        Swal.fire(
-          'Cancelado',
-          'La solicitud no se canceló de manera exitosa.',
-          'error'
-        )
+        Swal.fire({
+          title:'Cancelado',
+          text:'La solicitud no se canceló de manera exitosa.',
+          allowOutsideClick: false,
+          allowEscapeKey: false,
+          confirmButtonColor:'#0096d2',
+          icon:'error'
+        })
       }
     })
 
@@ -122,7 +131,6 @@ export class ManagerGeneratereportsComponent implements OnInit {
       allowEscapeKey: false,
       confirmButtonColor:'#0096d2',
       confirmButtonText: 'Cerrar',
-      
     }).then((result) => {
       if (result.isConfirmed) {
         this.router.navigate(['/managerdashboard']);
@@ -155,10 +163,13 @@ export class ManagerGeneratereportsComponent implements OnInit {
             },900);
           }
         },err =>{
-          Swal.fire(
-            'Error',
-            'No se puede enviar el reporte.',
-            'error')
+          Swal.fire({
+            title:'Error',
+            text:'No se puede enviar el reporte.',
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+            confirmButtonColor:'#0096d2',
+            icon:'error'})
             this.loading = false;
             this.loadingmessage = "";
             this.showf = true;
@@ -167,10 +178,13 @@ export class ManagerGeneratereportsComponent implements OnInit {
       )
     }
     else{
-      Swal.fire(
-        'Error',
-        'No se puede enviar el reporte sin un archivo.',
-        'error')
+      Swal.fire({
+        title:'Error',
+        text:'No se puede enviar el reporte sin un archivo.',
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        confirmButtonColor:'#0096d2',
+        icon:'error'})
     }
   }
   //Updates the state of the application
@@ -182,15 +196,15 @@ export class ManagerGeneratereportsComponent implements OnInit {
         }
         
       },err => {
-        console.log(err);
+        
       }
     ) 
   }
   //Validates the type of report
   validateReportType(d : string, f : any){
-    console.log(f);
+    
     let tempdate = new Date(f);
-    console.log(tempdate);
+ 
     switch (d) {
       case "Balance general Mes actual":
         this.month = tempdate.getMonth()+2;
@@ -209,7 +223,7 @@ export class ManagerGeneratereportsComponent implements OnInit {
         this.getGeneralBalance(this.month,this.year);
         //año  y mes
         break;
-      case "Ganancias y perdidas por mes":
+      case "Ganancias y pérdidas por mes":
         this.month = tempdate.getMonth()+2;
         this.year = tempdate.getFullYear();
         this.getPYG(this.month,this.year);
@@ -262,7 +276,7 @@ export class ManagerGeneratereportsComponent implements OnInit {
         Swal.fire({
           title: 'Error',
           allowOutsideClick: false,
-          allowEscapeKey: false,
+          allowEscapeKey: false,          
           confirmButtonText: `Aceptar`,
           confirmButtonColor:'#0096d2',
          text: err.error.message
@@ -367,7 +381,6 @@ export class ManagerGeneratereportsComponent implements OnInit {
   }
   //Adds accounts for the flujo de efectivo report
   addAccount(id : number){
-    
     if(this.accounts.includes(id)){
       let pos = this.accounts.indexOf(id);
       if(pos !== -1){
@@ -390,6 +403,8 @@ export class ManagerGeneratereportsComponent implements OnInit {
         this.showPDF = false;
         Swal.fire({
           title: 'Error',
+          allowOutsideClick: false,
+          allowEscapeKey: false,
           confirmButtonText: `Aceptar`,
           confirmButtonColor:'#0096d2',
          text: err.error.message
@@ -415,10 +430,13 @@ export class ManagerGeneratereportsComponent implements OnInit {
       }
     }
     else{
-      Swal.fire(
-        'Error',
-        'No se pueden cargar archivos que no sean formato PDF.',
-        'error')
+      Swal.fire({
+        title:'Error',
+        text:'No se pueden cargar archivos que no sean formato PDF.',
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        confirmButtonColor:'#0096d2',
+        icon:'error'})
     }
   }
 

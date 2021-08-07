@@ -1,11 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from "@angular/router";
-
 //models
 import { collaborator } from '../../../models/collaborator.model';
 import { Rol } from "../../../models/rol.model";
 import { permission } from '../../../models/permission.model';
-
 //services
 import { CollaboratorServiceService } from '../../../services/collaborators/collaborator-service.service';
 import { RolServiceService } from '../../../services/rol/rol-service.service';
@@ -87,6 +85,8 @@ export class CollaboratorFormComponent implements OnInit {
           Swal.fire({
             title: 'Error',
             confirmButtonText: `Aceptar`,
+            allowOutsideClick: false,
+            allowEscapeKey: false,
             confirmButtonColor:'#0096d2',
            text: err.error.message
           }).then((result) => {
@@ -269,17 +269,17 @@ export class CollaboratorFormComponent implements OnInit {
     }
     if(newCollaborator.number_phone === null || newCollaborator.number_phone === undefined){
       this.showerror = true;
-      this.messageerror = "Debe ingresar un número de teléfono valido.";
+      this.messageerror = "Debe ingresar un número de teléfono válido.";
       return false;
     }
     if(newCollaborator.email.trim().length === 0 || newCollaborator.email === null || newCollaborator.email === undefined){
       this.showerror = true;
-      this.messageerror = "Debe ingresar un email valido.";
+      this.messageerror = "Debe ingresar un email válido.";
       return false;
     }
     if(newCollaborator.collaborator_password.trim().length === 0 || newCollaborator.collaborator_password === null || newCollaborator.collaborator_password === undefined){
       this.showerror = true;
-      this.messageerror = "Debe ingresar una contraseña valida.";
+      this.messageerror = "Debe ingresar una contraseña válida.";
       return false;
     }
     if( newCollaborator.id_rol === null || newCollaborator.id_rol === undefined || newCollaborator.id_rol === "0"){

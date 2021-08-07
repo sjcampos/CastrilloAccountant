@@ -5,9 +5,6 @@ import Swal from 'sweetalert2';
 //services
 import { CompanyServiceService } from '../../../services/companies/company-service.service';
 
-
-
-
 @Component({
   selector: 'app-company-view',
   templateUrl: './company-view.component.html',
@@ -50,7 +47,7 @@ export class CompanyViewComponent implements OnInit {
         this.companies = comp.data;
         
       },
-      err => console.log(err)
+      err => {}
     )
   }
 
@@ -60,6 +57,10 @@ export class CompanyViewComponent implements OnInit {
         text: 'Al eliminar este registro no podra recuperarlo y se eliminaran todos los datos relacionados a la companía seleccionada.',
         icon: 'warning',
         showCancelButton: true,
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        confirmButtonColor:'#0096d2',
+        cancelButtonColor: '#0096d2',
         confirmButtonText: 'Eliminar',
         cancelButtonText: 'Cancelar'
       }).then((result) => {
@@ -68,33 +69,45 @@ export class CompanyViewComponent implements OnInit {
             res =>{
               if(res != null){
                 this.getCompanies();
-                Swal.fire(
-                  'Eliminado',
-                  'El registro de la compañía ha sido eliminado.',
-                  'success'
-                )
+                Swal.fire({
+                  title:'Eliminado',
+                  text:'El registro de la compañía ha sido eliminado.',
+                  allowOutsideClick: false,
+                  allowEscapeKey: false,
+                  confirmButtonColor:'#0096d2',
+                  icon:'success'
+                })
               }
               else{
-                Swal.fire(
-                  'Error al eliminar el registro',
-                  'La companía seleccionada no ha sido eliminada.',
-                  'error'
-                )
+                Swal.fire({
+                  title:'Error al eliminar el registro',
+                  text:'La companía seleccionada no ha sido eliminada.',
+                  allowOutsideClick: false,
+                  allowEscapeKey: false,
+                  confirmButtonColor:'#0096d2',
+                  icon:'error'
+                })
 
               }
-            } , error => Swal.fire(
-              'Error al eliminar la compañía seleccionada',
-              error.error.message,
-              'error'
-            )
+            } , error => Swal.fire({
+              title:'Error al eliminar la compañía seleccionada',
+              text: error.error.message,
+              allowOutsideClick: false,
+              allowEscapeKey: false,
+              confirmButtonColor:'#0096d2',
+              icon: 'error'
+            })
           )
           
         } else if (result.dismiss === Swal.DismissReason.cancel) {
-          Swal.fire(
-            'Cancelado',
-            'El registro de la compañía no ha sido eliminado.',
-            'error'
-          )
+          Swal.fire({
+            title:'Cancelado',
+            text:'El registro de la compañía no ha sido eliminado.',
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+            confirmButtonColor:'#0096d2',
+            icon:'error'
+          })
         }
       })
   

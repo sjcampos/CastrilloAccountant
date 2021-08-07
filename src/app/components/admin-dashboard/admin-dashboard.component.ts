@@ -67,28 +67,34 @@ export class AdminDashboardComponent implements OnInit {
 
   showDetails(act : any){
     if(act.id_user.collaborators != undefined){
-      Swal.fire(
-        'Detalle',
-        `Fecha: ${act.activity_date} <br>
+      Swal.fire({
+        title:'Detalle',
+        text:`Fecha: ${act.activity_date} <br>
          Código: ${act.activity_code} <br> Actividad: ${act.details} <br>
          Identificación: ${act.id_user.collaborators[0].identification} <br>
          Usuario: ${act.id_user.collaborators[0].collaborator_name +' '+ act.id_user.collaborators[0].collaborator_lastname} <br>
          Correo electrónico: ${act.id_user.collaborators[0].email} <br>
          Teléfono: ${act.id_user.collaborators[0].number_phone}`,
-        'info'
-      );
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        confirmButtonColor:'#0096d2',
+        icon:'info'
+      });
     }
     else{
-      Swal.fire(
-        'Detalle',
-        `Fecha: ${act.activity_date} <br>
+      Swal.fire({
+        title:'Detalle',
+        text:`Fecha: ${act.activity_date} <br>
          Código: ${act.activity_code} <br> Actividad: ${act.details} <br>
          Compañía: ${act.id_user.company[0].company_name} <br>
          Agente: ${act.id_user.company[0].agent} <br>
          Correo electrónico: ${act.id_user.company[0].main_email} <br>
          Teléfono: ${act.id_user.company[0].number_phone}`,
-        'info'
-      );
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        confirmButtonColor:'#0096d2',
+        icon:'info'
+      });
     }
 
   }
@@ -109,7 +115,6 @@ export class AdminDashboardComponent implements OnInit {
           let temp : any = [];
           temp = res;
           this.activityrecord = temp.RA;
-          console.log(this.activityrecord);
           if(this.activityrecord.length <= 0){
             this.record = false;
             this.norecord = true;
@@ -119,7 +124,9 @@ export class AdminDashboardComponent implements OnInit {
            this.norecord = false;
          }
         }
-      },err => console.log(err)
+      },err => {
+
+      }
     )
   }
   //Gets the filter activities
@@ -150,13 +157,11 @@ export class AdminDashboardComponent implements OnInit {
           collaborator : this.filterCollab,
           client: this.filterClient
         };
-        console.log(acti);
         this.recordService.getAdminInitial(filter).subscribe(
           res =>{
             if(res != null){
               let temp : any = [];
               temp = res;
-              
               this.activityrecord = temp.RA;
               if(this.activityrecord.length <= 0){
                 this.record = false;
@@ -206,7 +211,17 @@ export class AdminDashboardComponent implements OnInit {
           this.downloadPdf(base64String,"Historial de actividades");
         
         }
-      },err => console.log(err)
+      },err => {
+        Swal.fire({
+          title:'Detalle',
+          text: err.error.message,
+          allowOutsideClick: false,
+          allowEscapeKey: false,
+          confirmButtonColor:'#0096d2',
+          icon:'info'
+        });
+
+      }
     )
     
   }
@@ -272,7 +287,9 @@ export class AdminDashboardComponent implements OnInit {
         this.selectcollabs = temp.Collaborators;
 
       },
-      err => console.log(err)
+      err =>{
+
+      }
     );
   }
   //gets all the companies
@@ -283,7 +300,9 @@ export class AdminDashboardComponent implements OnInit {
         comp = res;
         this.selectclients = comp.data;
       },
-      err => console.log(err)
+      err =>{
+
+      }
     )
   }
   //registers all the activities

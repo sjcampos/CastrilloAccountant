@@ -36,8 +36,6 @@ export class ClientsFormComponent implements OnInit {
   };
 
   loadinginit : boolean = true;
-
-
   constructor(private router: Router, private activedRoute: ActivatedRoute, private clientService : ClientServiceService) { }
 
   ngOnInit(): void {
@@ -61,11 +59,9 @@ export class ClientsFormComponent implements OnInit {
         this.update = false;
         this.loadinginit = false;
         this.slug = params.slug;
-        
       }
     }
   }
-  
   //Gets an specific client data
   getClient(id : any, slug: any){
     this.clientService.getClient(id,slug).subscribe(
@@ -79,7 +75,10 @@ export class ClientsFormComponent implements OnInit {
           title: 'Error',
           confirmButtonText: `Aceptar`,
           confirmButtonColor:'#0096d2',
-         text: err.error.message
+          allowOutsideClick: false,
+          allowEscapeKey: false,
+          text: err.error.message,
+          icon: 'error'
         }).then((result) => {
           if (result.isConfirmed) {
             this.router.navigate([`/companylist`]);
@@ -104,11 +103,11 @@ export class ClientsFormComponent implements OnInit {
   registerClient(){
     let timeoutId;
     if(this.validateData(this.client)){
+      this.showregister = false;
+      this.loading = true;
       this.clientService.registerClient(this.client, this.slug).subscribe(
         res=>{
           if(res != null){
-            this.showregister = false;
-            this.loading = true;
             timeoutId = setTimeout(() =>{
               this.router.navigate([`/clientslist/${this.slug}`]);
             },1500)
@@ -117,8 +116,8 @@ export class ClientsFormComponent implements OnInit {
         (err) =>{
           this.loading = false;
           this.register = true;
-         this.showerror = true;
-         this.messageerror = err['error']['message'];
+          this.showerror = true;
+          this.messageerror = err['error']['message'];
         }
       )
     }
@@ -133,7 +132,6 @@ export class ClientsFormComponent implements OnInit {
       this.clientService.updateClient(this.slug, this.client).subscribe(
         res =>{
           if(res !=  null){
-            
             //time out for the loading gif
             timeoutId = setTimeout(() =>{
               this.router.navigate([`/clientslist/${this.slug}`]);
@@ -153,22 +151,22 @@ export class ClientsFormComponent implements OnInit {
   validateData(c : clients){
     if(c.clients_name == "" || c.clients_name == undefined || c.clients_name == " "){
       this.showerror = true;
-      this.messageerror = "Debe ingresar un nombre valido para el cliente."
+      this.messageerror = "Debe ingresar un nombre válido para el cliente."
       return false;
     }
     if(c.email == "" || c.email == undefined || c.email == " "){
       this.showerror = true;
-      this.messageerror = "Debe ingresar un email valido para contactar al cliente."
+      this.messageerror = "Debe ingresar un email válido para contactar al cliente."
       return false;
     }
     if(c.agent == "" || c.agent == undefined || c.agent == " "){
       this.showerror = true;
-      this.messageerror = "Debe ingresar un nombre valido para el contacto."
+      this.messageerror = "Debe ingresar un nombre válido para el contacto."
       return false;
     }
     if(c.number_phone == "" || c.number_phone == undefined || c.number_phone == " "){
       this.showerror = true;
-      this.messageerror = "Debe ingresar un número de teléfono valido."
+      this.messageerror = "Debe ingresar un número de teléfono válido."
       return false;
     }
     if(c.credit){

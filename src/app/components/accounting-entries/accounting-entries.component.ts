@@ -17,6 +17,8 @@ import { entries } from "../../models/entries.model";
 })
 export class AccountingEntriesComponent implements OnInit {
 
+  coll : boolean = false;
+  manager : boolean = false;
   showerror : boolean = false;
   messageerror : string = "";
   showerrorconfirm : boolean = false;
@@ -72,6 +74,14 @@ export class AccountingEntriesComponent implements OnInit {
   ngOnInit(): void {
     const params = this.activedRoute.snapshot.params;
     let data = this.storageService.readData();
+    if(data.permissions.includes("4") && data.permissions.includes("5")){
+      this.coll = false;
+      this.manager = true;
+    }
+    else{
+      this.coll = true;
+      this.manager = false;
+    }
     if(data.permissions.includes("3")){
       if(params.slug){
         this.slug = params.slug;
@@ -106,18 +116,24 @@ export class AccountingEntriesComponent implements OnInit {
   registerEntries(){
     let timeoutId;
     if(this.entry.type_currency == 0 || this.entry.type_currency == undefined || this.entry.type_currency == null){
-      Swal.fire(
-        'Error al registrar asiento',
-        'Debe seleccionar un tipo para registrar el asiento.',
-        'error'
-      )
+      Swal.fire({
+        title:'Error al registrar asiento',
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        confirmButtonColor:'#0096d2',
+        text:'Debe seleccionar un tipo para registrar el asiento.',
+        icon:'error'
+      })
     }
     if(this.entry.details == null || this.entry.details == "" || this.entry.details == undefined){
-      Swal.fire(
-        'Error al registrar asiento',
-        'Debe ingresar un detalle para el asiento.',
-        'error'
-      )
+      Swal.fire({
+        title:'Error al registrar asiento',
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        confirmButtonColor:'#0096d2',
+        text:'Debe ingresar un detalle para el asiento.',
+        icon:'error'
+      })
     }else{
       if(this.totalhaber == this.totaldebe){
         if(this.seals.length > 0 && this.seals.length > 1){
@@ -132,6 +148,9 @@ export class AccountingEntriesComponent implements OnInit {
                   Swal.fire({
                     title: 'Registro de asiento',
                     text: 'Registro de movimientos completado de manera exitosa.',
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    confirmButtonColor:'#0096d2',
                     icon: 'success',
                     confirmButtonText: 'Aceptar',
                   }).then((result) => {
@@ -147,10 +166,13 @@ export class AccountingEntriesComponent implements OnInit {
                 },860)
               }
             }, error => {
-              console.log(error);
+              //console.log(error.error.message);
               Swal.fire({
                 title: 'Registro de asiento',
                 text: 'No se pudo registrar los movimientos de manera exitosa, por favor intente de nuevo.',
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                confirmButtonColor:'#0096d2',
                 icon: 'error',
                 confirmButtonText: 'Aceptar',
               }).then((result) => {
@@ -161,33 +183,30 @@ export class AccountingEntriesComponent implements OnInit {
               })
   
             }  
-            /*Swal.fire(
-              'Error al eliminar la cuenta seleccionada',
-              error.error.message,
-              'error'
-            )*/
           )
         }
         else{
-          Swal.fire(
-            'Error al registrar asiento',
-            'Debe registrar más de un movimiento.',
-            'error'
-          )
-          
+          Swal.fire({
+            title:'Error al registrar asiento',
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+            confirmButtonColor:'#0096d2',
+            text:'Debe registrar más de un movimiento.',
+            icon:'error'
+          }) 
         }     
       }
       else{
-        Swal.fire(
-          'Error al registrar asiento',
-          'Los montos totales del debe y haber no son iguales.',
-          'error'
-        )
-  
+        Swal.fire({
+          title:'Error al registrar asiento',
+          allowOutsideClick: false,
+          allowEscapeKey: false,
+          confirmButtonColor:'#0096d2',
+          text:'Los montos totales del debe y haber tiene que ser iguales.',
+          icon:'error'
+        })
       }
-
     }
-
   }
   //Deletes an entry from the seals array
   async deleteEntry(e : any){
@@ -196,8 +215,6 @@ export class AccountingEntriesComponent implements OnInit {
       this.seals.splice(pos,1); 
       this.subtractTotal(e);
     }
-    
-  
   }
   //Gets all the accounts of a company
   getAccounts(slug: string){
@@ -216,7 +233,7 @@ export class AccountingEntriesComponent implements OnInit {
   }
   //Selects the id account for the entry
   selectAccount(a : any){
-    console.log(a);
+
     if(a != undefined){
       if(this.entry.id_account == 0){
         this.entry.id_account = a.id_account;
@@ -230,8 +247,6 @@ export class AccountingEntriesComponent implements OnInit {
         this.entry.id_account = 0;
         this.entry.account_name = "";
       }
-      console.log(this.entry.id_account);
-      console.log(this.entry.account_name);
     }
     else{
       this.entry.id_account = 0;

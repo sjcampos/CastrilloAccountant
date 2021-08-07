@@ -71,7 +71,9 @@ export class CompanyAccountingComponent implements OnInit {
         comp = res;
         this.companies = comp.data;        
       },
-      err => console.log(err)
+      err =>{
+        
+      }
     )
   }
   //Gets the specific companies of a collaborator

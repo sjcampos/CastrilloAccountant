@@ -1,4 +1,9 @@
-<app-manager-navbar></app-manager-navbar>
+<div *ngIf="manager">
+    <app-manager-navbar></app-manager-navbar>
+</div>
+<div *ngIf="coll">
+    <app-collaborator-navbar></app-collaborator-navbar>
+</div>
 
 <div class="container-fluid" *ngIf="showform">
     <div class="row" id="row">

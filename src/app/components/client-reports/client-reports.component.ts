@@ -80,14 +80,12 @@ export class ClientReportsComponent implements OnInit {
             this.record = false;
             this.norecord = true;
           }
-          
         }
       }
     )
   }
   //Changes the type of the Balance general report
   changeType(op : number){
-
     switch (op) {
       case 1:
         if(this.option == op){
@@ -332,18 +330,24 @@ export class ClientReportsComponent implements OnInit {
       res =>{
         if(res != null){
           this.getReports();
-          Swal.fire(
-            'Solicitado',
-            'El reporte fue solicitado de manera exitosa.',
-            'success'
-          ) 
+          Swal.fire({
+            title:'Solicitado',
+            text:'El reporte fue solicitado de manera exitosa.',
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+            confirmButtonColor:'#0096d2',
+            icon:'success'
+          }) 
         }
       },err => {
-        Swal.fire(
-          'Error al solicitar reporte',
-          'El reporte no pudo ser solicitado de manera exitosa, intente de nuevo por favor.',
-          'error'
-        )
+        Swal.fire({
+          title:'Error al solicitar reporte',
+          text:'El reporte no pudo ser solicitado de manera exitosa, intente de nuevo por favor.',
+          allowOutsideClick: false,
+          allowEscapeKey: false,
+          confirmButtonColor:'#0096d2',
+          icon:'error'
+        })
         
       }
     )
@@ -437,12 +441,11 @@ export class ClientReportsComponent implements OnInit {
   validDescription(r : Request){
     if(r.description == null || r.description == undefined || r.description.trim().length == 0){
       this.showerror = true;
-      this.errormessage = "Debe proporcionar una descrpción valida.";
+      this.errormessage = "Debe proporcionar una descripción valida.";
       return false;
     }
     else{
       return true;
     }
   }
-
 }

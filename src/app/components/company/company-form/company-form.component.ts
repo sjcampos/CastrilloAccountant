@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from "@angular/router";
 //models
 import { company } from '../../../models/company.model';
-import { collaborator } from '../../../models/collaborator.model';
 //services
 import { CollaboratorServiceService } from '../../../services/collaborators/collaborator-service.service';
 import { CompanyServiceService } from '../../../services/companies/company-service.service';
@@ -137,6 +136,8 @@ export class CompanyFormComponent implements OnInit {
             }
           },
           (err) =>{
+            this.register = true;
+            this.loading = false;
            this.formerror = true;
            this.formerrormessage = err.error.message;
           }
@@ -155,7 +156,9 @@ export class CompanyFormComponent implements OnInit {
           }
         }
       },
-      err => console.log(err)
+      err => {
+
+      }
     );
   }
   //Registers a new company
@@ -182,8 +185,8 @@ export class CompanyFormComponent implements OnInit {
         },err =>{
           this.loadinginit = false;
           this.register = true;
-        this.formerror = true;
-        this.formerrormessage = err.error.message;
+          this.formerror = true;
+          this.formerrormessage = err.error.message;
 
       }
       );
@@ -253,22 +256,22 @@ export class CompanyFormComponent implements OnInit {
   validUpdate(comp : company){
     if(comp.company_name.trim() == '' || comp.company_name == null || comp.company_name == undefined){
       this.formerror = true;
-      this.formerrormessage = "Debe ingresar un nombre de empresa valido."
+      this.formerrormessage = "Debe ingresar un nombre de empresa válido."
       return false;
     }
     if(comp.agent.trim() == '' || comp.agent == null || comp.agent == undefined){
       this.formerror = true;
-      this.formerrormessage = "Debe ingresar un nombre de contacto valido."
+      this.formerrormessage = "Debe ingresar un nombre de contacto válido."
       return false;
     }
     if(comp.number_phone.trim() == '' || comp.number_phone == null || comp.number_phone == undefined){
       this.formerror = true;
-      this.formerrormessage = "Debe ingresar un número de teléfono valido."
+      this.formerrormessage = "Debe ingresar un número de teléfono válido."
       return false;
     }
     if(comp.main_email.trim() == '' || comp.main_email == null || comp.main_email == undefined){
       this.formerror = true;
-      this.formerrormessage = "Debe ingresar un email valido";
+      this.formerrormessage = "Debe ingresar un email válido.";
     }
     else{
       return true;

@@ -124,9 +124,6 @@ export class AccountsViewComponent implements OnInit {
   @ViewChild(TreeComponent)
   private tree: TreeComponent;
 
-
-
- 
   accountModel : newAccount;
   accountType : accountType;
   constructor(private accountService : AccountServiceService,private router: Router, private activedRoute: ActivatedRoute,private clientService : ClientServiceService, private providerService : ProviderServiceService) { }
@@ -179,11 +176,11 @@ export class AccountsViewComponent implements OnInit {
   //Registers all the accounts in the db
   registerAccounts(){
     let timeoutId;
+    this.showregister = false;
+    this.loading = true;
     this.accountService.registerAccounts(this.newaccounts, this.slug).subscribe(
       res=>{
           if(res != null){
-            this.showregister = false;
-            this.loading = true;
             timeoutId = setTimeout(() =>{
               this.router.navigate([`/companylist`]);
             },1500)
@@ -191,6 +188,8 @@ export class AccountsViewComponent implements OnInit {
           }
       },
       (err) =>{
+       this.showregister = true;
+       this.loading = false;
        this.showerror = true;
        this.messageerror = err['error']['message'];
       }
@@ -237,13 +236,13 @@ export class AccountsViewComponent implements OnInit {
           }  
           else{
             this.showerror = true;
-            this.messageerror = "Esta no cuenta no se pudo agregar, por favor recargue la página."
+            this.messageerror = "Esta cuenta no se pudo agregar, por favor recargue la página."
             
           } 
         }
         else{
           this.showerror = true;
-            this.messageerror = "Esta no cuenta no permite subcuentas."
+            this.messageerror = "Esta cuenta no permite subcuentas."
         }
       }
       else{
@@ -474,6 +473,9 @@ export class AccountsViewComponent implements OnInit {
      Swal.fire({
       title: `Eliminar cuenta ${acc.node.data.name}`,
       text: 'Al eliminar este registro perdera todas las cuentas asociadas',
+      allowOutsideClick: false,
+      allowEscapeKey: false,
+      confirmButtonColor:'#0096d2',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonText: 'Eliminar',
@@ -481,28 +483,37 @@ export class AccountsViewComponent implements OnInit {
     }).then((result) => {
       if (result.isConfirmed) {
           if(this.removeAccount(acc.node.data.id)){
-            Swal.fire(
-              'Eliminado',
-              'El registro de la cuenta ha sido eliminado.',
-              'success'
-            )
+            Swal.fire({
+              title:'Eliminado',
+              text:'El registro de la cuenta ha sido eliminado.',
+              allowOutsideClick: false,
+              allowEscapeKey: false,
+              confirmButtonColor:'#0096d2',
+              icon:'success'
+            })
           }
           else{
-            Swal.fire(
-              'Error',
-              'El registro de la cuenta no ha sido eliminado de manera exitosa.',
-              'error'
-            )
+            Swal.fire({
+              title:'Error',
+              text:'El registro de la cuenta no ha sido eliminado de manera exitosa.',
+              allowOutsideClick: false,
+              allowEscapeKey: false,
+              confirmButtonColor:'#0096d2',
+              icon:'error'
+            })
           }
               
             
         
       } else if (result.dismiss === Swal.DismissReason.cancel) {
-        Swal.fire(
-          'Cancelado',
-          'El registro del colaborador no ha sido eliminado.',
-          'error'
-        )
+        Swal.fire({
+          title:'Cancelado',
+          text:'El registro del colaborador no ha sido eliminado.',
+          allowOutsideClick: false,
+          allowEscapeKey: false,
+          confirmButtonColor:'#0096d2',
+          icon:'error'
+        })
       }
     })
   }
@@ -544,7 +555,9 @@ export class AccountsViewComponent implements OnInit {
               this.showclients = true;
           }
       }
-      ,err=> console.log(err)
+      ,err=> {
+
+      }
     );
   }
   //gets all the providers
@@ -566,22 +579,18 @@ export class AccountsViewComponent implements OnInit {
   //Removes an account from all the lists
   removeAccount(code : any){
     if(this.removeNormalArray(code)){
-     
       if(this.removeTreeArray(code)){
           if(this.removeSelectArray(code)){
             return true;
           }
-          else{
-            console.log("no elimino select");
+          else{ 
             return false;
           }
       }
       else{
-        console.log("no eliminó tree");
         return false;
       }
     }else{
-      console.log("no eliminó normal");
       return false;
     }
   }

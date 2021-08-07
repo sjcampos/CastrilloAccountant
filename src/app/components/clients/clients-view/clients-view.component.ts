@@ -56,7 +56,9 @@ export class ClientsViewComponent implements OnInit {
             title: 'Error',
             confirmButtonText: `Aceptar`,
             confirmButtonColor:'#0096d2',
-           text: err.error.message
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+            text: err.error.message
           }).then((result) => {
             if (result.isConfirmed) {
               this.router.navigate([`/companylist`]);
@@ -71,6 +73,10 @@ export class ClientsViewComponent implements OnInit {
       title: 'Eliminar cliente',
       text: 'Al eliminar este registro no podra recuperarlo',
       icon: 'warning',
+      confirmButtonColor:'#0096d2',
+      cancelButtonColor: '#0096d2',
+      allowOutsideClick: false,
+      allowEscapeKey: false,
       showCancelButton: true,
       confirmButtonText: 'Eliminar',
       cancelButtonText: 'Cancelar'
@@ -82,32 +88,44 @@ export class ClientsViewComponent implements OnInit {
             if(res!= null){
               this.clients = [];
               this.getClients(this.slug);
-              Swal.fire(
-                'Eliminado',
-                'El registro del cliente ha sido eliminado.',
-                'success'
-              )
+              Swal.fire({
+                title:'Eliminado',
+                text:'El registro del cliente ha sido eliminado.',
+                confirmButtonColor:'#0096d2',
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                icon:'success'
+              })
             }
             else{
-              Swal.fire(
-                'Error al eliminar el registro',
-                'El registro del cliente no ha sido eliminado.',
-                'error'
-              )
+              Swal.fire({
+                title:'Error al eliminar el registro',
+                text:'El registro del cliente no ha sido eliminado.',
+                confirmButtonColor:'#0096d2',
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                icon:'error'
+              })
             }
-          }, error => Swal.fire(
-            'Error al eliminar el registro',
-            error.error.message,
-            'error'
-          )
+          }, error => Swal.fire({
+            title:'Error al eliminar el registro',
+            text: error.error.message,
+            confirmButtonColor:'#0096d2',
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+            icon: 'error'
+          })
         )
         
       } else if (result.dismiss === Swal.DismissReason.cancel) {
-        Swal.fire(
-          'Cancelado',
-          'El registro del proveedor no ha sido eliminado.',
-          'error'
-        )
+        Swal.fire({
+          title:'Cancelado',
+          text:'El registro del proveedor no ha sido eliminado.',
+          confirmButtonColor:'#0096d2',
+          allowOutsideClick: false,
+          allowEscapeKey: false,
+          icon:'error'
+        })
       }
     })
 

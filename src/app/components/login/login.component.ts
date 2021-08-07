@@ -1,7 +1,6 @@
 
 import { Component, OnInit } from '@angular/core';
 import { Router } from "@angular/router";
-
 //services
 import { LoginServiceService } from '../../services/login/login-service.service';
 import { StorageServiceService } from '../../services/localstorage/storage-service.service';
@@ -26,8 +25,8 @@ export class LoginComponent implements OnInit {
   loginform : boolean = true;
   codeform : boolean = false;
   loginerror : boolean = false;
-
   userid : any;
+
   constructor( private loginService : LoginServiceService, private storageService : StorageServiceService, private router: Router) { }
 
   ngOnInit(): void {
@@ -87,16 +86,6 @@ export class LoginComponent implements OnInit {
 
             let temp : any = [];
             temp = res;
-            /*let token = temp.data.token;
-            let ud = temp.data.Userid;
-            let ur = temp.data.Rol;
-            let uper = temp.data.Permissions;
-            let c = temp.data.Code;
-            let ures = temp.data.ResetPassword;*/
-            /*localStorage.setItem('token', token);
-            localStorage.setItem('ud', ud);
-            localStorage.setItem('ur', ur);
-            localStorage.setItem('uper', uper);*/
             this.storageService.saveData(temp.data);
             timeoutId = setTimeout(() =>{
               if(temp.data.ResetPassword == 1){
@@ -125,19 +114,19 @@ export class LoginComponent implements OnInit {
   validData(e : any ,p : any){
     if(e == "" || e == undefined || p == "" || p == undefined){
         this.showerror = true;
-        this.messageerror = "Correo o contraseña inválidos.";
+        this.messageerror = "Correo o contraseña incorrectos.";
         return false;
     }
     if(typeof(e) == "number" || typeof(p) == "number"){
       this.showerror = true;
-      this.messageerror = "Correo o contraseña inválidos.";
+      this.messageerror = "Correo o contraseña incorrectos.";
       return false;
     }
     if(typeof(e) == "string" || typeof(p) == "string"){
       
       if(e.trim().length === 0 || p.trim().length === 0){
         this.showerror = true;
-        this.messageerror = "Correo o contraseña inválidos.";
+        this.messageerror = "Correo o contraseña incorrectos.";
         return false;
       }
       else{

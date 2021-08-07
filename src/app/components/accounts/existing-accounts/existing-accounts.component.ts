@@ -41,9 +41,6 @@ export class ExistingAccountsComponent implements OnInit {
   
     slug: string = "";
 
-  
-
-  
     showerror : boolean = false;
     messageerror : string = "";
   
@@ -108,13 +105,13 @@ export class ExistingAccountsComponent implements OnInit {
     sons:  []
   };
 
-client : clients;
-provider : provider;
-
-account_code : any;
-
-accountModel : newAccount;
-accountType : accountType;
+  client : clients;
+  provider : provider;
+  
+  account_code : any;
+  
+  accountModel : newAccount;
+  accountType : accountType;
 
   constructor(private accountService : AccountServiceService,private router: Router, private activedRoute: ActivatedRoute,private clientService : ClientServiceService, private providerService : ProviderServiceService) { }
 
@@ -150,6 +147,9 @@ accountType : accountType;
       await Swal.fire({
         title: 'Eliminar cuenta',
         text: 'Al eliminar esta cuenta no se podra recuperar',
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        confirmButtonColor:'#0096d2',
         icon: 'warning',
         showCancelButton: true,
         confirmButtonText: 'Eliminar',
@@ -161,39 +161,54 @@ accountType : accountType;
             res=>{
                   if(res != null){
                     this.getAccounts(this.slug);
-                    Swal.fire(
-                      'Eliminado',
-                      'La cuenta ha sido eliminada.',
-                      'success'
-                    )
+                    Swal.fire({
+                      title:'Error al eliminar la cuenta',
+                      text:'La cuenta no ha sido eliminada.',
+                      allowOutsideClick: false,
+                      allowEscapeKey: false,
+                      confirmButtonColor:'#0096d2',
+                      icon:'success'
+                    })
                   }
                   else{
-                    Swal.fire(
-                      'Error al eliminar la cuenta',
-                      'La cuenta no ha sido eliminada.',
-                      'error'
-                    )
+                    Swal.fire({
+                      title:'Eliminado',
+                      text:'La cuenta ha sido eliminada.',
+                      allowOutsideClick: false,
+                      allowEscapeKey: false,
+                      confirmButtonColor:'#0096d2',
+                      icon: 'error'
+                    })
                   }
-            }, error => Swal.fire(
-              'Error al eliminar la cuenta seleccionada',
-              error.error.message,
-              'error'
-            )
+            }, error => Swal.fire({
+              title:'Error al eliminar la cuenta seleccionada',
+              text:error.error.message,
+              allowOutsideClick: false,
+              allowEscapeKey: false,
+              confirmButtonColor:'#0096d2',
+              icon:'error'
+            })
           )  
         } else if (result.dismiss === Swal.DismissReason.cancel) {
-          Swal.fire(
-            'Cancelado',
-            'La cuenta no ha sido eliminado.',
-            'error'
-          )
+          Swal.fire({
+            title:'Cancelado',
+            text:'La cuenta no ha sido eliminado.',
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+            confirmButtonColor:'#0096d2',
+            icon:'error'
+          })
         }
       })
     }else{
-      Swal.fire(
-        'Cancelado',
-        'La cuenta seleccionada no puede ser eliminada. <br> Para eliminar una cuenta debe ser afectable y su balance debe ser igual a 0.',
-        'error'
-      )
+      Swal.fire({
+        title:'Cancelado',
+        text:'La cuenta seleccionada no puede ser eliminada. <br> Para eliminar una cuenta debe ser afectable y su balance debe ser igual a 0.',
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        confirmButtonColor:'#0096d2',
+        icon:'error'
+      })
     }
 
 
@@ -241,7 +256,7 @@ accountType : accountType;
             this.getAccounts(this.slug);
             this.cleanForm();
           }else{
-            console.log("mamando");
+           
           }
         },
         (err) =>{
@@ -389,7 +404,9 @@ accountType : accountType;
             this.showclients = true;
         }
       }
-      ,err=> console.log(err)
+      ,err=> {
+
+      }
     );
   }
   //gets all the providers
@@ -678,7 +695,6 @@ accountType : accountType;
       this.messageerror = "Debe escoger un tipo valido de cuenta."
       return false;
     }
-    console.log(account.classification);
     if(account.classification == "" || account.classification == undefined){
       this.showerror = true;
       this.messageerror = "Debe agregar una titulación a la cuenta.";
