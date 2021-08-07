@@ -244,8 +244,8 @@ export class ManagerGeneratereportsComponent implements OnInit {
         this.NoEF = false;
         this.EF = true;
         this.divnodata = true;
-        this.month = tempdate.getMonth()+2;
-        this.year = tempdate.getFullYear();
+        this.month = tempmonth;
+        this.year = tempyear;
         this.showPDF = false;
         this.getAccounts(this.slug);
         break;
