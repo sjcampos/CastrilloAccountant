@@ -200,7 +200,7 @@ export class ManagerGeneratereportsComponent implements OnInit {
       }
     ) 
   }
-  //Validates the type of report
+  //Validates the type of report requested
   validateReportType(d : string, f : any){
     let tempd = f.split("-");
     let tempmonth = tempd[1];
