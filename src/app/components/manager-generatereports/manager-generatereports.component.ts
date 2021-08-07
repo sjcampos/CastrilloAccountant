@@ -202,13 +202,15 @@ export class ManagerGeneratereportsComponent implements OnInit {
   }
   //Validates the type of report
   validateReportType(d : string, f : any){
-    
+    let tempd = f.split("-");
+    let tempmonth = tempd[1];
+    let tempyear = tempd[0];
     let tempdate = new Date(f);
- 
+     console.log(tempyear +" "+ tempmonth);
     switch (d) {
       case "Balance general Mes actual":
-        this.month = tempdate.getMonth()+2;
-        this.year = tempdate.getFullYear();
+        this.month = tempmonth;
+        this.year = tempyear;
         this.getGeneralBalance(this.month,this.year);
         //año  y mes
         break;
