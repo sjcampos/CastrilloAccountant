@@ -74,6 +74,7 @@ export class CompanyCollabComponent implements OnInit {
       res =>{
         let t : any = [];
         t = res;
+        this.assignedcollaborators = [];
         this.assignedcollaborators = t.Collaborators;
         this.getCollaborators();
       },err=>{
@@ -99,6 +100,7 @@ export class CompanyCollabComponent implements OnInit {
           let temp : any = [];
           temp = res;
           let t = temp.Collaborators;
+          this.unassignedcollaborators = [];
           if(t.length < 0 || t == undefined){
               this.hasaccounts = false;
               this.notavailable = true;
