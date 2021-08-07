@@ -84,7 +84,7 @@ export class AdminDashboardComponent implements OnInit {
     else{
       Swal.fire({
         title:'Detalle',
-        text:`Fecha: ${act.activity_date} <br>
+        html:`Fecha: ${act.activity_date} <br>
          Código: ${act.activity_code} <br> Actividad: ${act.details} <br>
          Compañía: ${act.id_user.company[0].company_name} <br>
          Agente: ${act.id_user.company[0].agent} <br>
