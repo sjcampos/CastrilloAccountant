@@ -159,7 +159,7 @@ export class ManagerDashboardComponent implements OnInit {
   if(act.id_user.collaborators != undefined){
     Swal.fire({
       title:'Detalle',
-      text:`Fecha: ${act.activity_date} <br>
+      html:`Fecha: ${act.activity_date} <br>
         Código: ${act.activity_code} <br> Actividad: ${act.details} <br>
         Identificación: ${act.id_user.collaborators[0].identification} <br>
         Usuario: ${act.id_user.collaborators[0].collaborator_name +' '+ act.id_user.collaborators[0].collaborator_lastname} <br>
@@ -174,7 +174,7 @@ export class ManagerDashboardComponent implements OnInit {
   else{
     Swal.fire({
       title:'Detalle',
-      text:`Fecha: ${act.activity_date} <br>
+      html:`Fecha: ${act.activity_date} <br>
         Código: ${act.activity_code} <br> Actividad: ${act.details} <br>
         Compañía: ${act.id_user.company[0].company_name} <br>
         Agente: ${act.id_user.company[0].agent} <br>
