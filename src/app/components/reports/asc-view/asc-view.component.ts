@@ -314,6 +314,8 @@ export class AscViewComponent implements OnInit {
           let temp : any = [];
           temp = res;
           if(temp.seats.length > 0){
+            this.entries = [];
+            this.entryindex = 0;
             this.entries = temp.seats;
             this.entrycode = this.entries[0][0].code;
             this.entryregdate = this.entries[0][0].register_date;
